@@ -1648,6 +1648,60 @@ body.theme-light #transactionsListContainer .text-slate-500 {
   color: #94a3b8 !important;
 }
 
+/* ========================================================= */
+/* SCRATCH CARDS & REWARDS STYLING                           */
+/* ========================================================= */
+.scratch-card-box {
+  position: relative;
+  width: 280px;
+  height: 240px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(245, 158, 11, 0.25);
+  user-select: none;
+  margin: 0 auto;
+}
+
+.scratch-card-underlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+}
+
+.scratch-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  cursor: crosshair;
+  touch-action: none;
+  z-index: 10;
+  transition: opacity 0.4s ease;
+}
+
+.reward-card-gold {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(13, 18, 31, 0.95) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.reward-card-gold:hover {
+  border-color: rgba(245, 158, 11, 0.8);
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
+}
+
+body.theme-light .reward-card-gold {
+  background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%) !important;
+  border: 1px solid rgba(245, 158, 11, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.12) !important;
+}
 
 </style>
 </head>
@@ -1676,28 +1730,7 @@ body.theme-light #transactionsListContainer .text-slate-500 {
   <!-- Mobile App Viewport -->
   <div class="app-viewport" id="appViewport">
 
-    <!-- Dynamic Island -->
-    <div class="dynamic-island" id="dynamicIsland">
-      <div class="camera-lens"></div>
-      <div id="islandContent" class="hidden text-[10px] text-white font-semibold flex items-center gap-1.5 truncate">
-        <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400"></i>
-        <span>AI Shield Active</span>
-      </div>
-      <div class="sensor-dot"></div>
-    </div>
 
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <span id="statusBarTime">14:45</span>
-      <div class="flex items-center gap-2 text-xs">
-        <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-1.5 py-0.5 rounded">5G</span>
-        <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
-        <div class="flex items-center gap-1">
-          <span class="text-[11px] font-bold">98%</span>
-          <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i>
-        </div>
-      </div>
-    </div>
 
     <!-- ============================================== -->
     <!-- AUTHENTICATION / LOGIN VIEW (PHONE & OTP)       -->
@@ -1922,7 +1955,7 @@ body.theme-light #transactionsListContainer .text-slate-500 {
       <div id="personalUpiView">
 
         <!-- Quick Transfer Grid -->
-        <div class="grid grid-cols-4 gap-2 mb-4">
+        <div class="grid grid-cols-4 gap-2 mb-3">
           <button class="feature-box items-center text-center p-2" onclick="openScannerModal()">
             <div class="w-10 h-10 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center">
               <i data-lucide="scan" class="w-5 h-5"></i>
@@ -1965,11 +1998,11 @@ body.theme-light #transactionsListContainer .text-slate-500 {
             <span class="text-[11px] font-semibold text-slate-200">UPI Circle</span>
           </button>
 
-          <button class="feature-box items-center text-center p-2" onclick="openCheckBalanceModal()">
-            <div class="w-10 h-10 rounded-2xl bg-blue-600/20 border border-blue-500/40 text-blue-400 flex items-center justify-center">
-              <i data-lucide="wallet" class="w-5 h-5"></i>
+          <button class="feature-box items-center text-center p-2 ring-1 ring-amber-500/40 bg-amber-950/20" onclick="openRewardsHubModal('cards')">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/30 font-bold">
+              <i data-lucide="gift" class="w-5 h-5"></i>
             </div>
-            <span class="text-[11px] font-semibold text-slate-200">Balance</span>
+            <span class="text-[11px] font-bold text-amber-300">Rewards</span>
           </button>
 
           <button class="feature-box items-center text-center p-2" onclick="openBankAccountsModal()">
@@ -1978,6 +2011,30 @@ body.theme-light #transactionsListContainer .text-slate-500 {
             </div>
             <span class="text-[11px] font-semibold text-slate-200">Accounts</span>
           </button>
+        </div>
+
+        <!-- Section: CASHBACK & REWARDS BANNER -->
+        <div class="upi-card mb-4 bg-gradient-to-r from-amber-950/50 via-yellow-950/30 to-indigo-950/60 border border-amber-500/40 p-3 relative overflow-hidden cursor-pointer hover:border-amber-400/80 transition shadow-lg shadow-amber-500/10 group" onclick="openRewardsHubModal('cards')">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-amber-500 to-yellow-300 text-slate-950 flex items-center justify-center font-black shadow-lg shadow-amber-500/30 group-hover:scale-105 transition flex-shrink-0">
+                <i data-lucide="trophy" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-black text-white group-hover:text-amber-300 transition">Rewards &amp; Cashbacks</span>
+                  <span class="pill-badge badge-amber text-[8px] animate-pulse" id="homeUnscratchedBadge">2 UNOPENED CARDS</span>
+                </div>
+                <div class="text-[11px] text-amber-300 font-mono font-bold mt-0.5">
+                  <span id="homeTotalCashbackText">₹ 840.00</span> Won • Tap to Scratch &amp; Claim
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 text-amber-400 text-xs font-bold pl-2 flex-shrink-0">
+              <span class="text-[10px] hidden sm:inline">View Hub</span>
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </div>
+          </div>
         </div>
 
         <!-- Section: UNEXA INNOVATIONS (PDF Page 3) -->
@@ -2164,6 +2221,23 @@ body.theme-light #transactionsListContainer .text-slate-500 {
             </div>
             <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
           </div>
+
+          <!-- 5. Rewards & Cashback Vault -->
+          <div class="feature-box flex-row items-center justify-between py-3 bg-gradient-to-r from-amber-950/40 via-yellow-950/20 to-slate-900 border-amber-500/30 hover:border-amber-400" onclick="openRewardsHubModal('cards')">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center flex-shrink-0 font-bold shadow-md shadow-amber-500/20">
+                <i data-lucide="gift" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold text-white">Cashback &amp; Rewards Vault</span>
+                  <span class="pill-badge badge-amber text-[8px]" id="ledgerRewardsBadge">2 UNCLAIMED</span>
+                </div>
+                <div class="text-[10px] text-amber-300 font-mono"><span id="ledgerCashbackWon">₹ 840.00</span> Won • Scratch cards &amp; partner vouchers</div>
+              </div>
+            </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-400"></i>
+          </div>
         </div>
 
       </div>
@@ -2176,10 +2250,10 @@ body.theme-light #transactionsListContainer .text-slate-500 {
         <!-- Shared Group Pools Selector -->
         <div class="flex items-center justify-between mb-2">
           <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">SHARED GROUP POOLS</span>
-          <span class="pill-badge badge-green text-[9px]">2 Active Pools</span>
+          <span class="pill-badge badge-green text-[9px]" id="sharedPoolsCountBadge">2 Active Pools</span>
         </div>
 
-        <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-3 scrollbar-none">
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-3 scrollbar-none" id="sharedPoolsTabsContainer">
           <button class="flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600/30 border border-indigo-500/60 text-white font-bold text-xs whitespace-nowrap shadow-lg shadow-indigo-500/20" id="btnPoolGoa" onclick="selectPool('goa')">
             <span>✈️ Goa Trip 2026</span>
           </button>
@@ -2490,6 +2564,27 @@ body.theme-light #transactionsListContainer .text-slate-500 {
             </div>
             <div class="text-base font-extrabold text-cyan-300" id="profileTxnCount">412</div>
             <div class="text-[10px] text-slate-400">Total Transactions</div>
+          </div>
+        </div>
+
+        <!-- Rewards & Cashback Vault in Profile -->
+        <div class="upi-card mb-4 bg-gradient-to-r from-amber-950/50 via-yellow-950/30 to-slate-900 border border-amber-500/40 p-3.5 cursor-pointer hover:border-amber-400 transition" onclick="openRewardsHubModal('cards')">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center font-black shadow-md shadow-amber-500/30">
+                <i data-lucide="trophy" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white">Cashback &amp; Rewards Vault</span>
+                  <span class="pill-badge badge-amber text-[8px]" id="profileRewardsBadge">2 UNCLAIMED</span>
+                </div>
+                <div class="text-[11px] text-amber-300 font-mono font-bold mt-0.5">
+                  <span id="profileCashbackWon">₹ 840.00</span> Won • Scratch cards &amp; partner vouchers
+                </div>
+              </div>
+            </div>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-amber-400"></i>
           </div>
         </div>
 
@@ -3328,6 +3423,27 @@ body.theme-light #transactionsListContainer .text-slate-500 {
           </div>
         </div>
 
+        <!-- Post-Payment Mystery Scratch Card Banner -->
+        <div id="paymentSuccessRewardBanner" class="mb-3 p-3 rounded-2xl bg-gradient-to-r from-amber-500/20 via-yellow-500/15 to-indigo-600/25 border border-amber-500/50 text-left cursor-pointer hover:border-amber-400 transition-all shadow-lg shadow-amber-500/15 group active:scale-[0.99]" onclick="openScratchCardFromPayment()">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 via-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-black shadow-md shadow-amber-500/30 group-hover:scale-105 transition-transform flex-shrink-0">
+                <i data-lucide="gift" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-black text-amber-300">You Won a Scratch Card!</span>
+                  <span class="pill-badge badge-amber text-[8px] animate-pulse">TAP TO SCRATCH</span>
+                </div>
+                <p class="text-[10px] text-slate-300 mt-0.5">Win up to ₹100 direct bank cashback or brand vouchers</p>
+              </div>
+            </div>
+            <div class="w-7 h-7 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:translate-x-0.5 transition-transform flex-shrink-0">
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+        </div>
+
         <!-- Post-Payment Member Attribution Section (For Group Mode / Pool Payments) -->
         <div id="groupPostPayAllocationSection" class="hidden mb-3 p-3 bg-indigo-950/40 border border-indigo-500/40 rounded-xl text-left">
           <div class="flex items-center justify-between mb-1.5">
@@ -3936,9 +4052,14 @@ body.theme-light #transactionsListContainer .text-slate-500 {
       <div class="modal-bottom-sheet">
         <div class="modal-handle"></div>
         <div class="flex items-center justify-between mb-3">
-          <div>
-            <h3 class="text-sm font-bold text-white">Add Member to Pool</h3>
-            <p class="text-[10px] text-slate-400">Invite friend via phone number or UPI ID</p>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center">
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Add Member to Pool</h3>
+              <p class="text-[10px] text-slate-400" id="addMemberPoolSubtitle">Invite member & record contribution</p>
+            </div>
           </div>
           <button onclick="closeModal('modalAddMember')" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white">
             <i data-lucide="x" class="w-4 h-4"></i>
@@ -3948,22 +4069,32 @@ body.theme-light #transactionsListContainer .text-slate-500 {
         <div class="space-y-3 mb-4">
           <div>
             <label class="text-xs font-bold text-slate-300 block mb-1">Full Name</label>
-            <input type="text" id="newMemberName" placeholder="e.g. Aman Verma" class="w-full px-3 py-2 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+            <input type="text" id="newMemberName" placeholder="e.g. Aman Verma or Simran Kaur" class="w-full px-3 py-2 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label class="text-xs font-bold text-slate-300 block mb-1">Phone Number or UPI ID</label>
+            <label class="text-xs font-bold text-slate-300 block mb-1">Phone Number or UPI ID (Optional)</label>
             <input type="text" id="newMemberContact" placeholder="+91 98112 34567 or aman@upi" class="w-full px-3 py-2 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label class="text-xs font-bold text-slate-300 block mb-1">Initial Contribution (₹)</label>
-            <input type="number" id="newMemberPaid" placeholder="5000" class="w-full px-3 py-2 bg-slate-900 border border-white/10 rounded-xl text-xs text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+            <div class="flex items-center justify-between mb-1">
+              <label class="text-xs font-bold text-slate-300">Initial Contribution / Deposit (₹)</label>
+              <span class="text-[9px] text-slate-400">Can be ₹0</span>
+            </div>
+            <input type="number" id="newMemberPaid" placeholder="0" value="3000" class="w-full px-3 py-2 bg-slate-900 border border-white/10 rounded-xl text-xs text-white font-mono placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+            <div class="grid grid-cols-4 gap-1.5 mt-2">
+              <button type="button" class="py-1 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold hover:bg-slate-700 transition" onclick="document.getElementById('newMemberPaid').value = '0'">₹ 0</button>
+              <button type="button" class="py-1 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold hover:bg-slate-700 transition" onclick="document.getElementById('newMemberPaid').value = '2000'">₹ 2,000</button>
+              <button type="button" class="py-1 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold hover:bg-slate-700 transition" onclick="document.getElementById('newMemberPaid').value = '3500'">₹ 3,500</button>
+              <button type="button" class="py-1 rounded-lg bg-slate-800 text-[10px] text-slate-300 font-bold hover:bg-slate-700 transition" onclick="document.getElementById('newMemberPaid').value = '5000'">₹ 5,000</button>
+            </div>
           </div>
         </div>
 
-        <button class="w-full py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold mb-2" onclick="submitAddMember()">
-          Add to Pool
+        <button class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold mb-2 shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer" onclick="submitAddMember()">
+          <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+          <span>Add to Group Pool</span>
         </button>
-        <button class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold" onclick="closeModal('modalAddMember')">
+        <button class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold hover:bg-slate-700 transition cursor-pointer" onclick="closeModal('modalAddMember')">
           Cancel
         </button>
       </div>
@@ -6423,6 +6554,143 @@ body.theme-light #transactionsListContainer .text-slate-500 {
       </div>
     </div>
 
+    <!-- MODAL: REWARDS & CASHBACK VAULT HUB -->
+    <div class="modal-overlay" id="modalRewardsHub">
+      <div class="modal-bottom-sheet max-h-[92vh] overflow-y-auto pb-6">
+        <div class="modal-handle"></div>
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 via-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/30">
+              <i data-lucide="trophy" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-black text-white flex items-center gap-1.5">
+                <span>Rewards &amp; Cashbacks</span>
+                <span class="pill-badge badge-amber text-[8px] font-bold">UNEXA VAULT</span>
+              </h3>
+              <p class="text-[10px] text-slate-400">Direct Bank Cashbacks • Mystery Scratch Cards • Vouchers</p>
+            </div>
+          </div>
+          <button class="p-1.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition" onclick="closeModal('modalRewardsHub')">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Total Cashback Won Big Card -->
+        <div class="upi-card mb-3.5 bg-gradient-to-br from-amber-950/80 via-yellow-950/40 to-slate-900 border border-amber-500/40 p-4 relative overflow-hidden shadow-xl shadow-amber-500/10">
+          <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="flex items-center justify-between relative z-10 mb-2">
+            <div>
+              <div class="text-[10px] uppercase font-bold tracking-wider text-amber-400/90 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                <span>Total Cashback Won &amp; Credited</span>
+              </div>
+              <div class="text-2xl font-black text-white font-mono mt-0.5" id="rewardsHubTotalWon">₹ 840.00</div>
+              <div class="text-[10px] text-emerald-400 flex items-center gap-1 mt-0.5">
+                <i data-lucide="check-circle-2" class="w-3 h-3"></i>
+                <span>Directly deposited to Primary Bank (Bank of Baroda •••• 0507)</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400">Success Rate</div>
+              <div class="text-sm font-black text-amber-300 font-mono">100% Instant</div>
+            </div>
+          </div>
+
+          <!-- Daily Check-In Spark Perk Banner -->
+          <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                <i data-lucide="calendar-check-2" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white">Daily Check-in Bonus</div>
+                <div class="text-[9px] text-slate-400">Claim ₹5 - ₹25 free cashback once every day</div>
+              </div>
+            </div>
+            <button id="btnDailyClaimPerk" class="py-1.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 text-xs font-extrabold shadow-md shadow-amber-500/30 transition active:scale-95" onclick="claimDailyCheckinReward()">
+              Claim Bonus
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs: Scratch Cards / Partner Vouchers / Cashback Ledger -->
+        <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-900/90 rounded-2xl border border-white/10 mb-4">
+          <button id="rewardsTabBtnCards" class="py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/20" onclick="setRewardsTab('cards')">
+            <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+            <span>Cards</span>
+            <span class="w-4 h-4 rounded-full bg-slate-950 text-amber-300 text-[9px] flex items-center justify-center font-mono ml-0.5" id="rewardsTabCardsBadge">2</span>
+          </button>
+          <button id="rewardsTabBtnVouchers" class="py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition flex items-center justify-center gap-1 bg-transparent" onclick="setRewardsTab('vouchers')">
+            <i data-lucide="tag" class="w-3.5 h-3.5"></i>
+            <span>Vouchers</span>
+            <span class="w-4 h-4 rounded-full bg-slate-800 text-slate-300 text-[9px] flex items-center justify-center font-mono ml-0.5" id="rewardsTabVouchersBadge">3</span>
+          </button>
+          <button id="rewardsTabBtnHistory" class="py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition flex items-center justify-center gap-1 bg-transparent" onclick="setRewardsTab('history')">
+            <i data-lucide="history" class="w-3.5 h-3.5"></i>
+            <span>Ledger</span>
+          </button>
+        </div>
+
+        <!-- Tab Content Container -->
+        <div id="rewardsHubTabContent">
+          <!-- Dynamic Content rendered by renderRewardsHub(tab) -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MODAL: INTERACTIVE SCRATCH CARD REVEAL SCREEN -->
+    <div class="modal-overlay" id="modalScratchCardReveal">
+      <div class="modal-bottom-sheet text-center py-5 max-w-md mx-auto">
+        <div class="modal-handle"></div>
+
+        <div class="flex items-center justify-between mb-2 text-left">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="gift" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4 class="text-sm font-black text-white" id="scratchModalTitle">Mystery Scratch Card</h4>
+              <p class="text-[10px] text-slate-400" id="scratchModalSubtitle">Scratch to reveal your cashback reward</p>
+            </div>
+          </div>
+          <button class="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white" onclick="closeModal('modalScratchCardReveal')">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Scratch Box Container -->
+        <div class="scratch-card-box my-3 mx-auto relative select-none">
+          <!-- Reward Underlay (Hidden beneath canvas until scratched) -->
+          <div class="scratch-card-underlay flex flex-col items-center justify-center p-4 text-center select-none" id="scratchUnderlayContent">
+            <!-- Populated dynamically: Rupee icon / voucher brand, amount, direct bank note -->
+          </div>
+
+          <!-- HTML5 Scratch Canvas Overlay -->
+          <canvas id="scratchCanvas" class="scratch-canvas cursor-pointer" width="280" height="280"></canvas>
+        </div>
+
+        <p class="text-[11px] text-amber-300 font-semibold mb-3 animate-pulse" id="scratchInstructionText">
+          👆 Rub with finger or mouse to scratch &amp; claim!
+        </p>
+
+        <!-- Bottom Action Controls -->
+        <div class="flex items-center gap-2">
+          <button id="btnQuickRevealScratch" class="w-1/2 py-2.5 rounded-xl bg-slate-800 border border-white/10 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center justify-center gap-1.5" onclick="quickRevealScratchCard()">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Quick Reveal</span>
+          </button>
+          <button class="w-1/2 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-xs font-extrabold shadow-lg shadow-amber-500/20 hover:brightness-110 transition active:scale-95" onclick="closeModal('modalScratchCardReveal'); renderRewardsBadges();">
+            <span>Done</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Toast Notification Container -->
     <div id="toastNotification" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900/95 border border-indigo-500/40 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 z-[99999] flex items-center gap-2">
       <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
@@ -6697,6 +6965,149 @@ const defaultState = {
       { id: 'faq7', q: 'Is Unexa UPI compliant with NPCI and RBI security standards?', a: 'Yes, Unexa operates on 256-bit AES end-to-end encryption with ISO 27001 and PCI-DSS compliance under the RBI Digital Personal Data Protection Act.', cat: 'Security' }
     ]
   },
+  rewards: {
+    totalCashbackWon: 840.00,
+    dailyClaimedToday: false,
+    lastDailyClaimDate: null,
+    cards: [
+      {
+        id: 'sc_101',
+        title: 'Chai Point Cashback',
+        subtitle: 'Earned on ₹350 payment at Chai Point',
+        type: 'cash',
+        amount: 25.00,
+        description: 'Flat ₹25.00 direct cashback credited to Bank of Baroda •••• 0507',
+        code: null,
+        brand: 'Chai Point',
+        isScratched: false,
+        earnedAt: 'Today, 2:45 PM',
+        expiryDate: 'Valid till 30 Sep 2026',
+        colorGradient: 'from-amber-500 to-yellow-600',
+        icon: 'coffee'
+      },
+      {
+        id: 'sc_102',
+        title: 'Swiggy Gourmet Voucher',
+        subtitle: 'Earned on Merchant QR Scan',
+        type: 'voucher',
+        amount: 150.00,
+        description: 'Flat ₹150 OFF on orders above ₹499 at Swiggy Gourmet',
+        code: 'UNEXASWIGGY150',
+        brand: 'Swiggy',
+        isScratched: false,
+        earnedAt: 'Yesterday, 8:15 PM',
+        expiryDate: 'Valid till 28 Oct 2026',
+        colorGradient: 'from-orange-500 to-amber-600',
+        icon: 'utensils'
+      },
+      {
+        id: 'sc_103',
+        title: 'P2P Transfer Super Cash',
+        subtitle: 'Earned on UPI Transfer to Priya Sharma',
+        type: 'cash',
+        amount: 50.00,
+        description: 'Flat ₹50.00 direct cashback credited to Primary Bank',
+        code: null,
+        brand: 'Unexa UPI',
+        isScratched: true,
+        earnedAt: '12 Sep 2026',
+        expiryDate: 'Claimed',
+        colorGradient: 'from-emerald-500 to-teal-600',
+        icon: 'banknote'
+      },
+      {
+        id: 'sc_104',
+        title: 'Zomato Gold 50% Off',
+        subtitle: 'Earned on SoundPay Offline Payment',
+        type: 'voucher',
+        amount: 200.00,
+        description: '50% OFF up to ₹200 on dining out with Zomato Gold',
+        code: 'UNEXAZOMATO50',
+        brand: 'Zomato',
+        isScratched: true,
+        earnedAt: '10 Sep 2026',
+        expiryDate: 'Valid till 15 Nov 2026',
+        colorGradient: 'from-rose-500 to-pink-600',
+        icon: 'tag'
+      }
+    ],
+    vouchers: [
+      {
+        id: 'vc_201',
+        brand: 'Myntra Luxe',
+        title: 'Flat ₹500 OFF on Orders above ₹2499',
+        category: 'Fashion & Lifestyle',
+        code: 'UNEXAMYNTRA500',
+        discount: '₹500 OFF',
+        validity: 'Valid till 31 Oct 2026',
+        terms: 'Applicable on select luxury brands on Myntra app.',
+        brandLogo: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=100&auto=format&fit=crop&q=80',
+        color: 'rose'
+      },
+      {
+        id: 'vc_202',
+        brand: 'Uber Premier',
+        title: '25% OFF on next 3 Premier Rides',
+        category: 'Travel & Mobility',
+        code: 'UNEXAUBER25',
+        discount: '25% OFF',
+        validity: 'Valid till 15 Nov 2026',
+        terms: 'Max discount ₹100 per ride. Valid on Uber Premier & XL.',
+        brandLogo: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=100&auto=format&fit=crop&q=80',
+        color: 'slate'
+      },
+      {
+        id: 'vc_203',
+        brand: 'BookMyShow',
+        title: 'Buy 1 Get 1 Ticket Free on IMAX/4DX',
+        category: 'Movies & Entertainment',
+        code: 'UNEXABMSBOGO',
+        discount: 'BOGO FREE',
+        validity: 'Valid till 20 Dec 2026',
+        terms: 'Valid on weekends for select IMAX and 4DX screens.',
+        brandLogo: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=100&auto=format&fit=crop&q=80',
+        color: 'indigo'
+      },
+      {
+        id: 'vc_204',
+        brand: 'Starbucks Reserve',
+        title: 'Complimentary Upgrade & Flat 20% OFF',
+        category: 'Food & Dining',
+        code: 'UNEXASTARBUCKS20',
+        discount: '20% OFF',
+        validity: 'Valid till 10 Nov 2026',
+        terms: 'Valid on handcrafted espresso and frappes at all Starbucks stores.',
+        brandLogo: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=100&auto=format&fit=crop&q=80',
+        color: 'emerald'
+      }
+    ],
+    history: [
+      {
+        id: 'rh_01',
+        title: 'Direct Bank Cashback (UPI Transfer)',
+        amount: 50.00,
+        date: '12 Sep 2026, 6:30 PM',
+        status: 'Credited to Bank of Baroda •••• 0507',
+        utr: 'REW748291038472'
+      },
+      {
+        id: 'rh_02',
+        title: 'Mega Merchant Cashback (Croma Store)',
+        amount: 100.00,
+        date: '05 Sep 2026, 4:15 PM',
+        status: 'Credited to Bank of Baroda •••• 0507',
+        utr: 'REW593021948201'
+      },
+      {
+        id: 'rh_03',
+        title: 'Daily Check-in Bonus',
+        amount: 15.00,
+        date: '01 Sep 2026, 09:00 AM',
+        status: 'Credited to Bank of Baroda •••• 0507',
+        utr: 'REW102938475610'
+      }
+    ]
+  },
   voiceLanguage: 'en-IN'
 };
 
@@ -6709,6 +7120,8 @@ let appState = (() => {
     return {
       ...defaultState,
       ...parsed,
+      pools: (parsed && parsed.pools) ? parsed.pools : defaultState.pools,
+      activePoolId: (parsed && parsed.activePoolId) ? parsed.activePoolId : defaultState.activePoolId,
       hasUnreadNotifications: parsed.hasUnreadNotifications !== undefined ? parsed.hasUnreadNotifications : true,
       user: { ...defaultState.user, ...(parsed.user || {}) },
       mandates: parsed.mandates || defaultState.mandates,
@@ -6718,6 +7131,13 @@ let appState = (() => {
       contacts: parsed.contacts || defaultState.contacts,
       escrows: parsed.escrows || defaultState.escrows,
       voiceLanguage: parsed.voiceLanguage || defaultState.voiceLanguage,
+      rewards: (parsed && parsed.rewards) ? {
+        ...defaultState.rewards,
+        ...parsed.rewards,
+        cards: (parsed.rewards.cards && parsed.rewards.cards.length > 0) ? parsed.rewards.cards : defaultState.rewards.cards,
+        vouchers: (parsed.rewards.vouchers && parsed.rewards.vouchers.length > 0) ? parsed.rewards.vouchers : defaultState.rewards.vouchers,
+        history: (parsed.rewards.history && parsed.rewards.history.length > 0) ? parsed.rewards.history : defaultState.rewards.history
+      } : defaultState.rewards,
       profile: {
         ...defaultState.profile,
         ...(parsed.profile || {}),
@@ -6885,7 +7305,8 @@ function navigateBackFromProfile() {
 
 // Render Group Pool UI & Member Balances
 function renderGroupPoolUI() {
-  const pool = appState.pools[appState.activePoolId] || appState.pools.goa;
+  const pool = appState.pools[appState.activePoolId] || appState.pools.goa || Object.values(appState.pools || {})[0];
+  if (!pool) return;
   
   // If the pool has positive balance or active spends, ensure it is not stuck in closed state
   if (pool.balance > 0 && pool.isClosed) {
@@ -6895,22 +7316,34 @@ function renderGroupPoolUI() {
 
   const isClosed = pool.isClosed || pool.status === 'CLOSED_PERMANENTLY';
   
-  // Update pool selector buttons text & styling
-  const btnGoa = document.getElementById('btnPoolGoa');
-  const btnFlat = document.getElementById('btnPoolFlat');
-  if (btnGoa && appState.pools.goa) {
-    btnGoa.innerHTML = `<span>${appState.pools.goa.name}</span>`;
-  }
-  if (btnFlat && appState.pools.flat) {
-    btnFlat.innerHTML = `<span>${appState.pools.flat.name}</span>`;
+  // Dynamic pool tabs selector rendering
+  const poolTabsContainer = document.getElementById('sharedPoolsTabsContainer');
+  const poolCountBadge = document.getElementById('sharedPoolsCountBadge');
+  const poolList = Object.values(appState.pools || {});
+  
+  if (poolCountBadge) {
+    poolCountBadge.textContent = `${poolList.length} Active Pool${poolList.length > 1 ? 's' : ''}`;
   }
 
-  if (appState.activePoolId === 'goa') {
-    if (btnGoa) btnGoa.className = 'flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600/30 border border-indigo-500/60 text-white font-bold text-xs whitespace-nowrap shadow-lg shadow-indigo-500/20';
-    if (btnFlat) btnFlat.className = 'flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 border border-white/10 text-slate-300 font-medium text-xs whitespace-nowrap hover:bg-slate-700/60';
-  } else {
-    if (btnFlat) btnFlat.className = 'flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600/30 border border-indigo-500/60 text-white font-bold text-xs whitespace-nowrap shadow-lg shadow-indigo-500/20';
-    if (btnGoa) btnGoa.className = 'flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 border border-white/10 text-slate-300 font-medium text-xs whitespace-nowrap hover:bg-slate-700/60';
+  if (poolTabsContainer) {
+    let tabsHtml = '';
+    poolList.forEach(p => {
+      const isActive = (p.id === appState.activePoolId);
+      const activeClass = 'flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-600/30 border border-indigo-500/60 text-white font-bold text-xs whitespace-nowrap shadow-lg shadow-indigo-500/20 cursor-pointer';
+      const inactiveClass = 'flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/80 border border-white/10 text-slate-300 font-medium text-xs whitespace-nowrap hover:bg-slate-700/60 cursor-pointer transition';
+      tabsHtml += `
+        <button class="${isActive ? activeClass : inactiveClass}" onclick="selectPool('${p.id}')">
+          <span>${p.name}</span>
+        </button>
+      `;
+    });
+    tabsHtml += `
+      <button class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 border border-dashed border-indigo-400/40 text-indigo-400 font-semibold text-xs whitespace-nowrap hover:bg-indigo-950/40 cursor-pointer transition" onclick="openCreatePoolModal()">
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        <span>New Pool</span>
+      </button>
+    `;
+    poolTabsContainer.innerHTML = tabsHtml;
   }
 
   // Update card header title
@@ -7393,6 +7826,29 @@ function verifyPinAndExecute() {
     debitedFromEl.textContent = currentPayment.isGroupWallet ? `Group Pool Wallet (${pool.vpa})` : 'Bank of Baroda (XX0507)';
   }
 
+  // Generate Mystery Reward / Scratch Card for this Payment
+  if (!appState.rewards) appState.rewards = { ...defaultState.rewards };
+  const possibleCashAmounts = [10, 15, 20, 25, 35, 50, 100];
+  const winCash = Math.random() > 0.3;
+  const newRewardCard = {
+    id: 'sc_' + Date.now(),
+    title: `${currentPayment.payeeName} Reward`,
+    subtitle: `Earned on ₹${currentPayment.amount.toFixed(2)} payment`,
+    type: winCash ? 'cash' : 'voucher',
+    amount: winCash ? possibleCashAmounts[Math.floor(Math.random() * possibleCashAmounts.length)] : 100,
+    description: winCash ? `Direct cashback credited to Bank of Baroda •••• 0507` : 'Flat ₹100 OFF on top partner brands',
+    code: winCash ? null : 'UNEXABONUS' + Math.floor(100 + Math.random() * 900),
+    brand: currentPayment.payeeName,
+    isScratched: false,
+    earnedAt: 'Just now',
+    expiryDate: 'Valid till 30 days',
+    colorGradient: winCash ? 'from-amber-500 to-yellow-600' : 'from-indigo-500 to-purple-600',
+    icon: winCash ? 'gift' : 'tag'
+  };
+  appState.rewards.cards.unshift(newRewardCard);
+  saveState();
+  renderRewardsBadges();
+
   openModal('modalPaymentSuccess');
 }
 
@@ -7468,64 +7924,131 @@ function setTopupPreset(amt) {
 }
 
 function submitCreateNewPool() {
-  const name = document.getElementById('newPoolName').value.trim() || '🍕 Weekend Party';
-  const handle = (document.getElementById('newPoolVpa').value.trim() || 'weekend-party').toLowerCase().replace(/\s+/g, '-');
-  const budget = parseFloat(document.getElementById('newPoolBudget').value) || 10000;
+  const nameInput = document.getElementById('newPoolName');
+  const vpaInput = document.getElementById('newPoolVpa');
+  const budgetInput = document.getElementById('newPoolBudget');
+
+  const rawInputName = (nameInput ? nameInput.value.trim() : '') || '🍕 Weekend Party';
+  const handle = ((vpaInput ? vpaInput.value.trim() : '') || 'weekend-party').toLowerCase().replace(/\s+/g, '-');
+  const budget = parseFloat(budgetInput ? budgetInput.value : 0) || 10000;
   const poolId = 'pool_' + Date.now();
+
+  const emojiMatch = rawInputName.match(/^(\p{Emoji})/u);
+  const emoji = emojiMatch ? emojiMatch[0] : '👥';
+  const rawName = rawInputName.replace(/^[\p{Emoji}\s]+/u, '').trim() || rawInputName;
+  const fullName = `${emoji} ${rawName}`;
 
   appState.pools[poolId] = {
     id: poolId,
-    name: name,
+    name: fullName,
+    emoji: emoji,
+    rawName: rawName,
     vpa: `${handle}@unexapool`,
     balance: budget,
     totalSpent: 0,
-    activityCount: 0,
+    activityCount: 1,
+    maxMembers: 10,
+    description: `Shared pool for ${rawName}`,
     members: [
-      { id: 'as', name: 'Aarav Sharma', role: 'Admin', avatar: 'AS', avatarBg: 'bg-indigo-600', paid: budget, consumed: 0 },
+      { id: 'as', name: 'Aarav Sharma', role: 'Admin', avatar: 'AS', avatarBg: 'bg-indigo-600', paid: budget, consumed: 0.00 },
     ],
-    activities: []
+    activities: [
+      {
+        id: 'act_' + Date.now(),
+        title: `🎉 Pool Created: ${fullName}`,
+        amount: budget,
+        perHead: 0,
+        payer: 'Aarav Sharma',
+        splitDesc: `Initialized shared vault with ₹${formatInr(budget, 0)}`,
+        date: 'Just now',
+        image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=120&auto=format&fit=crop&q=80'
+      }
+    ]
   };
   appState.activePoolId = poolId;
   saveState();
 
+  if (nameInput) nameInput.value = '';
+  if (vpaInput) vpaInput.value = '';
+  if (budgetInput) budgetInput.value = '';
+
   closeModal('modalCreatePool');
   renderGroupPoolUI();
   playSuccessChime();
-  showToast(`🎉 New Pool "${name}" created with VPA: ${handle}@unexapool`);
+  if (window.confetti) {
+    window.confetti({ particleCount: 90, spread: 75, origin: { y: 0.6 } });
+  }
+  showToast(`🎉 New Pool "${fullName}" created with VPA: ${handle}@unexapool`);
 }
 
 function submitAddMember() {
-  const pool = appState.pools[appState.activePoolId] || appState.pools.goa;
-  const maxCap = pool.maxMembers || 10;
+  const pool = appState.pools[appState.activePoolId] || appState.pools.goa || Object.values(appState.pools || {})[0];
+  if (!pool) return;
   
+  const maxCap = pool.maxMembers || 10;
   if (pool.members.length >= maxCap) {
     showToast(`⚠️ Member limit reached (${maxCap} max). Edit group settings to increase capacity.`);
     return;
   }
 
-  const name = document.getElementById('newMemberName').value.trim() || 'Rohan Verma';
-  const paid = parseFloat(document.getElementById('newMemberPaid').value) || 5000;
+  const nameInput = document.getElementById('newMemberName');
+  const contactInput = document.getElementById('newMemberContact');
+  const paidInput = document.getElementById('newMemberPaid');
+
+  const name = (nameInput ? nameInput.value.trim() : '') || 'Rohan Verma';
+  const contact = (contactInput ? contactInput.value.trim() : '') || '';
+  const paidRaw = paidInput ? parseFloat(paidInput.value) : 0;
+  const paid = !isNaN(paidRaw) && paidRaw >= 0 ? paidRaw : 0;
+
+  // Prevent duplicate names in the same pool
+  if (pool.members.some(m => m.name.trim().toLowerCase() === name.toLowerCase())) {
+    showToast(`⚠️ "${name}" is already a member of this pool.`);
+    return;
+  }
 
   const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) || 'MB';
-  const colors = ['bg-purple-600', 'bg-cyan-600', 'bg-emerald-600', 'bg-amber-600', 'bg-pink-600'];
-  const avatarBg = colors[Math.floor(Math.random() * colors.length)];
+  const colors = ['bg-purple-600', 'bg-cyan-600', 'bg-emerald-600', 'bg-amber-600', 'bg-pink-600', 'bg-teal-600', 'bg-blue-600', 'bg-indigo-600', 'bg-rose-600'];
+  const avatarBg = colors[pool.members.length % colors.length];
 
+  // Important: new member starts with consumed = 0.00 so all previous bill logs and member balances are 100% preserved
   pool.members.push({
     id: 'm_' + Date.now(),
     name: name,
+    contact: contact,
     role: 'Member',
     avatar: initials,
     avatarBg: avatarBg,
     paid: paid,
-    consumed: pool.totalSpent / (pool.members.length + 1)
+    consumed: 0.00
   });
-  pool.balance += paid;
+
+  if (paid > 0) {
+    pool.balance += paid;
+    pool.activities.unshift({
+      id: 'act_' + Date.now(),
+      title: `👤 Member Joined: ${name}`,
+      amount: paid,
+      perHead: 0,
+      payer: name,
+      splitDesc: `Joined pool & contributed initial deposit ₹${formatInr(paid, 0)} to Group Wallet`,
+      date: 'Just now',
+      image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80'
+    });
+  }
+
+  // Clear inputs for next time
+  if (nameInput) nameInput.value = '';
+  if (contactInput) contactInput.value = '';
+  if (paidInput) paidInput.value = '';
 
   saveState();
   closeModal('modalAddMember');
   renderGroupPoolUI();
   playSuccessChime();
-  showToast(`${name} added to ${pool.name}!`);
+  if (window.confetti) {
+    window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+  }
+  showToast(`🎉 ${name} successfully added to ${pool.name}!`);
 }
 
 // ==============================================
@@ -8768,7 +9291,21 @@ function openPoolAddFundsModal() {
   openModal('modalPoolAddFunds');
 }
 function openCreatePoolModal() { openModal('modalCreatePool'); }
-function openAddMemberModal() { openModal('modalAddMember'); }
+function openAddMemberModal() {
+  const pool = appState.pools[appState.activePoolId] || appState.pools.goa || Object.values(appState.pools || {})[0];
+  const subtitleEl = document.getElementById('addMemberPoolSubtitle');
+  if (subtitleEl && pool) {
+    subtitleEl.textContent = `Add new member to ${pool.name} (${pool.members.length}/${pool.maxMembers || 10} joined)`;
+  }
+  const nameInput = document.getElementById('newMemberName');
+  const contactInput = document.getElementById('newMemberContact');
+  const paidInput = document.getElementById('newMemberPaid');
+  if (nameInput) nameInput.value = '';
+  if (contactInput) contactInput.value = '';
+  if (paidInput) paidInput.value = '3000';
+  openModal('modalAddMember');
+  setTimeout(() => { if (nameInput) nameInput.focus(); }, 150);
+}
 
 // ==============================================
 // GROUP TOOLS: 0. PAY TO MERCHANT (Direct Vault Debit)
@@ -12254,6 +12791,7 @@ document.addEventListener('DOMContentLoaded', () => {
   switchUpiMode(appState.upiMode || 'personal');
   renderProfileStats();
   renderNotificationBadge();
+  renderRewardsBadges();
 
   // Start timers
   updateClock();
@@ -12844,6 +13382,657 @@ function changeAppLockPinPrompt() {
   showToast(`🔒 App Lock PIN updated to: ${newPin}`);
   clearAppLockKey();
 }
+
+
+
+// =========================================================
+// UNEXA REWARDS, SCRATCH CARDS & CASHBACK ENGINE
+// =========================================================
+
+let currentRewardsTab = 'cards';
+let currentCardFilter = 'all';
+let currentVoucherCategory = 'all';
+let activeScratchCard = null;
+let isScratching = false;
+let scratchCheckInterval = null;
+
+function renderRewardsBadges() {
+  if (!appState.rewards) appState.rewards = { ...defaultState.rewards };
+  const cards = appState.rewards.cards || [];
+  const unscratchedCount = cards.filter(c => !c.isScratched).length;
+  const totalWon = appState.rewards.totalCashbackWon || 0;
+  const formattedWon = `₹ ${formatInr(totalWon, 2)}`;
+
+  // Home View Badges
+  const homeBadge = document.getElementById('homeUnscratchedBadge');
+  if (homeBadge) {
+    if (unscratchedCount > 0) {
+      homeBadge.textContent = `${unscratchedCount} UNOPENED CARD${unscratchedCount > 1 ? 'S' : ''}`;
+      homeBadge.className = 'pill-badge badge-amber text-[8px] animate-pulse';
+    } else {
+      homeBadge.textContent = 'ALL CLAIMED';
+      homeBadge.className = 'pill-badge badge-emerald text-[8px]';
+    }
+  }
+
+  const homeWonText = document.getElementById('homeTotalCashbackText');
+  if (homeWonText) homeWonText.textContent = formattedWon;
+
+  // Ledger View Badges
+  const ledgerBadge = document.getElementById('ledgerRewardsBadge');
+  if (ledgerBadge) {
+    ledgerBadge.textContent = unscratchedCount > 0 ? `${unscratchedCount} UNCLAIMED` : 'ALL CLAIMED';
+    ledgerBadge.className = unscratchedCount > 0 ? 'pill-badge badge-amber text-[8px]' : 'pill-badge badge-emerald text-[8px]';
+  }
+  const ledgerWonText = document.getElementById('ledgerCashbackWon');
+  if (ledgerWonText) ledgerWonText.textContent = formattedWon;
+
+  // Profile View Badges
+  const profileBadge = document.getElementById('profileRewardsBadge');
+  if (profileBadge) {
+    profileBadge.textContent = unscratchedCount > 0 ? `${unscratchedCount} UNCLAIMED` : 'ALL CLAIMED';
+    profileBadge.className = unscratchedCount > 0 ? 'pill-badge badge-amber text-[8px]' : 'pill-badge badge-emerald text-[8px]';
+  }
+  const profileWonText = document.getElementById('profileCashbackWon');
+  if (profileWonText) profileWonText.textContent = formattedWon;
+
+  // Rewards Hub Header & Tab Badges
+  const hubWonText = document.getElementById('rewardsHubTotalWon');
+  if (hubWonText) hubWonText.textContent = formattedWon;
+
+  const tabCardsBadge = document.getElementById('rewardsTabCardsBadge');
+  if (tabCardsBadge) tabCardsBadge.textContent = unscratchedCount;
+
+  const tabVouchersBadge = document.getElementById('rewardsTabVouchersBadge');
+  if (tabVouchersBadge) tabVouchersBadge.textContent = (appState.rewards.vouchers || []).length;
+
+  // Daily Bonus Button State
+  const btnDaily = document.getElementById('btnDailyClaimPerk');
+  if (btnDaily) {
+    const todayStr = new Date().toDateString();
+    if (appState.rewards.lastDailyClaimDate === todayStr) {
+      btnDaily.textContent = 'Claimed Today ✓';
+      btnDaily.disabled = true;
+      btnDaily.className = 'py-1.5 px-3 rounded-xl bg-slate-800 text-slate-500 text-xs font-bold cursor-not-allowed';
+    } else {
+      btnDaily.textContent = 'Claim Bonus';
+      btnDaily.disabled = false;
+      btnDaily.className = 'py-1.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 text-xs font-extrabold shadow-md shadow-amber-500/30 transition active:scale-95';
+    }
+  }
+}
+
+function openRewardsHubModal(tab = 'cards') {
+  setRewardsTab(tab);
+  openModal('modalRewardsHub');
+}
+
+function setRewardsTab(tab) {
+  currentRewardsTab = tab;
+  const btnCards = document.getElementById('rewardsTabBtnCards');
+  const btnVouchers = document.getElementById('rewardsTabBtnVouchers');
+  const btnHistory = document.getElementById('rewardsTabBtnHistory');
+
+  const activeClass = 'py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1 bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20';
+  const inactiveClass = 'py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white transition flex items-center justify-center gap-1 bg-transparent';
+
+  if (btnCards) btnCards.className = tab === 'cards' ? activeClass : inactiveClass;
+  if (btnVouchers) btnVouchers.className = tab === 'vouchers' ? activeClass : inactiveClass;
+  if (btnHistory) btnHistory.className = tab === 'history' ? activeClass : inactiveClass;
+
+  renderRewardsHub(tab);
+  renderRewardsBadges();
+}
+
+function setRewardsCardFilter(filter) {
+  currentCardFilter = filter;
+  renderRewardsHub('cards');
+}
+
+function setVoucherCategoryFilter(cat) {
+  currentVoucherCategory = cat;
+  renderRewardsHub('vouchers');
+}
+
+function renderRewardsHub(tab = 'cards') {
+  const container = document.getElementById('rewardsHubTabContent');
+  if (!container) return;
+  if (!appState.rewards) appState.rewards = { ...defaultState.rewards };
+
+  if (tab === 'cards') {
+    const cards = appState.rewards.cards || [];
+    let filtered = cards;
+    if (currentCardFilter === 'unscratched') {
+      filtered = cards.filter(c => !c.isScratched);
+    } else if (currentCardFilter === 'claimed') {
+      filtered = cards.filter(c => c.isScratched);
+    }
+
+    const unscratchedCount = cards.filter(c => !c.isScratched).length;
+    const claimedCount = cards.filter(c => c.isScratched).length;
+
+    let html = `
+      <!-- Card Filter Chips -->
+      <div class="flex items-center gap-2 mb-3.5 overflow-x-auto pb-1">
+        <button class="px-3 py-1.5 rounded-full text-xs font-bold transition ${currentCardFilter === 'all' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 border border-white/10 text-slate-400 hover:text-white'}" onclick="setRewardsCardFilter('all')">
+          All Cards (${cards.length})
+        </button>
+        <button class="px-3 py-1.5 rounded-full text-xs font-bold transition ${currentCardFilter === 'unscratched' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 border border-white/10 text-slate-400 hover:text-white'}" onclick="setRewardsCardFilter('unscratched')">
+          Unopened (${unscratchedCount})
+        </button>
+        <button class="px-3 py-1.5 rounded-full text-xs font-bold transition ${currentCardFilter === 'claimed' ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 border border-white/10 text-slate-400 hover:text-white'}" onclick="setRewardsCardFilter('claimed')">
+          Claimed (${claimedCount})
+        </button>
+      </div>
+    `;
+
+    if (filtered.length === 0) {
+      html += `
+        <div class="py-12 text-center">
+          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-400 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="gift" class="w-7 h-7 opacity-60"></i>
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">No Scratch Cards Found</h4>
+          <p class="text-xs text-slate-400 max-w-xs mx-auto">Make UPI transfers, scan QR codes, or pay group pools to earn surprise mystery cards!</p>
+        </div>
+      `;
+    } else {
+      html += `<div class="grid grid-cols-2 gap-3">`;
+      filtered.forEach(card => {
+        if (!card.isScratched) {
+          html += `
+            <div class="reward-card-gold rounded-2xl p-3.5 flex flex-col justify-between relative overflow-hidden group cursor-pointer transition-all hover:scale-[1.02]" onclick="openScratchCardModal('${card.id}')">
+              <div class="absolute -right-4 -top-4 w-16 h-16 bg-amber-500/15 rounded-full blur-xl pointer-events-none"></div>
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="pill-badge badge-amber text-[8px] animate-pulse">MYSTERY</span>
+                  <div class="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                    <i data-lucide="${card.icon || 'gift'}" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+                <h4 class="text-xs font-bold text-white mb-1 line-clamp-1">${card.title}</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-1 mb-2">${card.subtitle}</p>
+              </div>
+
+              <div>
+                <div class="text-[9px] text-amber-300/80 font-mono mb-2">${card.expiryDate}</div>
+                <button class="w-full py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 text-[11px] font-extrabold shadow-md shadow-amber-500/20 group-hover:brightness-110 transition flex items-center justify-center gap-1">
+                  <i data-lucide="sparkles" class="w-3 h-3"></i>
+                  <span>Scratch Now</span>
+                </button>
+              </div>
+            </div>
+          `;
+        } else {
+          html += `
+            <div class="upi-card bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-3.5 flex flex-col justify-between relative overflow-hidden group cursor-pointer hover:border-emerald-400/60 transition-all" onclick="openScratchCardModal('${card.id}')">
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="pill-badge badge-emerald text-[8px]">CLAIMED</span>
+                  <div class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+                <h4 class="text-xs font-bold text-white mb-0.5 line-clamp-1">${card.title}</h4>
+                <div class="text-base font-black text-emerald-400 font-mono my-1">
+                  ${card.type === 'cash' ? `+ ₹${card.amount.toFixed(2)}` : `₹${card.amount} OFF`}
+                </div>
+                <p class="text-[10px] text-slate-400 line-clamp-1 mb-2">${card.description}</p>
+              </div>
+
+              <div>
+                <div class="text-[9px] text-slate-500 font-mono mb-2">${card.earnedAt}</div>
+                <button class="w-full py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold transition flex items-center justify-center gap-1">
+                  <span>View Details</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      });
+      html += `</div>`;
+    }
+    container.innerHTML = html;
+
+  } else if (tab === 'vouchers') {
+    const vouchers = appState.rewards.vouchers || [];
+    let categories = ['all', 'Food & Dining', 'Fashion & Lifestyle', 'Travel & Mobility', 'Movies & Entertainment'];
+
+    let html = `
+      <!-- Voucher Category Filter Chips -->
+      <div class="flex items-center gap-2 mb-3.5 overflow-x-auto pb-1">
+        ${categories.map(cat => `
+          <button class="px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition ${currentVoucherCategory === cat ? 'bg-amber-500 text-slate-950 font-black' : 'bg-slate-900 border border-white/10 text-slate-400 hover:text-white'}" onclick="setVoucherCategoryFilter('${cat}')">
+            ${cat === 'all' ? 'All Vouchers' : cat}
+          </button>
+        `).join('')}
+      </div>
+    `;
+
+    const filtered = currentVoucherCategory === 'all' ? vouchers : vouchers.filter(v => v.category === currentVoucherCategory);
+
+    if (filtered.length === 0) {
+      html += `
+        <div class="py-12 text-center">
+          <p class="text-xs text-slate-400">No vouchers found in this category.</p>
+        </div>
+      `;
+    } else {
+      html += `<div class="space-y-3">`;
+      filtered.forEach(v => {
+        html += `
+          <div class="upi-card bg-slate-900/90 border border-white/10 p-3.5 rounded-2xl relative overflow-hidden hover:border-amber-500/40 transition">
+            <div class="flex items-start justify-between gap-3 mb-2.5">
+              <div class="flex items-center gap-3">
+                <img src="${v.brandLogo}" class="w-10 h-10 rounded-xl object-cover border border-white/10" alt="${v.brand}">
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-black text-white">${v.brand}</span>
+                    <span class="pill-badge badge-amber text-[8px] font-bold">${v.discount}</span>
+                  </div>
+                  <h4 class="text-[11px] font-bold text-slate-200 mt-0.5">${v.title}</h4>
+                  <div class="text-[9px] text-slate-400 mt-0.5">${v.terms}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2.5 border-t border-white/10 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 bg-slate-950 px-2.5 py-1.5 rounded-xl border border-dashed border-amber-500/50">
+                <span class="font-mono text-xs font-black text-amber-300 tracking-wider">${v.code}</span>
+                <button class="text-slate-400 hover:text-amber-300 transition" title="Copy code" onclick="copyVoucherCode('${v.code}')">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] text-slate-400 font-mono">${v.validity}</span>
+                <button class="py-1.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition shadow-md shadow-amber-500/20 active:scale-95" onclick="copyVoucherCode('${v.code}')">
+                  Copy &amp; Redeem
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+    }
+    container.innerHTML = html;
+
+  } else if (tab === 'history') {
+    const history = appState.rewards.history || [];
+    let html = `
+      <div class="flex items-center justify-between mb-3 px-1">
+        <span class="text-xs font-bold text-white">Cashback Credit History</span>
+        <span class="text-[10px] text-slate-400 font-mono">${history.length} Transactions</span>
+      </div>
+    `;
+
+    if (history.length === 0) {
+      html += `
+        <div class="py-12 text-center">
+          <p class="text-xs text-slate-400">No cashback transactions recorded yet.</p>
+        </div>
+      `;
+    } else {
+      html += `<div class="space-y-2.5">`;
+      history.forEach(h => {
+        html += `
+          <div class="upi-card bg-slate-900/80 border border-white/10 p-3 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black">
+                <i data-lucide="arrow-down-left" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white">${h.title}</h4>
+                <div class="text-[10px] text-slate-400">${h.status}</div>
+                <div class="text-[9px] text-indigo-400 font-mono mt-0.5">UTR: ${h.utr} • ${h.date}</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm font-black text-emerald-400 font-mono">+ ₹${h.amount.toFixed(2)}</div>
+              <span class="pill-badge badge-emerald text-[7px]">SUCCESS</span>
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+    }
+    container.innerHTML = html;
+  }
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function claimDailyCheckinReward() {
+  if (!appState.rewards) appState.rewards = { ...defaultState.rewards };
+  const todayStr = new Date().toDateString();
+  if (appState.rewards.lastDailyClaimDate === todayStr) {
+    showToast('✨ You already claimed today\'s bonus! Return tomorrow.');
+    return;
+  }
+
+  const bonusAmounts = [5.00, 10.00, 15.00, 20.00, 25.00];
+  const bonus = bonusAmounts[Math.floor(Math.random() * bonusAmounts.length)];
+  const newUtr = 'REW' + Math.floor(100000000000 + Math.random() * 900000000000);
+
+  appState.user.balance += bonus;
+  appState.rewards.totalCashbackWon += bonus;
+  appState.rewards.dailyClaimedToday = true;
+  appState.rewards.lastDailyClaimDate = todayStr;
+
+  appState.rewards.history.unshift({
+    id: 'rh_' + Date.now(),
+    title: 'Daily Check-in Bonus',
+    amount: bonus,
+    date: 'Today, Just now',
+    status: 'Credited to Bank of Baroda •••• 0507',
+    utr: newUtr
+  });
+
+  appState.transactions.unshift({
+    id: 'tx_rew_' + Date.now(),
+    title: 'Daily Check-in Cashback Bonus',
+    date: 'Just now',
+    bank: 'Bank of Baroda XX0507',
+    utr: newUtr,
+    amount: bonus,
+    category: 'Cashback & Rewards',
+    type: 'credited',
+    isCard: false,
+    isLite: false,
+  });
+
+  saveState();
+  playSuccessChime();
+  if (window.confetti) {
+    window.confetti({ particleCount: 90, spread: 75, origin: { y: 0.6 } });
+  }
+
+  const balEl = document.getElementById('personalTotalBalance');
+  if (balEl) balEl.textContent = `₹${formatInr(appState.user.balance, 0)}`;
+
+  renderRewardsBadges();
+  renderRewardsHub(currentRewardsTab);
+  showToast(`🎉 ₹${bonus.toFixed(2)} Daily Bonus directly credited to your Bank Account!`);
+}
+
+function copyVoucherCode(code) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => {
+      playSuccessChime();
+      showToast(`📋 Voucher code "${code}" copied to clipboard!`);
+    }).catch(() => {
+      prompt('Copy voucher code:', code);
+    });
+  } else {
+    prompt('Copy voucher code:', code);
+  }
+}
+
+function openScratchCardFromPayment() {
+  closeModal('modalPaymentSuccess');
+  if (!appState.rewards) appState.rewards = { ...defaultState.rewards };
+  const unscratched = (appState.rewards.cards || []).find(c => !c.isScratched);
+  if (unscratched) {
+    openScratchCardModal(unscratched.id);
+  } else {
+    openRewardsHubModal('cards');
+  }
+}
+
+function openScratchCardModal(cardId) {
+  if (!appState.rewards) appState.rewards = { ...defaultState.rewards };
+  const card = (appState.rewards.cards || []).find(c => c.id === cardId);
+  if (!card) return;
+
+  activeScratchCard = card;
+
+  const titleEl = document.getElementById('scratchModalTitle');
+  const subEl = document.getElementById('scratchModalSubtitle');
+  if (titleEl) titleEl.textContent = card.title;
+  if (subEl) subEl.textContent = card.subtitle;
+
+  const underlay = document.getElementById('scratchUnderlayContent');
+  const canvas = document.getElementById('scratchCanvas');
+  const instructEl = document.getElementById('scratchInstructionText');
+  const quickBtn = document.getElementById('btnQuickRevealScratch');
+
+  if (underlay) {
+    if (card.type === 'cash') {
+      underlay.innerHTML = `
+        <div class="w-14 h-14 rounded-full bg-amber-500/20 border-2 border-amber-400 text-amber-300 flex items-center justify-center mx-auto mb-2 animate-bounce">
+          <i data-lucide="indian-rupee" class="w-7 h-7"></i>
+        </div>
+        <div class="text-3xl font-black text-amber-300 font-mono mb-1">₹ ${card.amount.toFixed(2)}</div>
+        <div class="text-xs font-extrabold text-white mb-1">Cashback Won! 🎉</div>
+        <p class="text-[10px] text-emerald-400 font-medium mb-2">Directly credited to Bank of Baroda •••• 0507</p>
+        <div class="pill-badge badge-emerald text-[8px] font-mono mx-auto">NPCI UPI Instant Transfer</div>
+      `;
+    } else {
+      underlay.innerHTML = `
+        <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 border-2 border-indigo-400 text-indigo-300 flex items-center justify-center mx-auto mb-2">
+          <i data-lucide="tag" class="w-7 h-7"></i>
+        </div>
+        <div class="text-2xl font-black text-indigo-300 font-mono mb-1">₹ ${card.amount} OFF</div>
+        <div class="text-xs font-extrabold text-white mb-1">${card.title}</div>
+        <p class="text-[10px] text-slate-300 mb-2">${card.description}</p>
+        <div class="bg-slate-950/80 px-3 py-1.5 rounded-xl border border-dashed border-amber-500/60 font-mono text-amber-300 text-xs font-black cursor-pointer hover:scale-105 transition" onclick="copyVoucherCode('${card.code}')">
+          CODE: ${card.code} 📋
+        </div>
+      `;
+    }
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  if (card.isScratched) {
+    if (canvas) canvas.style.display = 'none';
+    if (instructEl) instructEl.textContent = '✅ You have already claimed this reward!';
+    if (quickBtn) quickBtn.style.display = 'none';
+  } else {
+    if (canvas) {
+      canvas.style.display = 'block';
+      canvas.style.opacity = '1';
+      initScratchCanvas(card);
+    }
+    if (instructEl) instructEl.textContent = '👆 Rub with finger or mouse to scratch & claim!';
+    if (quickBtn) quickBtn.style.display = 'inline-flex';
+  }
+
+  openModal('modalScratchCardReveal');
+}
+
+function initScratchCanvas(card) {
+  const canvas = document.getElementById('scratchCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Draw Gold Holographic Cover Gradient
+  const grad = ctx.createLinearGradient(0, 0, width, height);
+  grad.addColorStop(0, '#f59e0b');
+  grad.addColorStop(0.3, '#fbbf24');
+  grad.addColorStop(0.5, '#fef08a');
+  grad.addColorStop(0.7, '#d97706');
+  grad.addColorStop(1, '#b45309');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, width, height);
+
+  // Add Diagonal Shimmer Lines
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+  for (let i = -width; i < width * 2; i += 24) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i + 40, height);
+    ctx.lineTo(i + 52, height);
+    ctx.lineTo(i + 12, 0);
+    ctx.fill();
+  }
+
+  // Draw Outer Gold Border
+  ctx.strokeStyle = '#fef08a';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(3, 3, width - 6, height - 6);
+
+  // Draw Center Foil Crest & Text
+  ctx.fillStyle = '#1e1b4b';
+  ctx.font = 'bold 18px Plus Jakarta Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('UNEXA REWARDS', width / 2, height / 2 - 15);
+
+  ctx.fillStyle = '#451a03';
+  ctx.font = '600 11px Plus Jakarta Sans, sans-serif';
+  ctx.fillText('✨ Scratch to Reveal Prize ✨', width / 2, height / 2 + 10);
+
+  ctx.font = '10px JetBrains Mono, monospace';
+  ctx.fillText('100% Instant Bank Credit', width / 2, height / 2 + 30);
+
+  // Scratch Drawing Helper
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    if (e.touches && e.touches[0]) {
+      return {
+        x: (e.touches[0].clientX - rect.left) * scaleX,
+        y: (e.touches[0].clientY - rect.top) * scaleY
+      };
+    }
+    return {
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY
+    };
+  }
+
+  function scratchAt(pos) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(pos.x, pos.y, 24, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function checkClearance() {
+    try {
+      const imgData = ctx.getImageData(0, 0, width, height);
+      const data = imgData.data;
+      let transparentCount = 0;
+      const totalSampled = data.length / 16;
+      for (let i = 3; i < data.length; i += 16) {
+        if (data[i] < 128) transparentCount++;
+      }
+      const percent = (transparentCount / totalSampled) * 100;
+      if (percent > 35) {
+        revealScratchCardReward(card.id);
+      }
+    } catch (e) {
+      console.warn('Canvas check error:', e);
+    }
+  }
+
+  // Mouse Events
+  canvas.onmousedown = (e) => {
+    isScratching = true;
+    scratchAt(getPos(e));
+  };
+  canvas.onmousemove = (e) => {
+    if (!isScratching) return;
+    scratchAt(getPos(e));
+  };
+  window.onmouseup = () => {
+    if (isScratching) {
+      isScratching = false;
+      checkClearance();
+    }
+  };
+
+  // Touch Events
+  canvas.ontouchstart = (e) => {
+    isScratching = true;
+    scratchAt(getPos(e));
+  };
+  canvas.ontouchmove = (e) => {
+    if (!isScratching) return;
+    e.preventDefault();
+    scratchAt(getPos(e));
+  };
+  window.ontouchend = () => {
+    if (isScratching) {
+      isScratching = false;
+      checkClearance();
+    }
+  };
+}
+
+function revealScratchCardReward(cardId) {
+  if (!activeScratchCard || activeScratchCard.isScratched) return;
+
+  activeScratchCard.isScratched = true;
+  const canvas = document.getElementById('scratchCanvas');
+  const instructEl = document.getElementById('scratchInstructionText');
+  const quickBtn = document.getElementById('btnQuickRevealScratch');
+
+  if (canvas) {
+    canvas.style.transition = 'opacity 0.4s ease';
+    canvas.style.opacity = '0';
+    setTimeout(() => { canvas.style.display = 'none'; }, 400);
+  }
+  if (instructEl) instructEl.textContent = '🎉 Reward Unlocked & Claimed!';
+  if (quickBtn) quickBtn.style.display = 'none';
+
+  playSuccessChime();
+  if (window.confetti) {
+    window.confetti({ particleCount: 110, spread: 85, origin: { y: 0.5 } });
+  }
+
+  if (activeScratchCard.type === 'cash') {
+    appState.user.balance += activeScratchCard.amount;
+    appState.rewards.totalCashbackWon += activeScratchCard.amount;
+
+    const newUtr = 'REW' + Math.floor(100000000000 + Math.random() * 900000000000);
+    appState.rewards.history.unshift({
+      id: 'rh_' + Date.now(),
+      title: activeScratchCard.title,
+      amount: activeScratchCard.amount,
+      date: 'Today, Just now',
+      status: 'Credited to Bank of Baroda •••• 0507',
+      utr: newUtr
+    });
+
+    appState.transactions.unshift({
+      id: 'tx_rew_' + Date.now(),
+      title: `Cashback: ${activeScratchCard.title}`,
+      date: 'Just now',
+      bank: 'Bank of Baroda XX0507',
+      utr: newUtr,
+      amount: activeScratchCard.amount,
+      category: 'Cashback & Rewards',
+      type: 'credited',
+      isCard: false,
+      isLite: false,
+    });
+
+    showToast(`🎉 ₹${activeScratchCard.amount.toFixed(2)} Cashback Credited to Bank of Baroda!`);
+  } else {
+    showToast(`🎁 Unlocked ${activeScratchCard.title}! Code: ${activeScratchCard.code}`);
+  }
+
+  saveState();
+  const balEl = document.getElementById('personalTotalBalance');
+  if (balEl) balEl.textContent = `₹${formatInr(appState.user.balance, 0)}`;
+
+  renderRewardsBadges();
+  renderRewardsHub(currentRewardsTab);
+}
+
+function quickRevealScratchCard() {
+  if (activeScratchCard) {
+    revealScratchCardReward(activeScratchCard.id);
+  }
+}
+
 
 </script>
 </body>
