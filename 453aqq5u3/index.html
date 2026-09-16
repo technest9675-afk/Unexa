@@ -37,6 +37,10 @@
   <!-- jsQR Scanner Decoder Engine -->
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
+  <!-- jsPDF & jsPDF-AutoTable for Official PDF Statement Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
   <!-- Custom Stylesheet -->
   <style>
 /* Unexa UPI - Ultra Premium AMOLED Design System */
@@ -1730,7 +1734,17 @@ body.theme-light .reward-card-gold {
   <!-- Mobile App Viewport -->
   <div class="app-viewport" id="appViewport">
 
-
+<div class="status-bar">
+      <span id="statusBarTime">14:45</span>
+      <div class="flex items-center gap-2 text-xs">
+        <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-1.5 py-0.5 rounded">5G</span>
+        <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+        <div class="flex items-center gap-1">
+          <span class="text-[11px] font-bold">98%</span>
+          <i data-lucide="battery-charging" class="w-4 h-4 text-emerald-400"></i>
+        </div>
+      </div>
+    </div> 
 
     <!-- ============================================== -->
     <!-- AUTHENTICATION / LOGIN VIEW (PHONE & OTP)       -->
@@ -3124,9 +3138,9 @@ body.theme-light .reward-card-gold {
             </h3>
             <p class="text-[10px] text-slate-400">Official UPI Ledger &amp; Statement</p>
           </div>
-          <button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 text-[11px] font-bold" onclick="exportStatement('pdf')">
-            <i data-lucide="download" class="w-3 h-3"></i>
-            <span>Download Statement</span>
+          <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600/30 border border-indigo-500/50 hover:bg-indigo-600/50 text-indigo-300 text-[11px] font-bold transition shadow-sm" onclick="exportStatement('pdf')">
+            <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+            <span>3-Month PDF Statement</span>
           </button>
         </div>
 
@@ -3996,7 +4010,7 @@ body.theme-light .reward-card-gold {
 
         <button class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-1.5 mb-2 hover:opacity-95 transition" onclick="downloadGroupStatement()">
           <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Download Group Statement (.txt)</span>
+          <span>Download 3-Month Group Statement (.PDF)</span>
         </button>
         <button class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold" onclick="closeModal('modalGroupStatement')">
           Close Statement
@@ -10007,16 +10021,126 @@ function openPoolStatementModal() {
   openModal('modalGroupStatement');
 }
 
-function downloadGroupStatement() {
+function downloadGroupStatement(format = 'pdf') {
   const pool = appState.pools[appState.activePoolId] || appState.pools.goa;
   const totalDeposits = pool.members.reduce((acc, m) => acc + (m.paid || 0), 0);
+  const stmtRef = 'UNX-GRP-' + Math.floor(100000 + Math.random() * 900000);
+  const genDate = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
 
+  showToast(`⏳ Generating 3-Month PDF Statement for ${pool.name}...`);
+  playSuccessChime();
+
+  if (window.jspdf && window.jspdf.jsPDF) {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+      // Header Banner
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, 210, 28, 'F');
+      doc.setFillColor(99, 102, 241); // indigo stripe
+      doc.rect(0, 28, 210, 1.5, 'F');
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.text('UNEXA SHARED GROUP VAULT', 14, 11);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(203, 213, 225);
+      doc.text(`Official 3-Month Group Passbook & Audit Ledger | Ref: ${stmtRef}`, 14, 17);
+      doc.text(`Pool VPA: ${pool.vpa} • Status: ${pool.isClosed ? 'CLOSED' : 'ACTIVE'}`, 14, 22);
+
+      // Top Right Badge
+      doc.setFillColor(99, 102, 241);
+      doc.roundedRect(148, 8, 48, 12, 2, 2, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('GROUP PASSBOOK', 152, 13);
+      doc.setFontSize(7);
+      doc.text('3-MONTH AUDIT', 155, 17.5);
+
+      // Summary Stats
+      doc.setFillColor(248, 250, 252);
+      doc.setDrawColor(226, 232, 240);
+      doc.roundedRect(14, 33, 182, 18, 2, 2, 'FD');
+
+      doc.setFontSize(7);
+      doc.setTextColor(100, 116, 139);
+      doc.setFont('helvetica', 'bold');
+      doc.text('CURRENT VAULT BALANCE', 20, 39);
+      doc.text('TOTAL DEPOSITED', 80, 39);
+      doc.text('TOTAL SPENT', 140, 39);
+
+      doc.setFontSize(10);
+      doc.setTextColor(16, 185, 129); // emerald
+      doc.text(`₹ ${formatInr(pool.balance, 2)}`, 20, 46);
+
+      doc.setTextColor(6, 182, 212); // cyan
+      doc.text(`₹ ${formatInr(totalDeposits, 2)}`, 80, 46);
+
+      doc.setTextColor(245, 158, 11); // amber
+      doc.text(`₹ ${formatInr(pool.totalSpent, 2)}`, 140, 46);
+
+      // Member Breakdown Table
+      const memberRows = pool.members.map((m, idx) => {
+        const net = m.paid - m.consumed;
+        return [
+          String(idx + 1),
+          m.name,
+          m.role,
+          '₹' + formatInr(m.paid, 2),
+          '₹' + formatInr(m.consumed, 2),
+          net > 0 ? '+ ₹' + formatInr(net, 2) + ' (Surplus)' : (net < 0 ? '- ₹' + formatInr(Math.abs(net), 2) + ' (Deficit)' : 'Settled')
+        ];
+      });
+
+      doc.autoTable({
+        startY: 55,
+        head: [['#', 'Member Name', 'Role', 'Total Contributed', 'Total Consumed', 'Net Settlement Balance']],
+        body: memberRows,
+        theme: 'grid',
+        headStyles: { fillColor: [99, 102, 241], fontSize: 7, fontStyle: 'bold' },
+        bodyStyles: { fontSize: 7, cellPadding: 2.5 }
+      });
+
+      // Activities Table
+      const actRows = (pool.activities || []).map((act, idx) => [
+        String(idx + 1),
+        act.date,
+        act.title,
+        act.payer,
+        act.splitDesc,
+        '₹' + formatInr(act.amount, 2)
+      ]);
+
+      doc.autoTable({
+        startY: doc.lastAutoTable.finalY + 8,
+        head: [['#', 'Date', 'Expense Title', 'Paid By', 'Split Details', 'Amount']],
+        body: actRows.length > 0 ? actRows : [['-', 'No expenses logged', '-', '-', '-', '-']],
+        theme: 'striped',
+        headStyles: { fillColor: [15, 23, 42], fontSize: 7, fontStyle: 'bold' },
+        bodyStyles: { fontSize: 7, cellPadding: 2.5 },
+        columnStyles: { 5: { halign: 'right', fontStyle: 'bold' } }
+      });
+
+      doc.save(`Unexa_Group_Statement_${pool.name.replace(/[^a-zA-Z0-9]/g, '_')}_3Months.pdf`);
+      showToast(`📄 3-Month Group Statement for ${pool.name} downloaded!`);
+      return;
+    } catch (e) {
+      console.error('Group PDF Generation error:', e);
+    }
+  }
+
+  // Text fallback if jsPDF is unavailable
   let text = `=====================================================
-UNEXA OFFICIAL GROUP VAULT STATEMENT & PASSBOOK
+UNEXA OFFICIAL 3-MONTH GROUP VAULT STATEMENT
 Group Name:   ${pool.name}
 Vault VPA:    ${pool.vpa}
 Status:       ${pool.isClosed ? 'CLOSED / SETTLED' : 'ACTIVE'}
-Generated On: ${new Date().toLocaleString()}
+Generated On: ${genDate} | Ref: ${stmtRef}
 =====================================================
 FINANCIAL SUMMARY:
 - Current Vault Balance:   ₹ ${formatInr(pool.balance)}
@@ -10047,16 +10171,13 @@ NPCI Certified Official Group Audit Record
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `Unexa_${pool.name.replace(/[^a-zA-Z0-9]/g, '_')}_Statement.txt`;
+  a.download = `Unexa_${pool.name.replace(/[^a-zA-Z0-9]/g, '_')}_3Month_Statement.txt`;
   a.click();
   URL.revokeObjectURL(url);
   showToast(`Statement for ${pool.name} downloaded!`);
 }
 
-// ==============================================
-// QR CODE GENERATION & INTERACTION ENGINES
-// ==============================================
-
+// ----------------------------------------------
 // Helper: Download QR Image
 function downloadQrCode(imgElementId, defaultFilename) {
   const img = document.getElementById(imgElementId);
@@ -11696,31 +11817,449 @@ function processManualPayInput() {
   initiatePayment(parsed.name, parsed.vpa, parsed.amount, parsed.icon, isGroup);
 }
 
-function exportStatement(type) {
-  const textContent = `========================================
-UNEXA UPI OFFICIAL STATEMENT
-Account Holder: Aarav Sharma
-UPI ID: aaravsharma@upi
-Generated: ${new Date().toLocaleString()}
-========================================
-1. Today 9:12 AM | Priya Sharma | UTR: 624910384729 | - ₹ 350.00
-2. Today 8:30 AM | Starbucks Coffee | UTR: 624910384992 | - ₹ 350.00
-3. Yesterday 7:15 PM | Sharma Kirana | UTR: 624910294821 | - ₹ 650.00
-4. Yesterday 4:30 PM | Amazon Pay | UTR: 624910283412 | - ₹ 1299.00
-5. 10 Sep 10:00 AM | Salary TechCorp | UTR: 624900123984 | + ₹ 145000.00
-========================================
-NPCI Certified Official Transaction Record`;
+// =========================================================
+// UNEXA 3-MONTH OFFICIAL PDF STATEMENT ENGINE
+// =========================================================
 
-  const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `Unexa_UPI_Statement_${Date.now()}.txt`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Official Statement downloaded successfully!');
+function generate3MonthLedgerData(currentBalance, customTxns = []) {
+  const now = new Date();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function formatDateStr(daysAgo, h = 11, m = 15) {
+    const d = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+    d.setHours(h, m, 0, 0);
+    const day = String(d.getDate()).padStart(2, '0');
+    const mon = months[d.getMonth()];
+    const yr = d.getFullYear();
+    let hour = d.getHours();
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 || 12;
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${day} ${mon} ${yr}, ${hour}:${min} ${ampm}`;
+  }
+
+  // Curated realistic 3-month bank transactions
+  const baseHistorical = [
+    { daysAgo: 0.1, title: 'Chai Point Powai', payee: 'chaipoint@upi', utr: '624910984128', amount: -350.00, cat: 'Food & Dining', type: 'debited' },
+    { daysAgo: 0.3, title: 'Priya Sharma (Split Reimbursement)', payee: 'priyasharma@upi', utr: '624910384729', amount: -350.00, cat: 'P2P Transfer', type: 'debited' },
+    { daysAgo: 1.2, title: 'Sharma Kirana Store', payee: 'sharmakirana@upi', utr: '624910294821', amount: -650.00, cat: 'Groceries', type: 'debited' },
+    { daysAgo: 1.5, title: 'Amazon India Shopping', payee: 'amazonpay@upi', utr: '624910283412', amount: -1299.00, cat: 'Shopping', type: 'debited' },
+    { daysAgo: 2.1, title: 'Swiggy Gourmet Dinner', payee: 'swiggy@icici', utr: '624909827162', amount: -780.00, cat: 'Food & Dining', type: 'debited' },
+    { daysAgo: 3.4, title: 'Daily Check-in Bonus', payee: 'Unexa Rewards Vault', utr: 'REW748291038472', amount: 25.00, cat: 'Cashback & Rewards', type: 'credited' },
+    { daysAgo: 4.2, title: 'Goa Trip Pool Contribution', payee: 'goa-trip-2026@unexapool', utr: '624908719283', amount: -7000.00, cat: 'Group Pool', type: 'debited' },
+    { daysAgo: 6.0, title: 'Tata Power Electricity Bill', payee: 'tatapower@billdesk', utr: '624907651234', amount: -2450.00, cat: 'Utilities', type: 'debited' },
+    { daysAgo: 8.5, title: 'Uber Premier Office Commute', payee: 'uber.hdfc@upi', utr: '624906543210', amount: -420.00, cat: 'Travel & Mobility', type: 'debited' },
+    { daysAgo: 10.1, title: 'JioFiber High Speed Broadband', payee: 'jiofiber@rel', utr: '624905432198', amount: -1499.00, cat: 'Utilities', type: 'debited' },
+    { daysAgo: 12.3, title: 'Instant Bank Cashback', payee: 'Unexa UPI Rewards', utr: 'REW593021948201', amount: 50.00, cat: 'Cashback & Rewards', type: 'credited' },
+    { daysAgo: 15.0, title: 'Salary Credit - TechCorp India', payee: 'TECHCORP INDIA PVT LTD', utr: 'SAL202609018492', amount: 65000.00, cat: 'Salary & Income', type: 'credited' },
+    { daysAgo: 16.0, title: 'Powai Residency Apartment Rent', payee: 'landlord_powai@icici', utr: '624904321098', amount: -28000.00, cat: 'Housing & Rent', type: 'debited' },
+    { daysAgo: 18.2, title: 'Nature Basket Organic Groceries', payee: 'naturesbasket@axis', utr: '624903210987', amount: -2150.00, cat: 'Groceries', type: 'debited' },
+    
+    // Month 2 (August 2026)
+    { daysAgo: 22.0, title: 'BookMyShow IMAX Tickets', payee: 'bookmyshow@kotak', utr: '624899876543', amount: -960.00, cat: 'Entertainment', type: 'debited' },
+    { daysAgo: 26.0, title: 'Indian Oil Petrol Pump', payee: 'indianoil@upi', utr: '624888765432', amount: -2800.00, cat: 'Fuel & Commute', type: 'debited' },
+    { daysAgo: 30.0, title: 'Myntra Luxe End of Season Sale', payee: 'myntrapay@upi', utr: '624877654321', amount: -4599.00, cat: 'Shopping', type: 'debited' },
+    { daysAgo: 34.0, title: 'Apollo Pharmacy Medicines', payee: 'apollopharmacy@upi', utr: '624866543210', amount: -840.00, cat: 'Health & Pharmacy', type: 'debited' },
+    { daysAgo: 38.0, title: 'Starbucks Reserve Powai', payee: 'starbucks@tata', utr: '624855432109', amount: -720.00, cat: 'Food & Dining', type: 'debited' },
+    { daysAgo: 42.0, title: 'UPI Cashback Reward', payee: 'Unexa Vault', utr: 'REW102938475610', amount: 100.00, cat: 'Cashback & Rewards', type: 'credited' },
+    { daysAgo: 45.0, title: 'Salary Credit - TechCorp India', payee: 'TECHCORP INDIA PVT LTD', utr: 'SAL202608017381', amount: 65000.00, cat: 'Salary & Income', type: 'credited' },
+    { daysAgo: 46.0, title: 'Powai Residency Apartment Rent', payee: 'landlord_powai@icici', utr: '624844321098', amount: -28000.00, cat: 'Housing & Rent', type: 'debited' },
+    { daysAgo: 50.0, title: 'Tata Power Electricity Bill', payee: 'tatapower@billdesk', utr: '624833210987', amount: -2680.00, cat: 'Utilities', type: 'debited' },
+    { daysAgo: 54.0, title: 'Zomato Gold Feast with Friends', payee: 'zomatopay@icici', utr: '624822109876', amount: -1850.00, cat: 'Food & Dining', type: 'debited' },
+    { daysAgo: 58.0, title: 'Blinkit 10-Min Groceries', payee: 'blinkit@paytm', utr: '624811098765', amount: -940.00, cat: 'Groceries', type: 'debited' },
+
+    // Month 3 (July 2026)
+    { daysAgo: 62.0, title: 'Decathlon Sports Gear', payee: 'decathlon@hdfc', utr: '624799876543', amount: -3490.00, cat: 'Shopping', type: 'debited' },
+    { daysAgo: 66.0, title: 'Netflix & Spotify Premium Mandates', payee: 'unexarecurring@mandate', utr: '624788765432', amount: -848.00, cat: 'Subscriptions', type: 'debited' },
+    { daysAgo: 71.0, title: 'Indian Oil Petrol Refill', payee: 'indianoil@upi', utr: '624777654321', amount: -2500.00, cat: 'Fuel & Commute', type: 'debited' },
+    { daysAgo: 75.0, title: 'Salary Credit - TechCorp India', payee: 'TECHCORP INDIA PVT LTD', utr: 'SAL202607016270', amount: 65000.00, cat: 'Salary & Income', type: 'credited' },
+    { daysAgo: 76.0, title: 'Powai Residency Apartment Rent', payee: 'landlord_powai@icici', utr: '624766543210', amount: -28000.00, cat: 'Housing & Rent', type: 'debited' },
+    { daysAgo: 80.0, title: 'Tata Power Electricity Bill', payee: 'tatapower@billdesk', utr: '624755432109', amount: -2340.00, cat: 'Utilities', type: 'debited' },
+    { daysAgo: 84.0, title: 'Cult.fit Gym & Fitness Pass', payee: 'curefit@icici', utr: '624744321098', amount: -3999.00, cat: 'Fitness & Health', type: 'debited' },
+    { daysAgo: 88.0, title: 'Zepto Instant Essentials', payee: 'zepto@axis', utr: '624733210987', amount: -580.00, cat: 'Groceries', type: 'debited' }
+  ];
+
+  // Merge any dynamic custom user transactions from appState
+  const allItems = [];
+  (customTxns || []).forEach((tx, idx) => {
+    allItems.push({
+      daysAgo: 0.005 * (idx + 1),
+      title: tx.title || 'UPI Payment',
+      payee: tx.bank || 'UPI Merchant / Beneficiary',
+      utr: tx.utr || ('6249' + Math.floor(10000000 + Math.random() * 90000000)),
+      amount: tx.amount,
+      cat: tx.category || 'UPI Transfer',
+      type: tx.amount > 0 ? 'credited' : 'debited'
+    });
+  });
+
+  baseHistorical.forEach(item => allItems.push(item));
+
+  // Sort newest to oldest
+  allItems.sort((a, b) => a.daysAgo - b.daysAgo);
+
+  // Compute running balance backward from current user balance
+  let running = currentBalance;
+  let totalCredits = 0;
+  let totalDebits = 0;
+
+  const finalRows = allItems.map((item, idx) => {
+    const isCredit = item.amount > 0;
+    const absAmt = Math.abs(item.amount);
+    const balanceAtRow = running;
+
+    if (isCredit) {
+      totalCredits += absAmt;
+      running -= absAmt;
+    } else {
+      totalDebits += absAmt;
+      running += absAmt;
+    }
+
+    return {
+      index: idx + 1,
+      date: formatDateStr(item.daysAgo),
+      title: item.title,
+      payee: item.payee,
+      utr: item.utr,
+      category: item.cat,
+      type: item.type,
+      debit: !isCredit ? absAmt : 0,
+      credit: isCredit ? absAmt : 0,
+      balance: balanceAtRow
+    };
+  });
+
+  const openingBalance = Math.max(0, running);
+
+  return {
+    period: {
+      startDate: formatDateStr(90).split(',')[0],
+      endDate: formatDateStr(0).split(',')[0],
+      days: 90,
+      months: 3
+    },
+    summary: {
+      openingBalance: openingBalance,
+      totalCredits: totalCredits,
+      totalDebits: totalDebits,
+      closingBalance: currentBalance,
+      totalTxnCount: finalRows.length
+    },
+    transactions: finalRows
+  };
 }
 
+function exportStatement(type = 'pdf') {
+  showToast('⏳ Generating official 3-Month PDF Statement...');
+  playSuccessChime();
+
+  const user = appState.user || defaultState.user;
+  const data = generate3MonthLedgerData(user.balance, appState.transactions || []);
+  const stmtRef = 'UNX-STM-' + Math.floor(100000 + Math.random() * 900000);
+  const genDate = new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' });
+
+  // If jsPDF is available in window
+  if (window.jspdf && window.jspdf.jsPDF) {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      // 1. Header Banner
+      doc.setFillColor(15, 23, 42); // slate-900 / #0f172a
+      doc.rect(0, 0, 210, 28, 'F');
+
+      doc.setFillColor(245, 158, 11); // amber-500 gold line
+      doc.rect(0, 28, 210, 1.5, 'F');
+
+      // Title & Logo Text
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.text('UNEXA UPI PAYMENT SYSTEMS', 14, 11);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(203, 213, 225); // slate-300
+      doc.text('National Payments Corporation of India (NPCI) Accredited • RBI Regulated', 14, 17);
+      doc.text(`Official 3-Month Account Statement & Passbook | Ref: ${stmtRef}`, 14, 22);
+
+      // Top Right Badge
+      doc.setFillColor(245, 158, 11);
+      doc.roundedRect(148, 8, 48, 12, 2, 2, 'F');
+      doc.setTextColor(15, 23, 42);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('3-MONTH STATEMENT', 152, 13);
+      doc.setFontSize(7);
+      doc.text('VERIFIED PASSBOOK', 154, 17.5);
+
+      // 2. Account Holder & Bank Details Grid
+      doc.setFillColor(248, 250, 252); // slate-50
+      doc.setDrawColor(226, 232, 240); // slate-200
+      doc.roundedRect(14, 33, 182, 28, 2, 2, 'FD');
+
+      // Column 1: Customer Details
+      doc.setFontSize(7.5);
+      doc.setTextColor(100, 116, 139); // slate-500
+      doc.setFont('helvetica', 'bold');
+      doc.text('ACCOUNT HOLDER DETAILS', 18, 38);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(15, 23, 42);
+      doc.text(`Name: ${user.name}`, 18, 43);
+      doc.text(`Mobile: ${user.phone}`, 18, 48);
+      doc.text(`UPI ID / VPA: ${user.vpa}`, 18, 53);
+      doc.text(`Email: ${user.email}`, 18, 58);
+
+      // Column 2: Bank & Account Details
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(100, 116, 139);
+      doc.text('LINKED PRIMARY BANK ACCOUNT', 110, 38);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(15, 23, 42);
+      doc.text('Bank: Bank of Baroda', 110, 43);
+      doc.text('Account No: •••• •••• •••• 0507', 110, 48);
+      doc.text('IFSC Code: BARB0POWAIX', 110, 53);
+      doc.text('Branch: Powai Commercial Hub, Mumbai - 400076', 110, 58);
+
+      // 3. 3-Month Period Financial Summary Box
+      doc.setFillColor(30, 41, 59); // slate-800
+      doc.roundedRect(14, 64, 182, 20, 2, 2, 'F');
+
+      doc.setFontSize(7);
+      doc.setTextColor(148, 163, 184); // slate-400
+      doc.setFont('helvetica', 'bold');
+      doc.text('STATEMENT PERIOD (3 MONTHS)', 18, 69);
+      doc.text('OPENING BAL', 68, 69);
+      doc.text('TOTAL CREDITS (+)', 102, 69);
+      doc.text('TOTAL DEBITS (-)', 138, 69);
+      doc.text('CLOSING BAL', 170, 69);
+
+      doc.setFontSize(8.5);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`${data.period.startDate} - ${data.period.endDate}`, 18, 77);
+      doc.text(`₹ ${formatInr(data.summary.openingBalance, 2)}`, 68, 77);
+      
+      doc.setTextColor(52, 211, 153); // emerald-400
+      doc.text(`+ ₹ ${formatInr(data.summary.totalCredits, 2)}`, 102, 77);
+
+      doc.setTextColor(248, 113, 113); // rose-400
+      doc.text(`- ₹ ${formatInr(data.summary.totalDebits, 2)}`, 138, 77);
+
+      doc.setTextColor(251, 191, 36); // amber-400
+      doc.text(`₹ ${formatInr(data.summary.closingBalance, 2)}`, 170, 77);
+
+      // 4. AutoTable with Transactions
+      const tableRows = data.transactions.map((t, idx) => [
+        String(idx + 1),
+        t.date,
+        t.title + '\n' + t.payee,
+        t.utr,
+        t.category,
+        t.debit > 0 ? '- ₹' + formatInr(t.debit, 2) : '-',
+        t.credit > 0 ? '+ ₹' + formatInr(t.credit, 2) : '-',
+        '₹' + formatInr(t.balance, 2)
+      ]);
+
+      doc.autoTable({
+        startY: 88,
+        head: [['#', 'Date & Time', 'Transaction Details / Beneficiary', 'UPI Ref / UTR', 'Category', 'Debit', 'Credit', 'Balance']],
+        body: tableRows,
+        theme: 'striped',
+        headStyles: {
+          fillColor: [15, 23, 42],
+          textColor: [255, 255, 255],
+          fontSize: 7,
+          fontStyle: 'bold',
+          halign: 'left'
+        },
+        bodyStyles: {
+          fontSize: 6.5,
+          textColor: [30, 41, 59],
+          cellPadding: 2
+        },
+        alternateRowStyles: {
+          fillColor: [248, 250, 252]
+        },
+        columnStyles: {
+          0: { cellWidth: 7, halign: 'center' },
+          1: { cellWidth: 26 },
+          2: { cellWidth: 44 },
+          3: { cellWidth: 28, font: 'courier' },
+          4: { cellWidth: 24 },
+          5: { cellWidth: 18, halign: 'right', textColor: [220, 38, 38] },
+          6: { cellWidth: 18, halign: 'right', textColor: [22, 163, 74] },
+          7: { cellWidth: 19, halign: 'right', fontStyle: 'bold' }
+        },
+        didDrawPage: (pageData) => {
+          // Footer on each page
+          const pageCount = doc.internal.getNumberOfPages();
+          const pageCurrent = doc.internal.getCurrentPageInfo().pageNumber;
+
+          doc.setFillColor(241, 245, 249);
+          doc.rect(0, 287, 210, 10, 'F');
+
+          doc.setFontSize(6.5);
+          doc.setTextColor(100, 116, 139);
+          doc.setFont('helvetica', 'normal');
+          doc.text(`Generated: ${genDate} | Statement Ref: ${stmtRef} | 3-Month Period: 90 Days`, 14, 292);
+          doc.text('✅ NPCI Validated • RBI DPDP 2023 Compliant • Toll Free: 1800-890-UNEXA', 14, 295.5);
+          doc.text(`Page ${pageCurrent} of ${pageCount}`, 188, 292);
+        },
+        margin: { top: 30, left: 14, right: 14, bottom: 14 }
+      });
+
+      doc.save(`Unexa_UPI_Statement_3Months_${user.name.replace(/\s+/g, '_')}_${Date.now()}.pdf`);
+      showToast('📄 3-Month Official PDF Statement downloaded successfully!');
+      return;
+    } catch (e) {
+      console.error('jsPDF generation failed, using HTML fallback:', e);
+    }
+  }
+
+  // HTML Print / PDF Fallback
+  downloadHtmlPrintPdfStatement(user, data, stmtRef, genDate);
+}
+
+function downloadHtmlPrintPdfStatement(user, data, stmtRef, genDate) {
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    showToast('⚠️ Popups blocked. Please allow popups to download PDF.');
+    return;
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Unexa UPI - 3-Month Statement (${user.name})</title>
+      <style>
+        @page { size: A4; margin: 12mm; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #0f172a; margin: 0; padding: 10px; font-size: 11px; }
+        .header { background: #0f172a; color: white; padding: 16px 20px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #f59e0b; }
+        .header h1 { margin: 0; font-size: 18px; letter-spacing: 0.5px; }
+        .header p { margin: 3px 0 0 0; font-size: 10px; color: #94a3b8; }
+        .badge { background: #f59e0b; color: #0f172a; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 10px; text-align: center; }
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; margin-top: 10px; border-radius: 6px; }
+        .section-title { font-size: 9px; font-weight: bold; color: #64748b; text-transform: uppercase; margin-bottom: 6px; }
+        .info-row { margin-bottom: 4px; font-size: 11px; }
+        .summary-box { display: grid; grid-template-columns: repeat(5, 1fr); background: #1e293b; color: white; padding: 12px; border-radius: 6px; margin-top: 10px; text-align: center; gap: 8px; }
+        .summary-kpi h4 { margin: 0; font-size: 9px; color: #94a3b8; text-transform: uppercase; }
+        .summary-kpi p { margin: 4px 0 0 0; font-size: 12px; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 10px; }
+        th { background: #0f172a; color: white; padding: 8px 6px; text-align: left; font-size: 9px; }
+        td { padding: 6px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        tr:nth-child(even) { background: #f8fafc; }
+        .debit { color: #dc2626; font-weight: bold; text-align: right; }
+        .credit { color: #16a34a; font-weight: bold; text-align: right; }
+        .balance { font-weight: bold; text-align: right; }
+        .footer { margin-top: 20px; padding-top: 10px; border-top: 1px solid #cbd5e1; font-size: 9px; color: #64748b; display: flex; justify-content: space-between; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div>
+          <h1>UNEXA UPI PAYMENT SYSTEMS</h1>
+          <p>National Payments Corporation of India (NPCI) Accredited • Official 3-Month Statement</p>
+        </div>
+        <div class="badge">
+          3-MONTH STATEMENT<br><span style="font-size:8px;">VERIFIED PASSBOOK</span>
+        </div>
+      </div>
+
+      <div class="details-grid">
+        <div>
+          <div class="section-title">Account Holder Details</div>
+          <div class="info-row"><strong>Name:</strong> ${user.name}</div>
+          <div class="info-row"><strong>Mobile:</strong> ${user.phone}</div>
+          <div class="info-row"><strong>UPI ID:</strong> ${user.vpa}</div>
+          <div class="info-row"><strong>Email:</strong> ${user.email}</div>
+        </div>
+        <div>
+          <div class="section-title">Linked Bank Account</div>
+          <div class="info-row"><strong>Bank:</strong> Bank of Baroda</div>
+          <div class="info-row"><strong>Account:</strong> •••• •••• •••• 0507</div>
+          <div class="info-row"><strong>IFSC Code:</strong> BARB0POWAIX</div>
+          <div class="info-row"><strong>Branch:</strong> Powai Commercial Branch, Mumbai</div>
+        </div>
+      </div>
+
+      <div class="summary-box">
+        <div class="summary-kpi">
+          <h4>Period (90 Days)</h4>
+          <p>${data.period.startDate} - ${data.period.endDate}</p>
+        </div>
+        <div class="summary-kpi">
+          <h4>Opening Balance</h4>
+          <p>₹ ${formatInr(data.summary.openingBalance, 2)}</p>
+        </div>
+        <div class="summary-kpi">
+          <h4>Total Credits (+)</h4>
+          <p style="color:#34d399;">+ ₹ ${formatInr(data.summary.totalCredits, 2)}</p>
+        </div>
+        <div class="summary-kpi">
+          <h4>Total Debits (-)</h4>
+          <p style="color:#f87171;">- ₹ ${formatInr(data.summary.totalDebits, 2)}</p>
+        </div>
+        <div class="summary-kpi">
+          <h4>Closing Balance</h4>
+          <p style="color:#fbbf24;">₹ ${formatInr(data.summary.closingBalance, 2)}</p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date & Time</th>
+            <th>Transaction Details / Beneficiary</th>
+            <th>UPI Ref / UTR</th>
+            <th>Category</th>
+            <th style="text-align:right;">Debit</th>
+            <th style="text-align:right;">Credit</th>
+            <th style="text-align:right;">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.transactions.map((t, i) => `
+            <tr>
+              <td style="text-align:center;">${i + 1}</td>
+              <td>${t.date}</td>
+              <td><strong>${t.title}</strong><br><span style="color:#64748b;font-size:9px;">${t.payee}</span></td>
+              <td style="font-family:monospace;font-size:9px;">${t.utr}</td>
+              <td>${t.category}</td>
+              <td class="debit">${t.debit > 0 ? '- ₹' + formatInr(t.debit, 2) : '-'}</td>
+              <td class="credit">${t.credit > 0 ? '+ ₹' + formatInr(t.credit, 2) : '-'}</td>
+              <td class="balance">₹ ${formatInr(t.balance, 2)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="footer">
+        <div>Generated On: ${genDate} | Statement Ref: ${stmtRef}</div>
+        <div>✅ NPCI Certified • 100% Digitally Verified • Toll Free: 1800-890-UNEXA</div>
+      </div>
+
+      <' + 'script>
+        window.onload = function() {
+          window.print();
+        };
+      <' + '/script>
+    </body>
+    </html>
+  `;
+
+  printWindow.document.write(html);
+  printWindow.document.close();
+  showToast('📄 Opened 3-Month PDF Print Preview!');
+}
 
 
 // ==========================================
