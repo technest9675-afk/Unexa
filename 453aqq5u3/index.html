@@ -1707,6 +1707,286 @@ body.theme-light .reward-card-gold {
   box-shadow: 0 4px 16px rgba(245, 158, 11, 0.12) !important;
 }
 
+
+/* ========================================================= */
+
+/* ========================================================= */
+/* BHARAT CONNECT / RECHARGE & BILLS ALL-THEME DESIGN SYSTEM */
+/* ========================================================= */
+.bbps-service-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 0.5rem 0.2rem;
+  border-radius: 14px;
+  background: transparent !important;
+  border: none !important;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s ease;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  min-height: 84px;
+}
+.bbps-service-btn:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  transform: translateY(-2px);
+}
+.bbps-service-btn:active {
+  transform: scale(0.94);
+}
+
+.bbps-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(168, 85, 247, 0.45);
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.15);
+  flex-shrink: 0;
+}
+.bbps-service-btn:hover .bbps-icon-circle {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.2);
+  color: #f3e8ff;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+  transform: scale(1.05);
+}
+.bbps-service-title {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #e2e8f0;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.bbps-tag-badge {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.25rem;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 0.1rem 0.35rem;
+  border-radius: 9999px;
+  background: #e11d48;
+  color: #ffffff !important;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 6px rgba(225, 29, 72, 0.4);
+  z-index: 10;
+}
+.recharge-cat-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+.bbps-offers-scroll {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+.bbps-offers-scroll::-webkit-scrollbar {
+  display: none;
+}
+.bbps-offer-card {
+  flex: 0 0 85%;
+  max-width: 320px;
+  scroll-snap-align: start;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+  padding: 1rem;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.plan-tab-btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  white-space: nowrap;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.plan-tab-btn.active {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+/* ========================================================= */
+/* THEME-SPECIFIC RECHARGE & BILLS OVERRIDES                 */
+/* ========================================================= */
+
+/* 1. LIGHT THEME OVERRIDES (Screenshot Matching Clean Purple/Violet) */
+body.theme-light .bbps-service-btn:hover {
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+body.theme-light .bbps-icon-circle {
+  border: 1.5px solid #8b5cf6 !important;
+  background: #fbfbfe !important;
+  color: #6d28d9 !important;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.12) !important;
+}
+body.theme-light .bbps-service-btn:hover .bbps-icon-circle {
+  border-color: #7c3aed !important;
+  background: #ede9fe !important;
+  color: #5b21b6 !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25) !important;
+}
+body.theme-light .bbps-service-title {
+  color: #1e293b !important;
+}
+body.theme-light .recharge-cat-title {
+  color: #0f172a !important;
+}
+body.theme-light .silver-savings-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+}
+body.theme-light .silver-savings-card h4 {
+  color: #0f172a !important;
+}
+body.theme-light .silver-savings-card p {
+  color: #475569 !important;
+}
+body.theme-light .bbps-search-input {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+body.theme-light .bbps-search-input::placeholder {
+  color: #94a3b8 !important;
+}
+body.theme-light .bbps-offer-card {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%) !important;
+  border: 1px solid #ddd6fe !important;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.08) !important;
+}
+body.theme-light .bbps-offer-card h4 {
+  color: #1e1b4b !important;
+}
+body.theme-light .bbps-offer-card p {
+  color: #4338ca !important;
+}
+body.theme-light #modalRechargeBillsHub .modal-bottom-sheet,
+body.theme-light #modalBillPayEngine .modal-bottom-sheet,
+body.theme-light #modalBrandVouchers .modal-bottom-sheet {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+body.theme-light #engineDynamicFormContainer input,
+body.theme-light #engineDynamicFormContainer select {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+body.theme-light .plan-card-item {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+body.theme-light .plan-card-item p {
+  color: #475569 !important;
+}
+body.theme-light .plan-tab-btn {
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+}
+body.theme-light .plan-tab-btn.active {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+}
+
+/* 2. CYBER GOLD THEME OVERRIDES */
+body.theme-cyber-gold .bbps-icon-circle {
+  border-color: rgba(245, 158, 11, 0.5);
+  background: rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.2);
+}
+body.theme-cyber-gold .bbps-service-btn:hover .bbps-icon-circle {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.25);
+  color: #fef3c7;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+}
+
+/* 3. EMERALD MATRIX THEME OVERRIDES */
+body.theme-emerald-matrix .bbps-icon-circle {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+}
+body.theme-emerald-matrix .bbps-service-btn:hover .bbps-icon-circle {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.25);
+  color: #ecfdf5;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+}
+
+/* 4. NEON CYBERPUNK THEME OVERRIDES */
+body.theme-neon-cyberpunk .bbps-icon-circle {
+  border-color: rgba(217, 70, 239, 0.5);
+  background: rgba(217, 70, 239, 0.12);
+  color: #f0abfc;
+  box-shadow: 0 4px 14px rgba(217, 70, 239, 0.2);
+}
+body.theme-neon-cyberpunk .bbps-service-btn:hover .bbps-icon-circle {
+  border-color: #d946ef;
+  background: rgba(217, 70, 239, 0.25);
+  color: #fae8ff;
+  box-shadow: 0 0 16px rgba(217, 70, 239, 0.4);
+}
+
+/* 5. SUNSET CRIMSON THEME OVERRIDES */
+body.theme-sunset-crimson .bbps-icon-circle {
+  border-color: rgba(244, 63, 94, 0.5);
+  background: rgba(244, 63, 94, 0.12);
+  color: #fb7185;
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.2);
+}
+body.theme-sunset-crimson .bbps-service-btn:hover .bbps-icon-circle {
+  border-color: #f43f5e;
+  background: rgba(244, 63, 94, 0.25);
+  color: #fff1f2;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.4);
+}
+
+/* 6. OLED OBSIDIAN THEME OVERRIDES */
+body.theme-oled-obsidian .bbps-icon-circle {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
 </style>
 </head>
 <body class="theme-light">
@@ -2051,7 +2331,111 @@ body.theme-light .reward-card-gold {
           </div>
         </div>
 
-        <!-- Section: UNEXA INNOVATIONS (PDF Page 3) -->
+        
+        <!-- ============================================== -->
+        <!-- BHARAT CONNECT (BBPS) RECHARGE & BILLS HUB     -->
+        <!-- ============================================== -->
+        <div class="section-header mt-2">
+          <div class="flex items-center gap-2">
+            <span class="section-title">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+              RECHARGE &amp; BILL PAYMENTS
+            </span>
+            <span class="pill-badge badge-blue text-[8px] font-bold tracking-wider">BHARAT CONNECT</span>
+          </div>
+          <button class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 transition active:scale-95" onclick="openRechargeBillsHub()">
+            <span>View All (35+)</span>
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+
+        <!-- 8-Icon Quick Action Grid for Recharges & Bills -->
+        <div class="grid grid-cols-4 gap-1 sm:gap-2 mb-3">
+          <!-- 1. Mobile Recharge -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('mobile_recharge')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="smartphone" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">Mobile Recharge</span>
+          </div>
+
+          <!-- 2. Electricity -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('electricity')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="zap" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">Electricity</span>
+          </div>
+
+          <!-- 3. DTH -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('dth')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="tv" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">DTH</span>
+          </div>
+
+          <!-- 4. FASTag Recharge -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('fastag')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="car" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">FASTag</span>
+          </div>
+
+          <!-- 5. Credit Card Bill -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('credit_card')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="credit-card" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">Credit Card</span>
+          </div>
+
+          <!-- 6. Book Cylinder -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('cylinder')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="flame" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">Book Cylinder</span>
+          </div>
+
+          <!-- 7. Loan Repayment -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('loan')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="indian-rupee" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">Loan EMI</span>
+          </div>
+
+          <!-- 8. Broadband -->
+          <div class="bbps-service-btn" onclick="openBillPayEngine('broadband')">
+            <div class="bbps-icon-circle">
+              <i data-lucide="router" class="w-5 h-5"></i>
+            </div>
+            <span class="bbps-service-title">Broadband</span>
+          </div>
+        </div>
+
+        <!-- Silver Savings Micro-Banner from Screenshot -->
+        <div class="upi-card silver-savings-card mb-4 p-3.5 relative overflow-hidden cursor-pointer transition shadow-lg group" onclick="openBillPayEngine('silver_savings')">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-300 via-slate-100 to-white text-slate-950 flex items-center justify-center font-black shadow-md shadow-white/20 group-hover:scale-105 transition flex-shrink-0">
+                <i data-lucide="coins" class="w-5 h-5 text-slate-800"></i>
+              </div>
+              <div>
+                <div class="text-xs font-black text-white group-hover:text-indigo-200 transition">Silver savings made simple!</div>
+                <div class="text-[10px] text-slate-300">Set up daily silver savings from just ₹10/day</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="pill-badge badge-cyan text-[9px] font-bold">START SIP</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            </div>
+          </div>
+        </div>
+
+<!-- Section: UNEXA INNOVATIONS (PDF Page 3) -->
         <div class="section-header">
           <span class="section-title">
             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
@@ -6039,7 +6423,7 @@ body.theme-light .reward-card-gold {
 
         <!-- Raise a Ticket / Dispute Form -->
         <div class="p-3 rounded-2xl bg-slate-900 border border-white/10 mb-3">
-          <div class="text-xs font-bold text-white mb-2">Raise an Instant Resolution Ticket</div>
+          <div class="recharge-cat-title">Raise an Instant Resolution Ticket</div>
           <div class="space-y-2">
             <div>
               <label class="text-[10px] text-slate-400 block mb-1">Category</label>
@@ -6743,7 +7127,564 @@ body.theme-light .reward-card-gold {
 
     <!-- MODAL: SET & RESET UPI SECURITY PIN -->
     <!-- MODAL: SET & RESET UPI SECURITY PIN -->
-    <div class="modal-overlay" id="modalResetPin">
+    
+    <!-- ========================================================= -->
+    <!-- MODAL: RECHARGE & BILLS HUB (BHARAT CONNECT)               -->
+    <!-- ========================================================= -->
+    <div class="modal-overlay" id="modalRechargeBillsHub">
+      <div class="modal-bottom-sheet max-h-[94vh] overflow-y-auto pb-10">
+        <div class="modal-handle"></div>
+
+        <!-- Header from Screenshot -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2.5">
+            <button onclick="closeModal('modalRechargeBillsHub')" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white transition">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </button>
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-1.5">
+                <span>Recharge &amp; Bills</span>
+                <span class="pill-badge badge-blue text-[8px] font-bold">BHARAT CONNECT</span>
+              </h3>
+              <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                <i data-lucide="shield-check" class="w-3 h-3"></i>
+                <span>Secure BBPS Environment • 100% Guaranteed Settlement</span>
+              </p>
+            </div>
+          </div>
+          <button onclick="openHelpSupportModal()" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white" title="Help &amp; FAQs">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative mb-3">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+          <input type="text" id="rechargeSearchInput" placeholder="Search 35+ billers, recharges, utilities..." class="w-full pl-9 pr-3 py-2.5 rounded-xl text-xs bbps-search-input focus:outline-none focus:border-indigo-500 transition" oninput="filterRechargeServices(this.value)">
+        </div>
+
+        <!-- Silver Savings Banner Card (Screenshot 1 & 2) -->
+        <div class="upi-card silver-savings-card mb-4 p-3.5 relative overflow-hidden cursor-pointer transition shadow-lg group" onclick="openBillPayEngine('silver_savings')">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-200 via-slate-100 to-white text-slate-900 flex items-center justify-center font-black shadow-md shadow-white/30 group-hover:scale-105 transition flex-shrink-0">
+                <i data-lucide="coins" class="w-5 h-5 text-slate-800"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-black text-white group-hover:text-indigo-300 transition">Silver savings made simple!</h4>
+                <p class="text-[10px] text-slate-300">Set up daily silver savings • Pure 99.9% Silver @ ₹92.40/g</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 text-cyan-400 font-bold text-xs flex-shrink-0">
+              <span class="text-[10px] bg-cyan-950/80 border border-cyan-500/40 px-2 py-0.5 rounded-full">START SIP</span>
+              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. CATEGORY: SUGGESTED FOR YOU (Screenshot 2) -->
+        <div class="recharge-cat-section mb-4" id="catSectionSuggested">
+          <div class="recharge-cat-title flex items-center gap-1.5">
+            <span>Suggested for you</span>
+            <span class="pill-badge badge-amber text-[8px]">POPULAR</span>
+          </div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- Book Cylinder -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('cylinder')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="flame" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Book Cylinder</span>
+            </div>
+
+            <!-- Mobile Postpaid -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('mobile_postpaid')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Mobile Postpaid</span>
+            </div>
+
+            <!-- Get SIM -->
+            <div class="bbps-service-btn relative" onclick="openBillPayEngine('get_sim')">
+              <span class="bbps-tag-badge">Prepaid</span>
+              <div class="bbps-icon-circle">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Get SIM</span>
+            </div>
+
+            <!-- FASTag Recharge -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('fastag')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="car" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">FASTag Recharge</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CATEGORY: TELECOM & RECHARGES (Screenshot 2) -->
+        <div class="recharge-cat-section mb-4" id="catSectionTelecom">
+          <div class="recharge-cat-title">Telecom &amp; Recharges</div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- Mobile Recharge -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('mobile_recharge')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="smartphone" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Mobile Recharge</span>
+            </div>
+
+            <!-- DTH -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('dth')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="tv" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">DTH</span>
+            </div>
+
+            <!-- International Roaming -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('intl_roaming')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="plane" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">International Roaming</span>
+            </div>
+
+            <!-- Google Play -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('google_play')">
+              <div class="bbps-icon-circle border-emerald-500/40 bg-emerald-500/10 text-emerald-400">
+                <i data-lucide="play" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Google Play</span>
+            </div>
+
+            <!-- NCMC Recharge -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('ncmc')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="credit-card" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">NCMC Recharge</span>
+            </div>
+
+            <!-- Get SIM -->
+            <div class="bbps-service-btn relative" onclick="openBillPayEngine('get_sim')">
+              <span class="bbps-tag-badge">Prepaid</span>
+              <div class="bbps-icon-circle">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Get SIM</span>
+            </div>
+
+            <!-- Cable TV -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('cable_tv')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="monitor" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Cable TV</span>
+            </div>
+
+            <!-- Apple Store -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('apple_store')">
+              <div class="bbps-icon-circle border-blue-500/40 bg-blue-500/10 text-blue-400">
+                <i data-lucide="apple" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Apple Store</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. CATEGORY: UTILITIES (Screenshot 1) -->
+        <div class="recharge-cat-section mb-4" id="catSectionUtilities">
+          <div class="recharge-cat-title">Utilities</div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- Electricity -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('electricity')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="lightbulb" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Electricity</span>
+            </div>
+
+            <!-- Credit Card Bill -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('credit_card')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="credit-card" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Credit Card Bill</span>
+            </div>
+
+            <!-- Loan Repayment -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('loan')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="indian-rupee" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Loan Repayment</span>
+            </div>
+
+            <!-- Book Cylinder -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('cylinder')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="flame" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Book Cylinder</span>
+            </div>
+
+            <!-- Mobile Postpaid -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('mobile_postpaid')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Mobile Postpaid</span>
+            </div>
+
+            <!-- Broadband/Landline -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('broadband')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="router" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Broadband/Landline</span>
+            </div>
+
+            <!-- Piped Gas -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('piped_gas')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="flame" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Piped Gas</span>
+            </div>
+
+            <!-- Water -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('water')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="droplet" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Water</span>
+            </div>
+
+            <!-- Prepaid Meter -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('prepaid_meter')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="gauge" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Prepaid Meter</span>
+            </div>
+
+            <!-- Education Fee -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('education')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Education Fee</span>
+            </div>
+
+            <!-- File ITR -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('file_itr')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="file-text" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">File ITR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. CATEGORY: VEHICLE PAYMENTS (Screenshot 4) -->
+        <div class="recharge-cat-section mb-4" id="catSectionVehicle">
+          <div class="recharge-cat-title">Vehicle Payments</div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- FASTag Recharge -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('fastag')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="car" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">FASTag Recharge</span>
+            </div>
+
+            <!-- Buy Car Insurance -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('car_insurance')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="car" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Buy Car Insurance</span>
+            </div>
+
+            <!-- Buy Bike Insurance -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('bike_insurance')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="bike" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Buy Bike Insurance</span>
+            </div>
+
+            <!-- eChallan -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('echallan')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">eChallan</span>
+            </div>
+
+            <!-- Accident Cover -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('accident_cover')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="shield" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Accident Cover</span>
+            </div>
+
+            <!-- EV Recharge -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('ev_recharge')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="battery-charging" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">EV Recharge</span>
+            </div>
+
+            <!-- Check Motor Policy Expiry -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('motor_expiry')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="calendar" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Check Motor Policy Expiry</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. CATEGORY: HOUSING & SOCIETY (Screenshot 4) -->
+        <div class="recharge-cat-section mb-4" id="catSectionHousing">
+          <div class="recharge-cat-title">Housing &amp; Society</div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- Municipal Tax -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('municipal_tax')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="landmark" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Municipal Tax</span>
+            </div>
+
+            <!-- Rentals -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('rentals')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="key" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Rentals</span>
+            </div>
+
+            <!-- Clubs & Associations -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('clubs')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="users" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Clubs &amp; Associations</span>
+            </div>
+
+            <!-- Apartment -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('apartment')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="building" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Apartment</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. CATEGORY: OTHERS (Screenshot 3 & 4) -->
+        <div class="recharge-cat-section mb-4" id="catSectionOthers">
+          <div class="recharge-cat-title">Others</div>
+          <div class="grid grid-cols-4 gap-2">
+            <!-- Donation -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('donation')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="heart" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Donation</span>
+            </div>
+
+            <!-- Devotion -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('devotion')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Devotion</span>
+            </div>
+
+            <!-- LIC / Insurance -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('lic_insurance')">
+              <div class="bbps-icon-circle border-amber-500/50 bg-amber-500/10 text-amber-300 font-black text-[10px]">
+                LIC
+              </div>
+              <span class="bbps-service-title">LIC/ Insurance</span>
+            </div>
+
+            <!-- NPS Contribution -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('nps')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="piggy-bank" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">NPS Contribution</span>
+            </div>
+
+            <!-- Subscription -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('subscription')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="play-circle" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">Subscription</span>
+            </div>
+
+            <!-- File ITR -->
+            <div class="bbps-service-btn" onclick="openBillPayEngine('file_itr')">
+              <div class="bbps-icon-circle">
+                <i data-lucide="file-text" class="w-5 h-5"></i>
+              </div>
+              <span class="bbps-service-title">File ITR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. OFFERS FOR YOU (Screenshot 3) -->
+        <div class="mb-4">
+          <div class="text-xs font-extrabold tracking-wider text-slate-400 uppercase mb-2">OFFERS FOR YOU</div>
+          <div class="bbps-offers-scroll">
+            <!-- Offer Card 1: Jio 5G SIM -->
+            <div class="bbps-offer-card border-purple-500/40 bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900 cursor-pointer" onclick="claimJio5GOffer()">
+              <div class="flex items-center justify-between mb-2">
+                <span class="pill-badge badge-blue text-[9px] font-extrabold">Jio 5G FREE</span>
+                <span class="text-[9px] font-mono text-purple-300 font-bold">LIMITED TIME</span>
+              </div>
+              <h4 class="text-sm font-black text-white mb-1">Best offer for you</h4>
+              <p class="text-[11px] text-slate-300 mb-3">Get Jio SIM &amp; Get Free AI Benefits + 50GB High Speed Data</p>
+              <button class="w-full py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs shadow-md shadow-indigo-600/30 flex items-center justify-center gap-1">
+                <span>Claim Offer</span>
+                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <!-- Offer Card 2: BBPS Cashback -->
+            <div class="bbps-offer-card border-amber-500/40 bg-gradient-to-br from-amber-950/80 via-yellow-950/40 to-slate-900 cursor-pointer" onclick="openRewardsHubModal('cards')">
+              <div class="flex items-center justify-between mb-2">
+                <span class="pill-badge badge-amber text-[9px] font-extrabold">CASHBACK ASSURED</span>
+                <span class="text-[9px] font-mono text-amber-300 font-bold">UP TO ₹50</span>
+              </div>
+              <h4 class="text-sm font-black text-white mb-1">Special offer on Bills</h4>
+              <p class="text-[11px] text-slate-300 mb-3">On recharge &amp; billpay transactions via Unexa UPI</p>
+              <button class="w-full py-2 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black text-xs shadow-md shadow-amber-500/30 flex items-center justify-center gap-1">
+                <span>View Rewards</span>
+                <i data-lucide="gift" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. BRAND VOUCHERS (Screenshot 3) -->
+        <div class="mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-white">Brand vouchers</span>
+            <button class="text-xs font-bold text-purple-400 hover:text-purple-300" onclick="openBrandVouchersModal()">View All</button>
+          </div>
+          <div class="grid grid-cols-4 gap-2">
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-white/10 text-center cursor-pointer hover:border-amber-500 transition" onclick="buyBrandVoucher('Amazon', 500, 2)">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 font-black text-xs flex items-center justify-center mx-auto mb-1">a</div>
+              <div class="text-[10px] font-bold text-white truncate">Amazon</div>
+              <div class="text-[8px] text-emerald-400 font-bold">2% Off</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-white/10 text-center cursor-pointer hover:border-blue-500 transition" onclick="buyBrandVoucher('Flipkart', 500, 2.5)">
+              <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 font-black text-xs flex items-center justify-center mx-auto mb-1">fk</div>
+              <div class="text-[10px] font-bold text-white truncate">Flipkart</div>
+              <div class="text-[8px] text-emerald-400 font-bold">2.5% Off</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-white/10 text-center cursor-pointer hover:border-orange-500 transition" onclick="buyBrandVoucher('Swiggy', 300, 5)">
+              <div class="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-400 font-black text-xs flex items-center justify-center mx-auto mb-1">🍔</div>
+              <div class="text-[10px] font-bold text-white truncate">Swiggy</div>
+              <div class="text-[8px] text-emerald-400 font-bold">5% Off</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-white/10 text-center cursor-pointer hover:border-rose-500 transition" onclick="buyBrandVoucher('Zomato', 300, 5)">
+              <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 font-black text-xs flex items-center justify-center mx-auto mb-1">🍕</div>
+              <div class="text-[10px] font-bold text-white truncate">Zomato</div>
+              <div class="text-[8px] text-emerald-400 font-bold">5% Off</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Official Bharat Connect Footer (All Screenshots) -->
+        <div class="pt-4 border-t border-white/10 flex items-center justify-center gap-2 text-center text-slate-400">
+          <span class="text-xs font-semibold text-slate-400">Powered by</span>
+          <div class="flex items-center gap-1 font-black text-xs text-white">
+            <span class="w-3.5 h-3.5 rounded bg-blue-600 text-[9px] flex items-center justify-center text-white">B</span>
+            <span class="tracking-tight text-blue-400 font-extrabold">Bharat<span class="text-amber-400">Connect</span></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: DYNAMIC BILL PAY & RECHARGE ENGINE                   -->
+    <!-- ========================================================= -->
+    <div class="modal-overlay" id="modalBillPayEngine">
+      <div class="modal-bottom-sheet max-h-[94vh] overflow-y-auto pb-8">
+        <div class="modal-handle"></div>
+
+        <!-- Dynamic Header -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-10 h-10 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 flex items-center justify-center shadow-md" id="engineHeaderIconBox">
+              <i data-lucide="zap" class="w-5 h-5" id="engineHeaderIcon"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white flex items-center gap-1.5" id="engineHeaderTitle">
+                <span>Electricity Bill</span>
+                <span class="pill-badge badge-blue text-[8px]" id="engineHeaderBadge">BBPS</span>
+              </h3>
+              <p class="text-[10px] text-slate-400" id="engineHeaderSubtitle">NPCI Bharat Connect Certified</p>
+            </div>
+          </div>
+          <button onclick="closeModal('modalBillPayEngine')" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Dynamic Form Container -->
+        <div id="engineDynamicFormContainer" class="mb-4">
+          <!-- Populated dynamically by renderBillPayForm(serviceKey) -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MODAL: BRAND VOUCHERS CATALOG                              -->
+    <!-- ========================================================= -->
+    <div class="modal-overlay" id="modalBrandVouchers">
+      <div class="modal-bottom-sheet max-h-[92vh] overflow-y-auto pb-8">
+        <div class="modal-handle"></div>
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center">
+              <i data-lucide="tag" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Brand Gift Vouchers</h3>
+              <p class="text-[10px] text-slate-400">Instant codes with discount cashback</p>
+            </div>
+          </div>
+          <button onclick="closeModal('modalBrandVouchers')" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="space-y-2 mb-4" id="brandVouchersListContainer">
+          <!-- Populated by JS -->
+        </div>
+
+        <button class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold" onclick="closeModal('modalBrandVouchers')">
+          Close
+        </button>
+      </div>
+    </div>
+
+<div class="modal-overlay" id="modalResetPin">
       <div class="modal-bottom-sheet max-h-[92vh] overflow-y-auto pb-6">
         <div class="modal-handle"></div>
 
@@ -15196,6 +16137,1065 @@ function validateAndSaveNewPin() {
     }, 600);
   }
 }
+
+
+// =========================================================
+// BHARAT CONNECT (BBPS) RECHARGE & BILLS CONTROLLER
+// =========================================================
+
+const rechargeBillsCatalog = {
+  // 1. Telecom & Recharges
+  mobile_recharge: {
+    id: 'mobile_recharge',
+    title: 'Prepaid Mobile Recharge',
+    subtitle: 'Instant recharge for Jio, Airtel, Vi, BSNL',
+    category: 'telecom',
+    icon: 'smartphone',
+    badge: 'INSTANT 5G',
+    fields: [
+      { id: 'mobileNum', label: 'Mobile Number', type: 'tel', placeholder: 'Enter 10-digit mobile number', defaultValue: '9876543210' },
+      { id: 'operator', label: 'Operator & Circle', type: 'select', options: [
+        { val: 'jio', label: 'Reliance Jio - Mumbai & Maharashtra' },
+        { val: 'airtel', label: 'Bharti Airtel - Delhi NCR' },
+        { val: 'vi', label: 'Vodafone Idea (Vi) - Karnataka' },
+        { val: 'bsnl', label: 'BSNL GSM - National' }
+      ]}
+    ],
+    plans: [
+      { id: 'p1', category: 'recommended', price: 299, validity: '28 Days', data: '1.5 GB/Day', calls: 'Unlimited Calls', desc: 'Unlimited True 5G Data + 100 SMS/day + JioTV & JioCinema' },
+      { id: 'p2', category: 'recommended', price: 349, validity: '28 Days', data: '2.0 GB/Day', calls: 'Unlimited Calls', desc: 'Hero Unlimited + Night 12-6 AM Free Data + True 5G' },
+      { id: 'p3', category: '5g_unlimited', price: 749, validity: '72 Days', data: '2.0 GB/Day', calls: 'Unlimited Calls', desc: 'Unlimited 5G Data + 20GB extra coupons + Disney+ Hotstar 3 Months' },
+      { id: 'p4', category: '5g_unlimited', price: 899, validity: '90 Days', data: '2.0 GB/Day', calls: 'Unlimited Calls', desc: 'Best Value True 5G Unlimited + National Roaming Free' },
+      { id: 'p5', category: 'annual', price: 2999, validity: '365 Days', data: '2.5 GB/Day', calls: 'Unlimited Calls', desc: 'Annual Super Saver • 912.5 GB total data + 1 Year Hotstar' },
+      { id: 'p6', category: 'data_addons', price: 29, validity: 'Base Plan', data: '2.0 GB', calls: 'Data Only', desc: 'High-speed 4G/5G booster for streaming & games' },
+      { id: 'p7', category: 'data_addons', price: 69, validity: 'Base Plan', data: '6.0 GB', calls: 'Data Only', desc: 'Work From Home Weekend Data Booster' }
+    ]
+  },
+  dth: {
+    id: 'dth',
+    title: 'DTH Recharge',
+    subtitle: 'Tata Play, Airtel DTH, Dish TV, Sun Direct',
+    category: 'telecom',
+    icon: 'tv',
+    badge: 'BBPS',
+    fields: [
+      { id: 'dthOperator', label: 'Select DTH Operator', type: 'select', options: [
+        { val: 'tataplay', label: 'Tata Play (formerly Tata Sky)' },
+        { val: 'airteldth', label: 'Airtel Digital TV' },
+        { val: 'dishtv', label: 'Dish TV India' },
+        { val: 'sundirect', label: 'Sun Direct DTH' },
+        { val: 'd2h', label: 'Videocon D2H' }
+      ]},
+      { id: 'dthSubscriberId', label: 'Subscriber ID / Registered Mobile', type: 'text', placeholder: 'e.g. 1092837461', defaultValue: '1092837461' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Tata Play HD)', billAmount: 489.00, dueDate: '22 Sep 2026', currentBalance: '₹ 12.50', recommendedPlan: 'Hindi Premium HD Combo' }
+  },
+  intl_roaming: {
+    id: 'intl_roaming',
+    title: 'International Roaming',
+    subtitle: 'Global high-speed connectivity in 150+ countries',
+    category: 'telecom',
+    icon: 'plane',
+    badge: 'GLOBAL',
+    fields: [
+      { id: 'intlCountry', label: 'Destination Country', type: 'select', options: [
+        { val: 'us_can', label: 'USA, Canada & Mexico' },
+        { val: 'uk_eu', label: 'UK & European Union (34 Countries)' },
+        { val: 'uae_gulf', label: 'UAE (Dubai), Saudi Arabia, Qatar' },
+        { val: 'sea', label: 'Singapore, Thailand, Malaysia, Bali' }
+      ]},
+      { id: 'intlMobile', label: 'Mobile Number', type: 'tel', placeholder: '10-digit mobile number', defaultValue: '9876543210' }
+    ],
+    plans: [
+      { id: 'ir1', category: 'recommended', price: 499, validity: '1 Day', data: '1 GB High Speed', calls: '100 Mins India Calls', desc: 'Standard 24-Hour Transit Pass' },
+      { id: 'ir2', category: 'recommended', price: 1499, validity: '7 Days', data: '5 GB High Speed', calls: 'Unlimited Incoming + 300 Mins Outgoing', desc: 'Vacation Weekly Roaming Pass' },
+      { id: 'ir3', category: 'recommended', price: 2899, validity: '30 Days', data: '15 GB High Speed', calls: 'Unlimited Incoming + 1000 Mins Outgoing', desc: 'Monthly Business & Leisure Traveler Pass' }
+    ]
+  },
+  google_play: {
+    id: 'google_play',
+    title: 'Google Play Gift Card',
+    subtitle: 'Instant redemption codes for games, apps & movies',
+    category: 'telecom',
+    icon: 'play',
+    badge: 'INSTANT CODE',
+    fields: [
+      { id: 'gplayAmount', label: 'Select or Enter Code Value (₹)', type: 'select', options: [
+        { val: '100', label: '₹ 100 Play Code (Popular)' },
+        { val: '250', label: '₹ 250 Play Code' },
+        { val: '500', label: '₹ 500 Play Code' },
+        { val: '1000', label: '₹ 1,000 Play Code' },
+        { val: '2500', label: '₹ 2,500 Play Code' }
+      ]},
+      { id: 'gplayEmail', label: 'Delivery Email ID', type: 'email', placeholder: 'aarav.sharma@example.com', defaultValue: 'aarav.sharma@example.com' }
+    ]
+  },
+  apple_store: {
+    id: 'apple_store',
+    title: 'Apple Store & iTunes Card',
+    subtitle: 'Instant App Store & iCloud balance',
+    category: 'telecom',
+    icon: 'apple',
+    badge: 'INSTANT CODE',
+    fields: [
+      { id: 'appleAmount', label: 'Select Code Value (₹)', type: 'select', options: [
+        { val: '250', label: '₹ 250 App Store Code' },
+        { val: '500', label: '₹ 500 App Store Code' },
+        { val: '1000', label: '₹ 1,000 App Store Code' },
+        { val: '2000', label: '₹ 2,000 App Store Code' }
+      ]},
+      { id: 'appleEmail', label: 'Apple ID / Delivery Email', type: 'email', placeholder: 'aarav.sharma@example.com', defaultValue: 'aarav.sharma@example.com' }
+    ]
+  },
+  ncmc: {
+    id: 'ncmc',
+    title: 'NCMC & Metro Smart Card',
+    subtitle: 'Delhi, Mumbai, Bangalore Metro & Transit cards',
+    category: 'telecom',
+    icon: 'credit-card',
+    badge: 'TRANSIT',
+    fields: [
+      { id: 'ncmcOperator', label: 'Metro / Transit Authority', type: 'select', options: [
+        { val: 'dmrc', label: 'Delhi Metro Rail Corp (DMRC)' },
+        { val: 'mmrcl', label: 'Mumbai Metro (Maha Mumbai Metro)' },
+        { val: 'bmrc', label: 'Namma Metro Bengaluru (BMRCL)' },
+        { val: 'cmrl', label: 'Chennai Metro Rail Ltd (CMRL)' }
+      ]},
+      { id: 'ncmcCardNum', label: '16-Digit Smart Card / Chip Number', type: 'text', placeholder: 'e.g. 9842 1092 8374 5501', defaultValue: '9842 1092 8374 5501' },
+      { id: 'ncmcAmount', label: 'Top-up Amount (₹)', type: 'number', placeholder: 'Enter ₹100 - ₹2000', defaultValue: '300' }
+    ]
+  },
+  get_sim: {
+    id: 'get_sim',
+    title: 'Get New 5G SIM / eSIM',
+    subtitle: 'Doorstep delivery or instant eSIM QR activation',
+    category: 'telecom',
+    icon: 'cpu',
+    badge: 'FREE DELIVERY',
+    fields: [
+      { id: 'simOperator', label: 'Select Network', type: 'select', options: [
+        { val: 'jio', label: 'Jio True 5G (Free AI Perks)' },
+        { val: 'airtel', label: 'Airtel 5G Plus' },
+        { val: 'vi', label: 'Vi GIGAnet 5G Ready' }
+      ]},
+      { id: 'simType', label: 'SIM Delivery Type', type: 'select', options: [
+        { val: 'esim', label: 'Instant eSIM Activation (QR Code in 5 mins)' },
+        { val: 'physical', label: 'Physical SIM (Free 2-Hour Doorstep Delivery)' }
+      ]},
+      { id: 'simAddress', label: 'Delivery Address / City', type: 'text', placeholder: 'Flat 402, Greenfield Apts, Mumbai', defaultValue: 'Flat 402, Greenfield Apts, Mumbai' }
+    ]
+  },
+  cable_tv: {
+    id: 'cable_tv',
+    title: 'Cable TV Subscription',
+    subtitle: 'Hathway, DEN, Siti, GTPL, Fastway',
+    category: 'telecom',
+    icon: 'monitor',
+    badge: 'BBPS',
+    fields: [
+      { id: 'cableOperator', label: 'Cable TV Operator', type: 'select', options: [
+        { val: 'hathway', label: 'Hathway Digital Cable' },
+        { val: 'den', label: 'DEN Networks' },
+        { val: 'siti', label: 'Siti Cable Network' },
+        { val: 'gtpl', label: 'GTPL Hathway' }
+      ]},
+      { id: 'cableAccountId', label: 'MAC Address / Set Top Box Number', type: 'text', placeholder: 'e.g. STB88392019', defaultValue: 'STB88392019' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Hathway Ultra)', billAmount: 350.00, dueDate: '25 Sep 2026', package: 'All HD Channels Monthly Pack' }
+  },
+
+  // 2. Utilities
+  electricity: {
+    id: 'electricity',
+    title: 'Electricity Bill',
+    subtitle: 'State electricity boards across India',
+    category: 'utilities',
+    icon: 'lightbulb',
+    badge: 'BBPS CERTIFIED',
+    fields: [
+      { id: 'elecBoard', label: 'Select Electricity Board / Discom', type: 'select', options: [
+        { val: 'tatapower', label: 'Tata Power - Mumbai / Delhi' },
+        { val: 'adani', label: 'Adani Electricity Mumbai Ltd (AEML)' },
+        { val: 'bescom', label: 'Bangalore Electricity Supply (BESCOM)' },
+        { val: 'msedcl', label: 'Maharashtra State Electricity (MSEDCL - Mahavitaran)' },
+        { val: 'uppcl', label: 'UP Power Corporation (UPPCL Urban/Rural)' },
+        { val: 'bses_rajdhani', label: 'BSES Rajdhani Power Limited - Delhi' },
+        { val: 'torrent', label: 'Torrent Power - Ahmedabad/Surat/Agra' },
+        { val: 'cesc', label: 'CESC Limited - Kolkata' }
+      ]},
+      { id: 'elecCaNum', label: 'Consumer Account Number (CA / K-Number)', type: 'text', placeholder: 'e.g. 10098765432', defaultValue: '10098765432' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 1420.00, dueDate: '28 Sep 2026', units: '248 kWh', lateFee: '₹ 0.00' }
+  },
+  credit_card: {
+    id: 'credit_card',
+    title: 'Credit Card Bill Payment',
+    subtitle: 'Instant settlement for Visa, Mastercard, RuPay & Amex',
+    category: 'utilities',
+    icon: 'credit-card',
+    badge: 'INSTANT IMPS',
+    fields: [
+      { id: 'ccBank', label: 'Select Card Issuing Bank', type: 'select', options: [
+        { val: 'hdfc', label: 'HDFC Bank Credit Cards' },
+        { val: 'sbi', label: 'SBI Card (State Bank of India)' },
+        { val: 'icici', label: 'ICICI Bank Credit Cards' },
+        { val: 'axis', label: 'Axis Bank Credit Cards' },
+        { val: 'amex', label: 'American Express India' }
+      ]},
+      { id: 'ccLast4', label: 'Last 4 Digits of Card', type: 'text', placeholder: 'e.g. 8812', defaultValue: '8812' },
+      { id: 'ccAmount', label: 'Payment Amount (₹)', type: 'number', placeholder: 'Enter amount to pay', defaultValue: '12500' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (HDFC Regalia Gold)', billAmount: 12500.00, dueDate: '30 Sep 2026', minDue: '₹ 1,250.00' }
+  },
+  loan: {
+    id: 'loan',
+    title: 'Loan EMI Repayment',
+    subtitle: 'Bajaj Finance, Muthoot, HDB, Home Credit, Tata Capital',
+    category: 'utilities',
+    icon: 'indian-rupee',
+    badge: 'BBPS',
+    fields: [
+      { id: 'loanLender', label: 'Select Financing Institution / NBFC', type: 'select', options: [
+        { val: 'bajaj', label: 'Bajaj Finance Limited' },
+        { val: 'muthoot', label: 'Muthoot Finance (Gold / Personal)' },
+        { val: 'hdb', label: 'HDB Financial Services' },
+        { val: 'homecredit', label: 'Home Credit India' },
+        { val: 'tatacap', label: 'Tata Capital Financial Services' }
+      ]},
+      { id: 'loanAccNum', label: 'Loan Account Number (LAN)', type: 'text', placeholder: 'e.g. LAN994827104', defaultValue: 'LAN994827104' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 4850.00, dueDate: '05 Oct 2026', emiTenure: 'Month 14 of 36', overdue: '₹ 0.00' }
+  },
+  cylinder: {
+    id: 'cylinder',
+    title: 'Book LPG Cooking Gas Cylinder',
+    subtitle: 'Indane, Bharat Gas, HP Gas door delivery',
+    category: 'utilities',
+    icon: 'flame',
+    badge: 'SUBSIDY READY',
+    fields: [
+      { id: 'gasProvider', label: 'LPG Gas Provider', type: 'select', options: [
+        { val: 'indane', label: 'Indane Gas (Indian Oil)' },
+        { val: 'bharatgas', label: 'Bharat Gas (BPCL)' },
+        { val: 'hpgas', label: 'HP Gas (HPCL)' }
+      ]},
+      { id: 'gasMobile', label: 'Registered Mobile / 17-Digit LPG ID', type: 'text', placeholder: 'e.g. 9876543210 or 17-digit ID', defaultValue: '9876543210' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Indane Gas)', billAmount: 803.00, dueDate: 'Immediate Delivery', distributor: 'Shree Sai Indane Agency', cylinderWeight: '14.2 kg Subsidized' }
+  },
+  mobile_postpaid: {
+    id: 'mobile_postpaid',
+    title: 'Mobile Postpaid Bill',
+    subtitle: 'Airtel Black, Jio Postpaid Plus, Vi MAX',
+    category: 'utilities',
+    icon: 'phone-call',
+    badge: 'BBPS',
+    fields: [
+      { id: 'postpaidOperator', label: 'Operator', type: 'select', options: [
+        { val: 'airtel_post', label: 'Airtel Postpaid / Airtel Black' },
+        { val: 'jio_post', label: 'Jio Postpaid Plus' },
+        { val: 'vi_post', label: 'Vodafone Idea (Vi) Postpaid' }
+      ]},
+      { id: 'postpaidNum', label: 'Postpaid Mobile Number', type: 'tel', placeholder: '10-digit mobile number', defaultValue: '9876543210' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 599.00, dueDate: '24 Sep 2026', cycle: '01 Aug - 31 Aug 2026' }
+  },
+  broadband: {
+    id: 'broadband',
+    title: 'Broadband & Landline Bill',
+    subtitle: 'JioFiber, Airtel Xstream, ACT Fibernet, BSNL',
+    category: 'utilities',
+    icon: 'router',
+    badge: 'BBPS',
+    fields: [
+      { id: 'bbIsp', label: 'Broadband Service Provider', type: 'select', options: [
+        { val: 'jiofiber', label: 'JioFiber / Jio AirFiber' },
+        { val: 'airtelxstream', label: 'Airtel Xstream Fiber' },
+        { val: 'act', label: 'ACT Fibernet' },
+        { val: 'bsnlbb', label: 'BSNL Bharat Fiber (FTTH)' },
+        { val: 'tataplayfiber', label: 'Tata Play Fiber' }
+      ]},
+      { id: 'bbAccountId', label: 'Account ID / Telephone Number with STD Code', type: 'text', placeholder: 'e.g. 022-28491029', defaultValue: '022-28491029' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Airtel Xstream 200 Mbps)', billAmount: 943.00, dueDate: '26 Sep 2026', speed: '200 Mbps Unlimited + OTT' }
+  },
+  piped_gas: {
+    id: 'piped_gas',
+    title: 'Piped Natural Gas (PNG)',
+    subtitle: 'IGL, Mahanagar Gas, Gujarat Gas, Adani Total Gas',
+    category: 'utilities',
+    icon: 'flame',
+    badge: 'BBPS',
+    fields: [
+      { id: 'pngProvider', label: 'Select PNG City Gas Distributor', type: 'select', options: [
+        { val: 'igl', label: 'Indraprastha Gas Limited (IGL - Delhi NCR)' },
+        { val: 'mgl', label: 'Mahanagar Gas Limited (MGL - Mumbai/MMR)' },
+        { val: 'gujaratgas', label: 'Gujarat Gas Limited' },
+        { val: 'adanigas', label: 'Adani Total Gas Limited' }
+      ]},
+      { id: 'pngBpNum', label: 'BP / Customer Business Partner Number', type: 'text', placeholder: 'e.g. BP77382910', defaultValue: 'BP77382910' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 684.00, dueDate: '27 Sep 2026', consumption: '14.2 SCM' }
+  },
+  water: {
+    id: 'water',
+    title: 'Water Bill Payment',
+    subtitle: 'Delhi Jal Board, BWSSB, MCGM, HMWSSB',
+    category: 'utilities',
+    icon: 'droplet',
+    badge: 'BBPS',
+    fields: [
+      { id: 'waterBoard', label: 'Municipal Water Supply Authority', type: 'select', options: [
+        { val: 'djb', label: 'Delhi Jal Board (DJB)' },
+        { val: 'bwssb', label: 'Bangalore Water Supply & Sewerage (BWSSB)' },
+        { val: 'mcgm', label: 'Municipal Corp of Greater Mumbai (MCGM Water)' },
+        { val: 'hmwssb', label: 'Hyderabad Metropolitan Water (HMWSSB)' }
+      ]},
+      { id: 'waterKNum', label: 'K-Number / Consumer Identification Number', type: 'text', placeholder: 'e.g. DJB492019283', defaultValue: 'DJB492019283' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 320.00, dueDate: '30 Sep 2026', volume: '18 Kiloliters' }
+  },
+  prepaid_meter: {
+    id: 'prepaid_meter',
+    title: 'Prepaid Smart Meter Recharge',
+    subtitle: 'Instant token generation for smart electricity meters',
+    category: 'utilities',
+    icon: 'gauge',
+    badge: 'SMART METER',
+    fields: [
+      { id: 'pmDiscom', label: 'Smart Meter Discom', type: 'select', options: [
+        { val: 'tatapower_pm', label: 'Tata Power Smart Meter' },
+        { val: 'uppcl_pm', label: 'UPPCL Smart Prepaid Meter' },
+        { val: 'bescom_pm', label: 'BESCOM Smart Prepaid' }
+      ]},
+      { id: 'pmMeterNum', label: 'Smart Meter Serial Number', type: 'text', placeholder: 'e.g. SM9948201', defaultValue: 'SM9948201' },
+      { id: 'pmAmount', label: 'Recharge Amount (₹)', type: 'number', placeholder: 'e.g. 500', defaultValue: '500' }
+    ]
+  },
+  education: {
+    id: 'education',
+    title: 'Education & Tuition Fees',
+    subtitle: 'Schools, Colleges, Universities & Coaching Institutes',
+    category: 'utilities',
+    icon: 'graduation-cap',
+    badge: '80E RECEIPT',
+    fields: [
+      { id: 'eduInstitute', label: 'School / University Name', type: 'select', options: [
+        { val: 'dps', label: 'Delhi Public School (DPS R.K. Puram)' },
+        { val: 'iitb', label: 'IIT Bombay - Student Tuition & Hostels' },
+        { val: 'narayana', label: 'Narayana Educational Institutions' },
+        { val: 'kv', label: 'Kendriya Vidyalaya Sangathan (KVS)' }
+      ]},
+      { id: 'eduStudentId', label: 'Student Roll / Enrollment Number', type: 'text', placeholder: 'e.g. STD2026-8819', defaultValue: 'STD2026-8819' },
+      { id: 'eduTerm', label: 'Academic Term', type: 'select', options: [
+        { val: 'q2', label: 'Quarter 2 (Jul - Sep 2026)' },
+        { val: 'q3', label: 'Quarter 3 (Oct - Dec 2026)' },
+        { val: 'ann', label: 'Full Annual Fee Payment' }
+      ]}
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Student: Riya Sharma)', billAmount: 18500.00, dueDate: '15 Oct 2026', feeHead: 'Tuition + Lab + Library Fees' }
+  },
+  file_itr: {
+    id: 'file_itr',
+    title: 'File Income Tax Return (ITR)',
+    subtitle: 'Fast e-filing for FY 2025-26 (AY 2026-27)',
+    category: 'utilities',
+    icon: 'file-text',
+    badge: 'INCOME TAX DEPT',
+    fields: [
+      { id: 'itrType', label: 'ITR Form Category', type: 'select', options: [
+        { val: 'itr1', label: 'ITR-1 Sahaj (Salaried / Single House Property)' },
+        { val: 'itr2', label: 'ITR-2 (Capital Gains & Multiple Properties)' },
+        { val: 'itr4', label: 'ITR-4 Sugam (Freelancers & Presumptive Business)' }
+      ]},
+      { id: 'itrPan', label: 'Permanent Account Number (PAN)', type: 'text', placeholder: 'e.g. ABCDE1234F', defaultValue: 'ABCDE1234F' },
+      { id: 'itrIncome', label: 'Gross Annual Income (₹)', type: 'number', placeholder: 'e.g. 1200000', defaultValue: '1200000' }
+    ]
+  },
+
+  // 3. Vehicle Payments
+  fastag: {
+    id: 'fastag',
+    title: 'FASTag Toll Recharge',
+    subtitle: 'Instant toll balance top-up for NHAI & State Expressways',
+    category: 'vehicle',
+    icon: 'car',
+    badge: 'NETC INSTANT',
+    fields: [
+      { id: 'fastagBank', label: 'Select FASTag Issuing Bank', type: 'select', options: [
+        { val: 'paytm', label: 'Paytm Payments Bank FASTag' },
+        { val: 'icici', label: 'ICICI Bank FASTag' },
+        { val: 'sbi', label: 'SBI FASTag (State Bank of India)' },
+        { val: 'hdfc', label: 'HDFC Bank FASTag' },
+        { val: 'idfc', label: 'IDFC FIRST Bank FASTag' },
+        { val: 'axis', label: 'Axis Bank FASTag' }
+      ]},
+      { id: 'fastagVehicleNum', label: 'Vehicle Registration Number', type: 'text', placeholder: 'e.g. MH12AB1234', defaultValue: 'MH12AB1234' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Hyundai Creta MH12AB1234)', billAmount: 500.00, currentBalance: '₹ 140.00', status: 'Active (Low Balance Warning)' }
+  },
+  car_insurance: {
+    id: 'car_insurance',
+    title: 'Buy Car Insurance',
+    subtitle: 'Zero Depreciation, Comprehensive & 3rd Party policies',
+    category: 'vehicle',
+    icon: 'car',
+    badge: 'INSTANT POLICY',
+    fields: [
+      { id: 'carRcNum', label: 'Car Registration Number', type: 'text', placeholder: 'e.g. MH12AB1234', defaultValue: 'MH12AB1234' },
+      { id: 'carPlanType', label: 'Coverage Type', type: 'select', options: [
+        { val: 'zero_dep', label: 'Comprehensive + Zero Depreciation (Recommended)' },
+        { val: 'comprehensive', label: 'Standard Comprehensive Cover' },
+        { val: 'third_party', label: 'Mandatory Third Party Only' }
+      ]}
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Hyundai Creta 1.5 SX)', billAmount: 7850.00, idv: '₹ 9,45,000 IDV', insurer: 'HDFC ERGO General Insurance', instantPdf: true }
+  },
+  bike_insurance: {
+    id: 'bike_insurance',
+    title: 'Buy Two-Wheeler Insurance',
+    subtitle: 'Instant bike policy renewal in 60 seconds',
+    category: 'vehicle',
+    icon: 'bike',
+    badge: 'FROM ₹499/YR',
+    fields: [
+      { id: 'bikeRcNum', label: 'Bike Registration Number', type: 'text', placeholder: 'e.g. MH12CD5678', defaultValue: 'MH12CD5678' },
+      { id: 'bikePlan', label: 'Tenure', type: 'select', options: [
+        { val: '1yr', label: '1 Year Comprehensive Policy (₹ 980)' },
+        { val: '3yr', label: '3 Years Multi-Year Saver Policy (₹ 2,450)' }
+      ]}
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Honda Activa 6G)', billAmount: 980.00, idv: '₹ 68,000 IDV', insurer: 'Bajaj Allianz General Insurance' }
+  },
+  echallan: {
+    id: 'echallan',
+    title: 'Traffic eChallan Payment',
+    subtitle: 'Real-time traffic fine verification & settlement across India',
+    category: 'vehicle',
+    icon: 'alert-triangle',
+    badge: 'PARIVAHAN LIVE',
+    fields: [
+      { id: 'challanVehicle', label: 'Vehicle RC Number / Challan Number', type: 'text', placeholder: 'e.g. MH12AB1234 or CH882910', defaultValue: 'MH12AB1234' },
+      { id: 'challanState', label: 'State Traffic Police', type: 'select', options: [
+        { val: 'mh', label: 'Maharashtra Traffic Police' },
+        { val: 'dl', label: 'Delhi Traffic Police' },
+        { val: 'ka', label: 'Karnataka Traffic Police' },
+        { val: 'up', label: 'UP Traffic Police' }
+      ]}
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 1000.00, violation: 'Over-speeding at Western Express Highway (Recorded by Speed Camera)', challanNo: 'MH2026-CH882910', fineDate: '10 Sep 2026' }
+  },
+  accident_cover: {
+    id: 'accident_cover',
+    title: 'Personal Accident Cover',
+    subtitle: 'Worldwide coverage against road & travel accidental injuries',
+    category: 'vehicle',
+    icon: 'shield',
+    badge: '₹10 LAKH COVER',
+    fields: [
+      { id: 'accCoverAmount', label: 'Select Sum Insured', type: 'select', options: [
+        { val: '199', label: '₹ 2 Lakhs Cover @ ₹199 / Year' },
+        { val: '599', label: '₹ 10 Lakhs Cover @ ₹599 / Year (Recommended)' },
+        { val: '1299', label: '₹ 25 Lakhs Cover @ ₹1,299 / Year' }
+      ]},
+      { id: 'accNominee', label: 'Nominee Full Name', type: 'text', placeholder: 'Nominee Name', defaultValue: 'Priya Sharma' }
+    ]
+  },
+  ev_recharge: {
+    id: 'ev_recharge',
+    title: 'Electric Vehicle (EV) Charging',
+    subtitle: 'Tata Power EZ, Statiq, Jio-bp, Ather Grid wallet top-up',
+    category: 'vehicle',
+    icon: 'battery-charging',
+    badge: 'EV CHARGE',
+    fields: [
+      { id: 'evNetwork', label: 'EV Charging Network', type: 'select', options: [
+        { val: 'tatapower_ev', label: 'Tata Power EZ Charge' },
+        { val: 'statiq', label: 'Statiq EV Charging' },
+        { val: 'jiobp', label: 'Jio-bp pulse' },
+        { val: 'ather', label: 'Ather Grid (2-Wheeler Fast Charge)' }
+      ]},
+      { id: 'evRfid', label: 'RFID Card / User Mobile Number', type: 'text', placeholder: 'e.g. 9876543210', defaultValue: '9876543210' },
+      { id: 'evAmount', label: 'Wallet Top-up Amount (₹)', type: 'number', placeholder: 'e.g. 500', defaultValue: '500' }
+    ]
+  },
+  motor_expiry: {
+    id: 'motor_expiry',
+    title: 'Check Motor Policy Expiry',
+    subtitle: 'Instant VAHAN database verification of insurance & PUC',
+    category: 'vehicle',
+    icon: 'calendar',
+    badge: 'VAHAN 4.0',
+    fields: [
+      { id: 'motorRcCheck', label: 'Vehicle Registration Number', type: 'text', placeholder: 'e.g. MH12AB1234', defaultValue: 'MH12AB1234' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Hyundai Creta)', insurer: 'HDFC ERGO', policyExpiry: '14 Nov 2026 (Active - 58 Days Remaining)', pucExpiry: '20 Oct 2026 (Valid)' }
+  },
+
+  // 4. Housing & Society
+  municipal_tax: {
+    id: 'municipal_tax',
+    title: 'Municipal / Property Tax',
+    subtitle: 'BBMP, MCD Delhi, BMC Mumbai, Chennai Corp',
+    category: 'housing',
+    icon: 'landmark',
+    badge: 'MUNICIPAL',
+    fields: [
+      { id: 'muniCorp', label: 'Select Municipal Corporation', type: 'select', options: [
+        { val: 'bmc', label: 'Brihanmumbai Municipal Corporation (BMC - Mumbai)' },
+        { val: 'mcd', label: 'Municipal Corporation of Delhi (MCD Property Tax)' },
+        { val: 'bbmp', label: 'Bruhat Bengaluru Mahanagara Palike (BBMP)' },
+        { val: 'gmc', label: 'Greater Chennai Corporation (GCC)' }
+      ]},
+      { id: 'muniPid', label: 'Property Tax SAS / Khata / PID Number', type: 'text', placeholder: 'e.g. SAS2026-99482', defaultValue: 'SAS2026-99482' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 4200.00, dueDate: '31 Oct 2026', rebate: '5% Early Payment Rebate Applied' }
+  },
+  rentals: {
+    id: 'rentals',
+    title: 'House & Shop Rent',
+    subtitle: 'Pay rent with credit card or UPI & get instant HRA receipts',
+    category: 'housing',
+    icon: 'key',
+    badge: 'HRA RECEIPT',
+    fields: [
+      { id: 'rentLandlordName', label: 'Landlord / Property Owner Name', type: 'text', placeholder: 'e.g. Vikramaditya Verma', defaultValue: 'Vikramaditya Verma' },
+      { id: 'rentUpiId', label: 'Landlord UPI ID / Bank A/C', type: 'text', placeholder: 'e.g. landlord@upi', defaultValue: 'landlord@upi' },
+      { id: 'rentAmount', label: 'Monthly Rent Amount (₹)', type: 'number', placeholder: 'e.g. 24000', defaultValue: '24000' },
+      { id: 'rentPan', label: 'Landlord PAN (for HRA over ₹1L/yr)', type: 'text', placeholder: 'Optional: ABCDE1234F', defaultValue: 'ABCDE1234F' }
+    ]
+  },
+  clubs: {
+    id: 'clubs',
+    title: 'Clubs & Associations',
+    subtitle: 'Pay annual memberships, sports clubs & alumni dues',
+    category: 'housing',
+    icon: 'users',
+    badge: 'MEMBERSHIP',
+    fields: [
+      { id: 'clubOrg', label: 'Club / Association', type: 'select', options: [
+        { val: 'gymkhana', label: 'Gymkhana Sports & Social Club' },
+        { val: 'rotary', label: 'Rotary International District 3141' },
+        { val: 'lions', label: 'Lions Club India' }
+      ]},
+      { id: 'clubMemberId', label: 'Membership Number', type: 'text', placeholder: 'e.g. MEM88392', defaultValue: 'MEM88392' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma', billAmount: 2500.00, dueDate: '30 Sep 2026', tenure: 'Annual Membership (2026-2027)' }
+  },
+  apartment: {
+    id: 'apartment',
+    title: 'Apartment & Society Maintenance',
+    subtitle: 'MyGate, ApnaComplex, NoBrokerHood society dues',
+    category: 'housing',
+    icon: 'building',
+    badge: 'SOCIETY DUES',
+    fields: [
+      { id: 'aptSociety', label: 'Housing Society Name', type: 'select', options: [
+        { val: 'greenfield', label: 'Greenfield Heights Co-op Housing Society' },
+        { val: 'prestige', label: 'Prestige Lakeside Habitat' },
+        { val: 'hiranandani', label: 'Hiranandani Estate Association' }
+      ]},
+      { id: 'aptFlatNum', label: 'Wing & Flat Number', type: 'text', placeholder: 'e.g. B-402', defaultValue: 'B-402' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (Flat B-402)', billAmount: 3800.00, dueDate: '10 Oct 2026', breakdown: 'Maintenance ₹3,200 + Sinking Fund ₹600' }
+  },
+
+  // 5. Others
+  donation: {
+    id: 'donation',
+    title: 'Charity & NGO Donation',
+    subtitle: 'PM CARES, Akshaya Patra, CRY, Goonj with 80G tax benefit',
+    category: 'others',
+    icon: 'heart',
+    badge: '80G 50% EXEMPTION',
+    fields: [
+      { id: 'donOrg', label: 'Select Charitable Trust / Foundation', type: 'select', options: [
+        { val: 'pmcares', label: 'PM CARES National Relief Fund' },
+        { val: 'akshayapatra', label: 'The Akshaya Patra Foundation (Mid-Day Meals)' },
+        { val: 'cry', label: 'Child Rights and You (CRY India)' },
+        { val: 'goonj', label: 'Goonj - Disaster Relief & Cloth for Work' },
+        { val: 'smile', label: 'Smile Foundation - Child Education' }
+      ]},
+      { id: 'donAmount', label: 'Donation Amount (₹)', type: 'number', placeholder: 'e.g. 1000', defaultValue: '1000' },
+      { id: 'donPan', label: 'Donor PAN (for 80G Tax Exemption Certificate)', type: 'text', placeholder: 'e.g. ABCDE1234F', defaultValue: 'ABCDE1234F' }
+    ]
+  },
+  devotion: {
+    id: 'devotion',
+    title: 'Devotion & Temple e-Hundi',
+    subtitle: 'Tirupati Balaji, Vaishno Devi, Siddhivinayak, Shirdi',
+    category: 'others',
+    icon: 'sparkles',
+    badge: 'PRASAD & SEVA',
+    fields: [
+      { id: 'devTemple', label: 'Temple / Devasthanam', type: 'select', options: [
+        { val: 'tirupati', label: 'Tirumala Tirupati Devasthanams (TTD e-Hundi)' },
+        { val: 'vaishnodevi', label: 'Shri Mata Vaishno Devi Shrine Board' },
+        { val: 'siddhivinayak', label: 'Shree Siddhivinayak Ganapati Temple, Mumbai' },
+        { val: 'shirdi', label: 'Shri Saibaba Sansthan Trust, Shirdi' }
+      ]},
+      { id: 'devSeva', label: 'Seva / Offering Type', type: 'select', options: [
+        { val: 'hundi', label: 'General e-Hundi Offering' },
+        { val: 'annadanam', label: 'Nitya Annadanam (Free Meals for Pilgrims)' },
+        { val: 'archana', label: 'Special Archana & Online Prasad Delivery' }
+      ]},
+      { id: 'devAmount', label: 'Offering Amount (₹)', type: 'number', placeholder: 'e.g. 501', defaultValue: '501' },
+      { id: 'devGotra', label: 'Devotee Gotra & Family Names', type: 'text', placeholder: 'e.g. Kashyap Gotra', defaultValue: 'Kashyap Gotra' }
+    ]
+  },
+  lic_insurance: {
+    id: 'lic_insurance',
+    title: 'LIC & Life Insurance Premium',
+    subtitle: 'Life Insurance Corp (LIC), HDFC Life, SBI Life, Max Life',
+    category: 'others',
+    icon: 'shield',
+    badge: 'BBPS 80C',
+    fields: [
+      { id: 'licInsurer', label: 'Life Insurance Company', type: 'select', options: [
+        { val: 'lic', label: 'Life Insurance Corporation of India (LIC)' },
+        { val: 'hdfclife', label: 'HDFC Life Insurance Co.' },
+        { val: 'sbilife', label: 'SBI Life Insurance' },
+        { val: 'maxlife', label: 'Max Life Insurance' },
+        { val: 'icicipru', label: 'ICICI Prudential Life' }
+      ]},
+      { id: 'licPolicyNum', label: '9-Digit Policy Number', type: 'text', placeholder: 'e.g. 883920192', defaultValue: '883920192' },
+      { id: 'licDob', label: 'Policyholder Date of Birth', type: 'date', defaultValue: '1998-08-14' }
+    ],
+    sampleFetch: { consumerName: 'Aarav Sharma (LIC Jeevan Labh)', billAmount: 6420.00, dueDate: '28 Sep 2026', nextDue: '28 Mar 2027', sumAssured: '₹ 10,00,000' }
+  },
+  nps: {
+    id: 'nps',
+    title: 'National Pension System (NPS)',
+    subtitle: 'Tier-I & Tier-II PRAN voluntary contribution (80CCD 1B)',
+    category: 'others',
+    icon: 'piggy-bank',
+    badge: 'PFRDA 80CCD(1B)',
+    fields: [
+      { id: 'npsPran', label: '12-Digit PRAN Number', type: 'text', placeholder: 'e.g. 110098472910', defaultValue: '110098472910' },
+      { id: 'npsTier', label: 'NPS Account Tier', type: 'select', options: [
+        { val: 'tier1', label: 'Tier-I (Retirement Pension - Tax Deductible)' },
+        { val: 'tier2', label: 'Tier-II (Voluntary Savings - Instant Withdrawals)' }
+      ]},
+      { id: 'npsAmount', label: 'Contribution Amount (₹)', type: 'number', placeholder: 'e.g. 5000', defaultValue: '5000' }
+    ]
+  },
+  subscription: {
+    id: 'subscription',
+    title: 'OTT & Digital Subscriptions',
+    subtitle: 'Netflix, Disney+ Hotstar, Prime, Spotify, YouTube',
+    category: 'others',
+    icon: 'play-circle',
+    badge: 'INSTANT VOUCHER',
+    fields: [
+      { id: 'subService', label: 'Select Streaming Platform', type: 'select', options: [
+        { val: 'netflix', label: 'Netflix Premium 4K HDR (₹ 649/mo)' },
+        { val: 'hotstar', label: 'Disney+ Hotstar Super Annual (₹ 899/yr)' },
+        { val: 'prime', label: 'Amazon Prime Video 1 Year (₹ 1,499/yr)' },
+        { val: 'spotify', label: 'Spotify Premium Individual (₹ 119/mo)' },
+        { val: 'youtube', label: 'YouTube Premium Family (₹ 299/mo)' }
+      ]},
+      { id: 'subEmail', label: 'Account Email ID', type: 'email', placeholder: 'aarav.sharma@example.com', defaultValue: 'aarav.sharma@example.com' }
+    ]
+  },
+  silver_savings: {
+    id: 'silver_savings',
+    title: 'Digital Silver Savings (99.9% Pure)',
+    subtitle: 'Buy silver or setup daily auto-SIP from ₹10/day',
+    category: 'others',
+    icon: 'coins',
+    badge: 'MMTC-PAMP VAULT',
+    fields: [
+      { id: 'silverMode', label: 'Investment Option', type: 'select', options: [
+        { val: 'buy_once', label: 'One-Time Purchase (Instant Credit to Vault)' },
+        { val: 'daily_sip', label: 'Daily Automated SIP (from ₹10/day)' },
+        { val: 'weekly_sip', label: 'Weekly Automated SIP (from ₹100/week)' }
+      ]},
+      { id: 'silverAmount', label: 'Amount in INR (₹) or Weight (grams)', type: 'number', placeholder: 'e.g. 100', defaultValue: '100' }
+    ]
+  }
+};
+
+let currentBillEngineService = null;
+let currentSelectedPlan = null;
+let currentFetchedBill = null;
+
+function openRechargeBillsHub() {
+  const searchInput = document.getElementById('rechargeSearchInput');
+  if (searchInput) searchInput.value = '';
+  filterRechargeServices('');
+  openModal('modalRechargeBillsHub');
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function filterRechargeServices(query) {
+  const q = (query || '').toLowerCase().trim();
+  const catSections = document.querySelectorAll('.recharge-cat-section');
+  const allButtons = document.querySelectorAll('#modalRechargeBillsHub .bbps-service-btn');
+
+  if (!q) {
+    catSections.forEach(sec => sec.style.display = 'block');
+    allButtons.forEach(btn => btn.style.display = 'flex');
+    return;
+  }
+
+  allButtons.forEach(btn => {
+    const text = (btn.textContent || '').toLowerCase();
+    if (text.includes(q)) {
+      btn.style.display = 'flex';
+    } else {
+      btn.style.display = 'none';
+    }
+  });
+
+  catSections.forEach(sec => {
+    const visibleButtons = sec.querySelectorAll('.bbps-service-btn[style*="display: flex"]');
+    sec.style.display = visibleButtons.length > 0 ? 'block' : 'none';
+  });
+}
+
+function openBillPayEngine(serviceKey, presetData = null) {
+  const service = rechargeBillsCatalog[serviceKey];
+  if (!service) {
+    showToast('⚠️ Service temporarily unavailable');
+    return;
+  }
+
+  currentBillEngineService = service;
+  currentSelectedPlan = null;
+  currentFetchedBill = null;
+
+  // Set Modal Header
+  const headerIcon = document.getElementById('engineHeaderIcon');
+  const headerTitle = document.getElementById('engineHeaderTitle');
+  const headerBadge = document.getElementById('engineHeaderBadge');
+  const headerSubtitle = document.getElementById('engineHeaderSubtitle');
+
+  if (headerTitle) {
+    headerTitle.innerHTML = `<span>${service.title}</span><span class="pill-badge badge-blue text-[8px]">${service.badge || 'BBPS'}</span>`;
+  }
+  if (headerSubtitle) headerSubtitle.textContent = service.subtitle;
+  if (headerIcon) {
+    headerIcon.setAttribute('data-lucide', service.icon || 'zap');
+  }
+
+  renderBillPayForm(serviceKey, presetData);
+  openModal('modalBillPayEngine');
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function renderBillPayForm(serviceKey, presetData = null) {
+  const container = document.getElementById('engineDynamicFormContainer');
+  if (!container) return;
+
+  const service = rechargeBillsCatalog[serviceKey];
+  if (!service) return;
+
+  let formHtml = '';
+
+  // 1. Dynamic Input Fields
+  if (service.fields && service.fields.length > 0) {
+    formHtml += '<div class="space-y-3 mb-4">';
+    service.fields.forEach(field => {
+      formHtml += `<div>
+        <label class="text-xs font-semibold text-slate-300 block mb-1">${field.label}</label>`;
+      
+      if (field.type === 'select') {
+        formHtml += `<select id="field_${field.id}" class="w-full px-3 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:border-indigo-500 focus:outline-none">`;
+        (field.options || []).forEach(opt => {
+          formHtml += `<option value="${opt.val}">${opt.label}</option>`;
+        });
+        formHtml += '</select>';
+      } else {
+        const val = (presetData && presetData[field.id]) ? presetData[field.id] : (field.defaultValue || '');
+        formHtml += `<input type="${field.type || 'text'}" id="field_${field.id}" value="${val}" placeholder="${field.placeholder || ''}" class="w-full px-3 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none">`;
+      }
+      formHtml += '</div>';
+    });
+    formHtml += '</div>';
+  }
+
+  // 2. Mobile Plans Browser (for mobile recharge / intl roaming)
+  if (service.plans && service.plans.length > 0) {
+    formHtml += `
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-bold text-white">Select a Recharge Plan</span>
+          <span class="pill-badge badge-green text-[8px]">UNLIMITED 5G</span>
+        </div>
+
+        <!-- Plan Category Tabs -->
+        <div class="flex gap-1.5 overflow-x-auto pb-2 mb-3">
+          <button type="button" class="plan-tab-btn active" onclick="filterPlansByCategory('all', this)">All Plans</button>
+          <button type="button" class="plan-tab-btn" onclick="filterPlansByCategory('recommended', this)">Recommended</button>
+          <button type="button" class="plan-tab-btn" onclick="filterPlansByCategory('5g_unlimited', this)">5G Unlimited</button>
+          <button type="button" class="plan-tab-btn" onclick="filterPlansByCategory('annual', this)">Annual 365D</button>
+          <button type="button" class="plan-tab-btn" onclick="filterPlansByCategory('data_addons', this)">Data Boosters</button>
+        </div>
+
+        <!-- Plan Cards List -->
+        <div class="space-y-2 max-h-56 overflow-y-auto pr-1" id="planCardsList">
+    `;
+
+    service.plans.forEach((p, idx) => {
+      const isFirst = idx === 0;
+      if (isFirst) currentSelectedPlan = p;
+      formHtml += `
+        <div class="p-3 rounded-2xl bg-slate-900 border ${isFirst ? 'border-indigo-500 bg-indigo-950/20' : 'border-white/10'} hover:border-indigo-400/80 transition cursor-pointer plan-card-item" data-category="${p.category}" onclick="selectMobilePlan('${p.id}', this)">
+          <div class="flex items-center justify-between mb-1">
+            <div class="flex items-center gap-2">
+              <span class="text-base font-black text-white font-mono">₹ ${p.price}</span>
+              <span class="pill-badge badge-cyan text-[8px] font-bold">${p.validity}</span>
+            </div>
+            <span class="text-xs font-bold text-indigo-400 font-mono">${p.data}</span>
+          </div>
+          <p class="text-[10px] text-slate-300 leading-snug">${p.desc}</p>
+        </div>
+      `;
+    });
+
+    formHtml += `</div></div>`;
+  }
+
+  // 3. Live Bill Fetch Card (for electricity, dth, loan, water, etc.)
+  if (service.sampleFetch) {
+    formHtml += `
+      <div id="billFetchResultBox" class="mb-4">
+        <button type="button" class="w-full py-2.5 rounded-xl bg-slate-900 border border-indigo-500/40 hover:border-indigo-500 text-indigo-300 hover:text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md" onclick="fetchLiveBill('${serviceKey}')">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Fetch Latest Due Bill (Bharat Connect)</span>
+        </button>
+      </div>
+    `;
+  }
+
+  // 4. Special Custom Widgets (Silver Savings, Brand Voucher, etc.)
+  if (serviceKey === 'silver_savings') {
+    formHtml += `
+      <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 border border-slate-700 mb-4 text-center">
+        <div class="flex items-center justify-center gap-2 text-xs font-bold text-slate-300 mb-1">
+          <i data-lucide="trending-up" class="w-4 h-4 text-emerald-400"></i>
+          <span>Live 99.9% Fine Silver Rate</span>
+        </div>
+        <div class="text-2xl font-black text-white font-mono mb-1">₹ 92.40 <span class="text-xs text-emerald-400 font-sans font-bold">+1.2% Today</span></div>
+        <p class="text-[10px] text-slate-400">100% Insured in Brink's &amp; MMTC-PAMP Certified Vaults</p>
+        
+        <div class="grid grid-cols-4 gap-2 mt-3">
+          <button type="button" class="py-1.5 rounded-lg bg-slate-800 border border-white/10 text-xs font-bold text-white hover:bg-indigo-600" onclick="document.getElementById('field_silverAmount').value = '50'">+₹50</button>
+          <button type="button" class="py-1.5 rounded-lg bg-slate-800 border border-white/10 text-xs font-bold text-white hover:bg-indigo-600" onclick="document.getElementById('field_silverAmount').value = '100'">+₹100</button>
+          <button type="button" class="py-1.5 rounded-lg bg-slate-800 border border-white/10 text-xs font-bold text-white hover:bg-indigo-600" onclick="document.getElementById('field_silverAmount').value = '500'">+₹500</button>
+          <button type="button" class="py-1.5 rounded-lg bg-slate-800 border border-white/10 text-xs font-bold text-white hover:bg-indigo-600" onclick="document.getElementById('field_silverAmount').value = '1000'">+₹1,000</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // 5. Pay / Proceed Button
+  formHtml += `
+    <button type="button" class="w-full py-3 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition active:scale-95 flex items-center justify-center gap-2 mt-2" onclick="executeBillPayment('${serviceKey}')">
+      <i data-lucide="shield-check" class="w-4 h-4"></i>
+      <span id="btnEnginePayText">Proceed to Pay via UPI</span>
+    </button>
+  `;
+
+  container.innerHTML = formHtml;
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function filterPlansByCategory(cat, btn) {
+  document.querySelectorAll('.plan-tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const cards = document.querySelectorAll('.plan-card-item');
+  cards.forEach(card => {
+    if (cat === 'all' || card.getAttribute('data-category') === cat) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function selectMobilePlan(planId, element) {
+  if (!currentBillEngineService || !currentBillEngineService.plans) return;
+  const plan = currentBillEngineService.plans.find(p => p.id === planId);
+  if (!plan) return;
+
+  currentSelectedPlan = plan;
+
+  document.querySelectorAll('.plan-card-item').forEach(c => {
+    c.className = 'p-3 rounded-2xl bg-slate-900 border border-white/10 hover:border-indigo-400/80 transition cursor-pointer plan-card-item';
+  });
+
+  if (element) {
+    element.className = 'p-3 rounded-2xl bg-slate-900 border border-indigo-500 bg-indigo-950/30 shadow-md shadow-indigo-500/20 transition cursor-pointer plan-card-item';
+  }
+
+  const payBtnText = document.getElementById('btnEnginePayText');
+  if (payBtnText) {
+    payBtnText.textContent = `Recharge ₹ ${plan.price} via UPI PIN`;
+  }
+}
+
+function fetchLiveBill(serviceKey) {
+  const service = rechargeBillsCatalog[serviceKey];
+  if (!service || !service.sampleFetch) return;
+
+  const box = document.getElementById('billFetchResultBox');
+  if (!box) return;
+
+  playBeep(600, 'sine', 0.08);
+  box.innerHTML = `
+    <div class="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/50 text-center animate-pulse">
+      <div class="w-6 h-6 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+      <p class="text-xs text-indigo-300 font-bold">Connecting to Bharat Connect BBPS Core...</p>
+      <p class="text-[10px] text-slate-400">Fetching live bill from ${service.title} servers</p>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const f = service.sampleFetch;
+    currentFetchedBill = f;
+    playSuccessChime();
+
+    box.innerHTML = `
+      <div class="p-4 rounded-2xl bg-gradient-to-br from-indigo-950/80 via-slate-900 to-slate-900 border border-emerald-500/50 shadow-lg shadow-emerald-950/20">
+        <div class="flex items-center justify-between mb-2">
+          <span class="pill-badge badge-green text-[9px] font-bold">BILL FETCHED</span>
+          <span class="text-[9px] font-mono text-slate-400">BBPS ID: BBPS${Math.floor(100000 + Math.random() * 900000)}</span>
+        </div>
+        <div class="text-xs text-slate-400">Customer Name</div>
+        <div class="text-sm font-bold text-white mb-2">${f.consumerName || 'Aarav Sharma'}</div>
+        
+        <div class="flex items-center justify-between pt-2 border-t border-white/10">
+          <div>
+            <div class="text-[10px] text-slate-400">Total Amount Due</div>
+            <div class="text-2xl font-black text-emerald-400 font-mono">₹ ${formatInr(f.billAmount || 0)}</div>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] text-slate-400">Due Date</div>
+            <div class="text-xs font-bold text-white font-mono">${f.dueDate || '28 Sep 2026'}</div>
+          </div>
+        </div>
+
+        ${f.units ? `<div class="mt-2 text-[10px] text-slate-400 flex items-center justify-between"><span>Units Consumed: <strong>${f.units}</strong></span><span>Late Fee: <strong class="text-emerald-400">₹0.00</strong></span></div>` : ''}
+        ${f.currentBalance ? `<div class="mt-2 text-[10px] text-slate-400 flex items-center justify-between"><span>Current Balance: <strong class="text-amber-400">${f.currentBalance}</strong></span><span class="text-emerald-400 font-bold">100% Guaranteed</span></div>` : ''}
+      </div>
+    `;
+
+    const payBtnText = document.getElementById('btnEnginePayText');
+    if (payBtnText) {
+      payBtnText.textContent = `Pay ₹ ${formatInr(f.billAmount || 0)} via UPI PIN`;
+    }
+  }, 450);
+}
+
+function executeBillPayment(serviceKey) {
+  const service = rechargeBillsCatalog[serviceKey];
+  if (!service) return;
+
+  let payAmount = 0;
+  let payeeName = service.title;
+  let payeeVpa = `${serviceKey.replace(/_/g, '')}@bharatconnect`;
+
+  if (service.plans && currentSelectedPlan) {
+    payAmount = currentSelectedPlan.price;
+    payeeName = `${service.title} (${currentSelectedPlan.data})`;
+  } else if (currentFetchedBill && currentFetchedBill.billAmount) {
+    payAmount = currentFetchedBill.billAmount;
+    payeeName = `${service.title} - ${currentFetchedBill.consumerName || 'Aarav Sharma'}`;
+  } else {
+    // Check form inputs
+    const amtInput = document.getElementById('field_ccAmount') ||
+                     document.getElementById('field_ncmcAmount') ||
+                     document.getElementById('field_pmAmount') ||
+                     document.getElementById('field_evAmount') ||
+                     document.getElementById('field_rentAmount') ||
+                     document.getElementById('field_donAmount') ||
+                     document.getElementById('field_devAmount') ||
+                     document.getElementById('field_npsAmount') ||
+                     document.getElementById('field_silverAmount') ||
+                     document.getElementById('field_gplayAmount') ||
+                     document.getElementById('field_appleAmount');
+
+    if (amtInput && amtInput.value) {
+      payAmount = parseFloat(amtInput.value) || 100;
+    } else if (service.sampleFetch && service.sampleFetch.billAmount) {
+      payAmount = service.sampleFetch.billAmount;
+    } else {
+      payAmount = 299;
+    }
+  }
+
+  if (isNaN(payAmount) || payAmount <= 0) payAmount = 299;
+
+  closeModal('modalBillPayEngine');
+  closeModal('modalRechargeBillsHub');
+
+  // Launch Unexa UPI PIN Checkout
+  setTimeout(() => {
+    initiatePayment(payeeName, payeeVpa, payAmount, `⚡ Bharat Connect: ${service.title}`, false);
+  }, 250);
+}
+
+function claimJio5GOffer() {
+  playSuccessChime();
+  if (window.confetti) {
+    window.confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+  }
+  showToast('🎉 Jio 5G Offer Claimed! Opening Doorstep SIM booking...');
+  setTimeout(() => {
+    openBillPayEngine('get_sim', { simOperator: 'jio', simType: 'physical' });
+  }, 500);
+}
+
+function openBrandVouchersModal() {
+  const container = document.getElementById('brandVouchersListContainer');
+  if (container) {
+    const brands = [
+      { name: 'Amazon Pay Gift Card', tag: 'Shopping & Recharges', icon: 'a', bg: 'bg-amber-500/20 text-amber-400', discount: '2.0% Off', min: 250, max: 10000 },
+      { name: 'Flipkart Voucher', tag: 'Electronics & Fashion', icon: 'fk', bg: 'bg-blue-500/20 text-blue-400', discount: '2.5% Off', min: 250, max: 10000 },
+      { name: 'Swiggy Money Card', tag: 'Food & Instamart', icon: '🍔', bg: 'bg-orange-500/20 text-orange-400', discount: '5.0% Off', min: 100, max: 5000 },
+      { name: 'Zomato Pro Card', tag: 'Dining & Food', icon: '🍕', bg: 'bg-rose-500/20 text-rose-400', discount: '5.0% Off', min: 100, max: 5000 },
+      { name: 'Myntra Fashion Voucher', tag: 'Clothing & Lifestyle', icon: '🛍️', bg: 'bg-pink-500/20 text-pink-400', discount: '7.5% Off', min: 500, max: 5000 },
+      { name: 'Uber Rides & Auto', tag: 'Cabs & Commute', icon: '🚗', bg: 'bg-slate-800 text-white', discount: '4.0% Off', min: 200, max: 3000 },
+      { name: 'MakeMyTrip Flight Card', tag: 'Hotels & Flights', icon: '✈️', bg: 'bg-red-500/20 text-red-400', discount: '6.0% Off', min: 1000, max: 25000 }
+    ];
+
+    let htmlStr = '';
+    brands.forEach(b => {
+      htmlStr += `
+        <div class="p-3 rounded-2xl bg-slate-900 border border-white/10 hover:border-purple-500/60 transition flex items-center justify-between cursor-pointer" onclick="buyBrandVoucher('${b.name}', 500, 5)">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl ${b.bg} flex items-center justify-center font-black text-sm flex-shrink-0">
+              ${b.icon}
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white">${b.name}</div>
+              <div class="text-[10px] text-slate-400">${b.tag}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="pill-badge badge-green text-[9px] font-bold">${b.discount}</span>
+            <div class="text-[10px] text-purple-400 font-bold mt-1">Buy Instant</div>
+          </div>
+        </div>
+      `;
+    });
+    container.innerHTML = htmlStr;
+  }
+  openModal('modalBrandVouchers');
+}
+
+function buyBrandVoucher(brandName, amount = 500, discountPercent = 5) {
+  closeModal('modalBrandVouchers');
+  closeModal('modalRechargeBillsHub');
+  const finalAmt = amount - (amount * (discountPercent / 100));
+
+  setTimeout(() => {
+    initiatePayment(`${brandName} Voucher (₹${amount})`, 'vouchers@bharatconnect', finalAmt, `🎁 ${discountPercent}% Off Brand Voucher`, false);
+  }, 250);
+}
+
 
 // Global Keyboard Handler for PIN Modals
 document.addEventListener('keydown', (e) => {
