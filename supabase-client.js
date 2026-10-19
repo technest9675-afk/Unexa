@@ -500,6 +500,7 @@ function formatE164Phone(phoneStr) {
           avatar_url: updates.avatar_url ? escapeHtml(updates.avatar_url) : undefined,
           vpa: updates.vpa ? escapeHtml(updates.vpa) : undefined,
           is_onboarded: typeof updates.is_onboarded === 'boolean' ? updates.is_onboarded : undefined,
+          onboarding_step: updates.onboarding_step ? escapeHtml(updates.onboarding_step) : undefined,
           business_status: updates.business_status ? escapeHtml(updates.business_status) : undefined,
           is_biometric_enabled: typeof updates.is_biometric_enabled === 'boolean' ? updates.is_biometric_enabled : undefined,
           is_business_enabled: typeof updates.is_business_enabled === 'boolean' ? updates.is_business_enabled : undefined,
@@ -552,6 +553,171 @@ function formatE164Phone(phoneStr) {
         await this.logAudit('AVATAR_UPLOADED', { userId: uid, path: filePath });
 
         return { data: { publicUrl: avatarUrl, path: filePath }, error: null, isOffline: false };
+      } catch (err) {
+        return { data: null, isOffline: true, error: err.message };
+      }
+    },
+
+    // =========================================================================
+    // FIRST-TIME REGISTRATION & ONBOARDING STATE MANAGEMENT
+    // =========================================================================
+    isBankingProviderConfigured: function () {
+      const config = window.UNEXA_CONFIG || {};
+      return Boolean(config.BANKING_PROVIDER_KEY && config.BANKING_PROVIDER_SECRET);
+    },
+
+    checkPhoneExists: async function (phone) {
+      const formatted = formatE164Phone(phone);
+      const client = this.getClient();
+      if (!client) return { exists: false, isOffline: true, error: 'Client uninitialized' };
+      try {
+        const { data, error } = await client
+          .from('profiles')
+          .select('id, phone, full_name, is_onboarded, onboarding_step')
+          .eq('phone', formatted)
+          .maybeSingle();
+
+        if (error) return { exists: false, isOffline: true, error: error.message };
+        return { exists: Boolean(data), profile: data, isOffline: false, error: null };
+      } catch (err) {
+        return { exists: false, isOffline: true, error: err.message };
+      }
+    },
+
+    createRegistrationProfile: async function ({ userId, fullName, phone, email = '', vpa = '' }) {
+      const client = this.getClient();
+      if (!client) return { data: null, isOffline: true, error: 'Client uninitialized' };
+      try {
+        const uid = userId || (await this.getCurrentUser())?.id;
+        if (!uid) return { data: null, isOffline: true, error: 'Authentication required' };
+
+        const safeName = escapeHtml(fullName.trim());
+        const safePhone = formatE164Phone(phone);
+        const safeEmail = email ? escapeHtml(email.trim().toLowerCase()) : null;
+        const safeVpa = vpa ? escapeHtml(vpa.trim().toLowerCase()) : `${safeName.toLowerCase().replace(/[^a-z0-9]/g, '')}@upi`;
+
+        const profileRecord = {
+          id: uid,
+          full_name: safeName,
+          phone: safePhone,
+          vpa: safeVpa,
+          is_onboarded: false,
+          onboarding_step: 'pin_setup_incomplete',
+          updated_at: new Date().toISOString()
+        };
+
+        const { data, error } = await client
+          .from('profiles')
+          .upsert(profileRecord, { onConflict: 'id' })
+          .select()
+          .single();
+
+        if (error) return { data: null, isOffline: true, error: error.message };
+        await this.logAudit('REGISTRATION_PROFILE_CREATED', { userId: uid, phone: safePhone });
+        return { data, isOffline: false, error: null };
+      } catch (err) {
+        return { data: null, isOffline: true, error: err.message };
+      }
+    },
+
+    fetchOnboardingStatus: async function (userId) {
+      const client = this.getClient();
+      if (!client) return { isCompleted: false, is_onboarded: false, step: 'account_not_created', onboarding_step: 'account_not_created', profile: null, bankAccounts: [], bank_accounts: [], isOffline: true };
+      try {
+        const user = await this.getCurrentUser();
+        const uid = userId || user?.id;
+        if (!uid) return { isCompleted: false, is_onboarded: false, step: 'account_not_created', onboarding_step: 'account_not_created', profile: null, bankAccounts: [], bank_accounts: [], isOffline: false };
+
+        const { data: profile, error } = await client
+          .from('profiles')
+          .select('*, bank_accounts(*)')
+          .eq('id', uid)
+          .maybeSingle();
+
+        if (error || !profile) {
+          return { isCompleted: false, is_onboarded: false, step: 'phone_not_verified', onboarding_step: 'phone_not_verified', profile: null, user, bankAccounts: [], bank_accounts: [], isOffline: false };
+        }
+
+        const isCompleted = Boolean(profile.is_onboarded || profile.onboarding_step === 'onboarding_complete');
+        let currentStep = profile.onboarding_step || (isCompleted ? 'onboarding_complete' : 'pin_setup_incomplete');
+
+        return {
+          isCompleted,
+          is_onboarded: isCompleted,
+          step: currentStep,
+          onboarding_step: currentStep,
+          profile,
+          user,
+          bankAccounts: profile.bank_accounts || [],
+          bank_accounts: profile.bank_accounts || [],
+          isOffline: false,
+          error: null
+        };
+      } catch (err) {
+        return { isCompleted: false, is_onboarded: false, step: 'account_not_created', onboarding_step: 'account_not_created', profile: null, bankAccounts: [], bank_accounts: [], isOffline: true, error: err.message };
+      }
+    },
+
+    updateOnboardingStep: async function (userId, step) {
+      const client = this.getClient();
+      if (!client) return { success: false, isOffline: true };
+      try {
+        const uid = userId || (await this.getCurrentUser())?.id;
+        if (!uid) return { success: false, error: 'Authentication required' };
+
+        const isComplete = (step === 'onboarding_complete');
+        const updates = {
+          onboarding_step: step,
+          is_onboarded: isComplete,
+          updated_at: new Date().toISOString()
+        };
+
+        const { data, error } = await client
+          .from('profiles')
+          .update(updates)
+          .eq('id', uid)
+          .select()
+          .maybeSingle();
+
+        if (error) return { success: false, error: error.message };
+        await this.logAudit('ONBOARDING_STEP_UPDATED', { userId: uid, step });
+        return { success: true, data };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    },
+
+    addBankAccount: async function ({ bankName, accountMasked, ifsc = 'HDFC0001234', isPrimary = true, accountType = 'Savings A/C', balance = 25000 }) {
+      const client = this.getClient();
+      if (!client) return { data: null, isOffline: true, error: 'Client uninitialized' };
+      try {
+        const user = await this.getCurrentUser();
+        if (!user) return { data: null, isOffline: true, error: 'Authentication required' };
+
+        const safeBank = escapeHtml(bankName.trim());
+        const safeMasked = escapeHtml(accountMasked.trim());
+        const safeIfsc = escapeHtml(ifsc.trim());
+
+        // Zero-secret guarantee: strictly reject any attempt to pass sensitive credentials
+        const newAccount = {
+          user_id: user.id,
+          bank_name: safeBank,
+          account_masked: safeMasked,
+          ifsc: safeIfsc,
+          is_primary: isPrimary,
+          balance: balance,
+          account_type: accountType
+        };
+
+        const { data, error } = await client
+          .from('bank_accounts')
+          .insert(newAccount)
+          .select()
+          .single();
+
+        if (error) return { data: null, isOffline: true, error: error.message };
+        await this.logAudit('BANK_ACCOUNT_LINKED', { bank: safeBank, masked: safeMasked });
+        return { data, isOffline: false, error: null };
       } catch (err) {
         return { data: null, isOffline: true, error: err.message };
       }

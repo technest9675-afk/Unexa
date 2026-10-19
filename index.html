@@ -2913,7 +2913,62 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 </div>
         </div>
 
-        <div class="upi-card bg-slate-900/90 mb-3 p-4">
+        <!-- Segmented Auth Mode Switcher (Create Account vs Log In) -->
+        <div class="flex gap-2 justify-center max-w-[280px] mx-auto mb-3 bg-slate-900/90 p-1.5 rounded-2xl border border-white/10 shadow-inner">
+          <button id="tabAuthCreate" class="flex-1 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-xs font-bold shadow-md transition" onclick="switchAuthTab('create')">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5 inline mr-1"></i> Create Account
+          </button>
+          <button id="tabAuthLogin" class="flex-1 py-2 rounded-xl text-slate-400 text-xs font-bold hover:text-white transition" onclick="switchAuthTab('login')">
+            <i data-lucide="log-in" class="w-3.5 h-3.5 inline mr-1"></i> Log In
+          </button>
+        </div>
+
+        <!-- AUTH PANEL 1: CREATE ACCOUNT -->
+        <div id="authPanelCreate" class="upi-card bg-slate-900/90 mb-3 p-4 animate-fade-in">
+          <h3 class="text-sm font-bold text-white mb-0.5">Create Your Account</h3>
+          <p class="text-[11px] text-slate-400 mb-3">Join Unexa for instant UPI transfers & shared group pools.</p>
+
+          <div class="space-y-3 mb-3">
+            <!-- Full Legal Name -->
+            <div>
+              <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1" for="regFullName">Full Legal Name *</label>
+              <input type="text" id="regFullName" placeholder="e.g. Aarav Sharma" oninput="validateRegName()" class="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+              <div id="regNameError" class="hidden text-[10px] text-rose-400 mt-1"></div>
+            </div>
+
+            <!-- Mobile Number -->
+            <div>
+              <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1" for="regPhoneInput">Mobile Number *</label>
+              <div class="flex items-center bg-slate-950 border border-white/10 rounded-xl px-3 py-2 focus-within:border-indigo-500 transition">
+                <div class="flex items-center gap-1.5 pr-2.5 border-r border-white/10 text-xs font-bold text-slate-300">
+                  <span class="text-sm">🇮🇳</span>
+                  <span>+91</span>
+                </div>
+                <input type="tel" id="regPhoneInput" maxlength="10" placeholder="98765 43210" oninput="validateRegPhone()" class="w-full bg-transparent pl-3 text-xs text-white font-mono font-bold tracking-wider focus:outline-none placeholder-slate-600">
+              </div>
+              <div id="regPhoneError" class="hidden text-[10px] text-rose-400 mt-1"></div>
+            </div>
+
+            <!-- Email (Optional) -->
+            <div>
+              <label class="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1" for="regEmailInput">Email Address <span class="text-slate-500 lowercase">(optional)</span></label>
+              <input type="email" id="regEmailInput" placeholder="aarav.sharma@example.com" oninput="validateRegEmail()" class="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+              <div id="regEmailError" class="hidden text-[10px] text-rose-400 mt-1"></div>
+            </div>
+          </div>
+
+          <!-- General Error Notice for Registration -->
+          <div id="authCreateGeneralError" class="hidden mb-3 p-3 rounded-xl bg-rose-950/80 border border-rose-500/50 text-xs text-rose-200"></div>
+
+          <button id="btnCreateAccountSubmit" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-extrabold text-xs tracking-wide shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition active:scale-95" onclick="handleCreateAccountSubmit()">
+            <span>Create Account &amp; Send OTP</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+          <p class="text-[10px] text-slate-400 text-center mt-2.5">By continuing, you agree to Unexa's Terms &amp; NPCI Unified UPI Guidelines.</p>
+        </div>
+
+        <!-- AUTH PANEL 2: LOG IN (FOR RETURNING USERS) -->
+        <div id="authPanelLogin" class="upi-card bg-slate-900/90 mb-3 p-4 hidden animate-fade-in">
           <h3 class="text-sm font-bold text-white mb-1">Enter Mobile Number</h3>
           <p class="text-[11px] text-slate-400 mb-3">We will send a 6-digit OTP to verify your account.</p>
 
@@ -10830,8 +10885,8 @@ button:focus-visible, a:focus-visible, input:focus-visible {
               <i data-lucide="user-check" class="w-5 h-5"></i>
             </div>
             <div>
-              <h3 class="text-sm font-bold text-white" id="onboardingModalTitle">Create Your Unexa Account</h3>
-              <p class="text-[10px] text-slate-400">Complete setup to activate personal & group pools</p>
+              <h3 class="text-sm font-bold text-white" id="onboardingModalTitle">Complete Your Unexa Setup</h3>
+              <p class="text-[10px] text-slate-400" id="onboardingModalSubtitle">Step-by-step account onboarding &amp; bank linking</p>
             </div>
           </div>
           <button onclick="closeModal('modalOnboardingSetup')" class="w-7 h-7 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center hover:text-white" aria-label="Close setup modal">
@@ -10839,86 +10894,148 @@ button:focus-visible, a:focus-visible, input:focus-visible {
           </button>
         </div>
 
-        <!-- Step Indicator -->
+        <!-- Visual Stepper Progress Bar -->
         <div class="grid grid-cols-3 gap-1.5 mb-4 text-center">
-          <div class="p-1.5 rounded-lg bg-indigo-600/30 border border-indigo-500/50 text-[10px] font-bold text-indigo-200" id="onboardStepBadge1">1. Profile</div>
-          <div class="p-1.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-semibold text-slate-400" id="onboardStepBadge2">2. App PIN</div>
-          <div class="p-1.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-semibold text-slate-400" id="onboardStepBadge3">3. Link Bank</div>
+          <div class="p-1.5 rounded-lg bg-emerald-600/30 border border-emerald-500/50 text-[10px] font-bold text-emerald-300 flex items-center justify-center gap-1" id="onboardStepBadge1">
+            <i data-lucide="check" class="w-3 h-3"></i> 1. Profile
+          </div>
+          <div class="p-1.5 rounded-lg bg-indigo-600/30 border border-indigo-500/50 text-[10px] font-bold text-indigo-200 flex items-center justify-center gap-1" id="onboardStepBadge2">
+            2. App PIN
+          </div>
+          <div class="p-1.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-semibold text-slate-400 flex items-center justify-center gap-1" id="onboardStepBadge3">
+            3. Link Bank
+          </div>
         </div>
 
-        <!-- Onboarding Form -->
+        <!-- Onboarding Container -->
         <div id="onboardingFormContainer" class="space-y-3.5">
-          <!-- Full Name -->
-          <div>
-            <label class="block text-[11px] font-bold text-slate-300 mb-1" for="onboardFullName">Full Legal Name *</label>
-            <input type="text" id="onboardFullName" placeholder="e.g. Aarav Sharma" oninput="handleOnboardingNameInput(this.value)" class="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" required>
+
+          <!-- STEP 1 VIEW: PROFILE & UPI ID CONFIRMATION -->
+          <div id="onboardStep1View" class="hidden space-y-3.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1" for="onboardFullName">Full Legal Name *</label>
+              <input type="text" id="onboardFullName" placeholder="e.g. Aarav Sharma" oninput="handleOnboardingNameInput(this.value)" class="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500" required>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1" for="onboardVpaHandle">Choose UPI Handle / VPA *</label>
+              <div class="relative">
+                <input type="text" id="onboardVpaHandle" placeholder="aarav.sharma@upi" class="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-indigo-300 font-mono focus:outline-none focus:border-indigo-500">
+                <span class="absolute right-3 top-2.5 text-[10px] font-bold text-emerald-400">Available</span>
+              </div>
+              <p class="text-[9px] text-slate-400 mt-0.5">Your unique identifier for receiving personal payments &amp; group pool payouts.</p>
+            </div>
+            <button type="button" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition" onclick="submitOnboardProfileStep()">
+              <span>Continue to App PIN Setup</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
           </div>
 
-          <!-- UPI Handle / VPA -->
-          <div>
-            <label class="block text-[11px] font-bold text-slate-300 mb-1" for="onboardVpaHandle">Choose UPI Handle / VPA *</label>
-            <div class="relative">
-              <input type="text" id="onboardVpaHandle" placeholder="aarav.sharma@upi" class="w-full px-3.5 py-2.5 bg-slate-900 border border-white/10 rounded-xl text-xs text-indigo-300 font-mono focus:outline-none focus:border-indigo-500">
-              <span class="absolute right-3 top-2.5 text-[10px] font-bold text-emerald-400">Available</span>
+          <!-- STEP 2 VIEW: SECURE APP PIN SETUP PAGE -->
+          <div id="onboardStep2View" class="space-y-3">
+            <div class="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-500/30">
+              <div class="flex items-center gap-2 text-xs font-bold text-indigo-300 mb-1">
+                <i data-lucide="shield-lock" class="w-4 h-4 text-indigo-400"></i>
+                <span>Set Your 4-Digit Security PIN</span>
+              </div>
+              <p class="text-[10px] text-slate-300 leading-relaxed">
+                Your PIN secures application unlocks and confidential ledger access. It is encrypted on our server security ledger with bcrypt and rate-limiting. It is <strong>never stored on your phone or in plaintext</strong>.
+              </p>
             </div>
-            <p class="text-[9px] text-slate-400 mt-0.5">Your unique ID for receiving money and group pool payouts.</p>
-          </div>
 
-          <!-- Create 4-Digit App PIN -->
-          <div class="p-3 rounded-2xl bg-slate-900/80 border border-white/10 space-y-2.5">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-300">
-              <i data-lucide="shield" class="w-4 h-4 text-indigo-400"></i>
-              <span>Create 4-Digit App Lock PIN *</span>
-            </div>
-            <p class="text-[10px] text-slate-400">Secured on server using bcrypt with rate-limiting. Never stored in plaintext.</p>
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="text-[10px] text-slate-400 block mb-1" for="onboardPin">4-Digit PIN</label>
-                <input type="password" id="onboardPin" maxlength="4" placeholder="••••" class="w-full px-3 py-2 bg-slate-950 border border-white/10 rounded-xl text-center text-sm font-mono tracking-widest text-white focus:outline-none focus:border-indigo-500">
+                <label class="text-[10px] font-bold text-slate-400 block mb-1" for="onboardPin">New 4-Digit PIN *</label>
+                <input type="password" id="onboardPin" maxlength="4" placeholder="••••" inputmode="numeric" class="w-full px-3 py-2.5 bg-slate-950 border border-white/10 rounded-xl text-center text-base font-mono tracking-widest text-white focus:outline-none focus:border-indigo-500">
               </div>
               <div>
-                <label class="text-[10px] text-slate-400 block mb-1" for="onboardPinConfirm">Confirm PIN</label>
-                <input type="password" id="onboardPinConfirm" maxlength="4" placeholder="••••" class="w-full px-3 py-2 bg-slate-950 border border-white/10 rounded-xl text-center text-sm font-mono tracking-widest text-white focus:outline-none focus:border-indigo-500">
+                <label class="text-[10px] font-bold text-slate-400 block mb-1" for="onboardPinConfirm">Confirm 4-Digit PIN *</label>
+                <input type="password" id="onboardPinConfirm" maxlength="4" placeholder="••••" inputmode="numeric" class="w-full px-3 py-2.5 bg-slate-950 border border-white/10 rounded-xl text-center text-base font-mono tracking-widest text-white focus:outline-none focus:border-indigo-500">
               </div>
             </div>
+
+            <div id="onboardPinError" class="hidden p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-[11px]"></div>
+
+            <button type="button" id="btnSubmitOnboardPin" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition active:scale-95" onclick="submitOnboardPinStep()">
+              <span>Save PIN &amp; Proceed to Bank Linking</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
           </div>
 
-          <!-- Link Bank Account (Optional) -->
-          <div class="p-3 rounded-2xl bg-slate-900/80 border border-white/10 space-y-2">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-1.5 text-xs font-bold text-slate-200">
-                <i data-lucide="landmark" class="w-4 h-4 text-amber-400"></i>
-                <span>Link Primary Bank Account</span>
+          <!-- STEP 3 VIEW: DEDICATED ADD BANK DETAILS PAGE -->
+          <div id="onboardStep3View" class="hidden space-y-3.5">
+            <div class="p-3.5 rounded-2xl bg-amber-950/40 border border-amber-500/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-xs font-bold text-amber-300">
+                  <i data-lucide="landmark" class="w-4 h-4 text-amber-400"></i>
+                  <span>Add Bank Account for UPI</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[9px] font-bold border border-amber-500/30">
+                  Setup Required
+                </span>
               </div>
-              <label class="flex items-center gap-1.5 text-[10px] text-slate-400 cursor-pointer">
-                <input type="checkbox" id="onboardSkipBank" onchange="toggleOnboardBankSection(this.checked)" class="rounded text-indigo-500">
-                <span>Skip for now</span>
+              <p class="text-[10.5px] text-slate-300 leading-relaxed">
+                Linking your primary bank account connects your UPI ID for instant 1-click personal transfers and shared group pool expense settlements.
+              </p>
+              <div class="p-2.5 rounded-xl bg-slate-900/90 border border-white/5 text-[9.5px] text-slate-400 space-y-1">
+                <div class="text-amber-400 font-semibold flex items-center gap-1">
+                  <i data-lucide="info" class="w-3 h-3"></i> Live Provider Notice:
+                </div>
+                <div>Live Banking Account Aggregator (AA) / UPI PSP gateway integration is currently in setup mode.</div>
+                <div>You may safely link a simulated test account below, or skip bank linking to explore Unexa with manual deposits.</div>
+              </div>
+            </div>
+
+            <!-- Skip Checkbox Option -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-white/10 flex items-center justify-between">
+              <div class="flex items-center gap-2 text-xs text-slate-300">
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span class="text-[11px] font-semibold">Skip bank linking for now</span>
+              </div>
+              <label class="flex items-center gap-1.5 text-xs text-indigo-400 cursor-pointer">
+                <input type="checkbox" id="onboardSkipBank" onchange="toggleOnboardBankSection(this.checked)" class="rounded text-indigo-500 w-4 h-4">
+                <span class="text-[10px] font-bold">Skip</span>
               </label>
             </div>
-            <div id="onboardBankInputs" class="space-y-2">
-              <select id="onboardBankSelect" class="w-full px-3 py-2 bg-slate-950 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500">
-                <option value="HDFC Bank">HDFC Bank</option>
-                <option value="State Bank of India">State Bank of India (SBI)</option>
-                <option value="ICICI Bank">ICICI Bank</option>
-                <option value="Axis Bank">Axis Bank</option>
-                <option value="Bank of Baroda">Bank of Baroda</option>
-                <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
-              </select>
-              <input type="text" id="onboardAccLast4" maxlength="4" placeholder="Last 4 digits of Account Number (e.g. 8812)" class="w-full px-3 py-2 bg-slate-950 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500">
+
+            <!-- Bank Selection Inputs -->
+            <div id="onboardBankInputs" class="space-y-2.5">
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Select Bank</label>
+                <select id="onboardBankSelect" class="w-full px-3.5 py-2.5 bg-slate-950 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500">
+                  <option value="HDFC Bank">HDFC Bank</option>
+                  <option value="State Bank of India">State Bank of India (SBI)</option>
+                  <option value="ICICI Bank">ICICI Bank</option>
+                  <option value="Axis Bank">Axis Bank</option>
+                  <option value="Bank of Baroda">Bank of Baroda</option>
+                  <option value="Kotak Mahindra Bank">Kotak Mahindra Bank</option>
+                  <option value="Punjab National Bank">Punjab National Bank (PNB)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Last 4 Digits of Account Number</label>
+                <input type="text" id="onboardAccLast4" maxlength="4" placeholder="e.g. 8812" class="w-full px-3.5 py-2.5 bg-slate-950 border border-white/10 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500 font-mono tracking-wider">
+              </div>
+
+              <div class="text-[9.5px] text-slate-500 flex items-center gap-1.5 pt-1">
+                <i data-lucide="lock" class="w-3 h-3 text-emerald-400"></i>
+                <span>Unexa strictly never collects or stores your UPI PIN, banking passwords, or card OTPs.</span>
+              </div>
             </div>
+
+            <!-- Error notice -->
+            <div id="onboardErrorNotice" class="hidden p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-[11px]"></div>
+
+            <!-- Submit Button -->
+            <button type="button" id="btnCompleteOnboarding" onclick="submitOnboardingSetup()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 active:scale-95 transition">
+              <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span>Complete Setup &amp; Enter Unexa</span>
+            </button>
           </div>
 
-          <!-- Error notice -->
-          <div id="onboardErrorNotice" class="hidden p-2.5 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-300 text-[11px]"></div>
-
-          <!-- Submit Button -->
-          <button type="button" id="btnCompleteOnboarding" onclick="submitOnboardingSetup()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 active:scale-95 transition">
-            <i data-lucide="check-circle" class="w-4 h-4"></i>
-            <span>Complete Setup & Enter Unexa</span>
-          </button>
         </div>
       </div>
     </div>
+
 
     <!-- ===================================================================== -->
     <!-- MODAL 52: RETURNING USER SECURE PIN UNLOCK (PHASE 2)                   -->
@@ -18348,21 +18465,49 @@ async function verifyLoginOtp() {
       profileData = pRes && pRes.data;
     }
 
-    if (profileData && profileData.is_onboarded) {
-      // RETURNING USER: Require 4-digit PIN unlock
-      appState.user.name = profileData.full_name || appState.user.name;
-      appState.user.vpa = profileData.vpa || appState.user.vpa;
-      appState.user.avatar = profileData.avatar_url || appState.user.avatar;
-      appState.user.business_status = profileData.business_status || 'none';
-      appState.user.is_onboarded = true;
+    // Fetch full onboarding status from Supabase
+    let onbStatus = { isCompleted: false, step: 'phone_not_verified' };
+    if (window.UnexaSupabase && typeof window.UnexaSupabase.fetchOnboardingStatus === 'function') {
+      onbStatus = await window.UnexaSupabase.fetchOnboardingStatus(res.user?.id);
+    }
+
+    if (isRegistrationFlow) {
+      // NEW REGISTRATION: Create profile in Supabase
+      if (window.UnexaSupabase && typeof window.UnexaSupabase.createRegistrationProfile === 'function') {
+        const createRes = await window.UnexaSupabase.createRegistrationProfile({
+          userId: res.user?.id,
+          fullName: pendingRegFullName,
+          phone: currentAuthPhone,
+          email: pendingRegEmail
+        });
+        if (createRes.data) {
+          appState.user.name = createRes.data.full_name;
+          appState.user.phone = createRes.data.phone;
+          appState.user.vpa = createRes.data.vpa;
+        }
+      }
       closeModal('modalAuth');
-      openAppPinUnlockModal({ userId: res.user?.id, profile: profileData });
+      // Advance to Step 2: Set App Lock PIN
+      openOnboardingStep(2, { userId: res.user?.id, phone: currentAuthPhone });
       return;
     } else {
-      // NEW USER: Walk through account creation & PIN setup
-      closeModal('modalAuth');
-      openOnboardingModal({ userId: res.user?.id, phone: currentAuthPhone });
-      return;
+      // RETURNING USER LOGIN
+      if (onbStatus.isCompleted) {
+        appState.user.name = onbStatus.profile?.full_name || appState.user.name;
+        appState.user.vpa = onbStatus.profile?.vpa || appState.user.vpa;
+        appState.user.avatar = onbStatus.profile?.avatar_url || appState.user.avatar;
+        appState.user.business_status = onbStatus.profile?.business_status || 'none';
+        appState.user.is_onboarded = true;
+        closeModal('modalAuth');
+        openAppPinUnlockModal({ userId: res.user?.id, profile: onbStatus.profile });
+        return;
+      } else {
+        // Resume at unfinished onboarding step
+        closeModal('modalAuth');
+        const targetStep = onbStatus.step === 'bank_linking_pending' ? 3 : 2;
+        openOnboardingStep(targetStep, { userId: res.user?.id, profile: onbStatus.profile, phone: currentAuthPhone });
+        return;
+      }
     }
   } catch (err) {
     console.error('[Unexa Auth] Verification exception:', err);
@@ -18420,13 +18565,19 @@ async function handleLogout() {
       window._unexaTimers.clock = null;
     }
     appState.isLoggedIn = false;
+    appState.isOnboarded = false;
     appState.isDemoMode = false;
-    appState.user.balance = 0;
+    if (appState.user) {
+      appState.user.is_onboarded = false;
+      appState.user.onboarding_step = 'phone_not_verified';
+      appState.user.balance = 0;
+    }
     appState.bankAccounts = [];
     appState.pools = {};
     appState.transactions = [];
     saveState();
     backToPhoneInput();
+    if (typeof switchAuthTab === 'function') switchAuthTab('login');
     updateAuthViewVisibility();
     showToast('Logged out securely.');
   }
@@ -19427,17 +19578,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateAuthViewVisibility();
 
-  // Supabase Session Restoration (Verify real server session)
+  // Supabase Session Restoration & Onboarding Step Routing
   if (window.UnexaSupabase && typeof window.UnexaSupabase.getCurrentSession === 'function' && !appState.isDemoMode) {
-    window.UnexaSupabase.getCurrentSession().then(session => {
+    window.UnexaSupabase.getCurrentSession().then(async session => {
       if (session && session.user) {
         console.log('[Unexa] Active Supabase session restored for', session.user.phone || session.user.email);
-        appState.isLoggedIn = true;
-        if (session.user.phone) appState.user.phone = session.user.phone;
-        if (session.user.email) appState.user.email = session.user.email;
-        updateAuthViewVisibility();
-        if (typeof syncWithSupabaseBackend === 'function') {
-          syncWithSupabaseBackend(false);
+        let onb = { isCompleted: false, step: 'phone_not_verified' };
+        if (typeof window.UnexaSupabase.fetchOnboardingStatus === 'function') {
+          onb = await window.UnexaSupabase.fetchOnboardingStatus(session.user.id);
+        }
+
+        if (onb.isCompleted) {
+          appState.isLoggedIn = true;
+          appState.user.id = session.user.id;
+          if (session.user.phone) appState.user.phone = session.user.phone;
+          if (session.user.email) appState.user.email = session.user.email;
+          if (onb.profile) {
+            appState.user.name = onb.profile.full_name || appState.user.name;
+            appState.user.vpa = onb.profile.vpa || appState.user.vpa;
+            appState.user.avatar = onb.profile.avatar_url || appState.user.avatar;
+            appState.user.is_onboarded = true;
+          }
+          updateAuthViewVisibility();
+          if (typeof syncWithSupabaseBackend === 'function') {
+            syncWithSupabaseBackend(false);
+          }
+        } else {
+          // Unfinished onboarding detected! Resume at exact step
+          appState.isLoggedIn = false;
+          updateAuthViewVisibility();
+          const targetStep = onb.step === 'bank_linking_pending' ? 3 : 2;
+          openOnboardingStep(targetStep, { userId: session.user.id, profile: onb.profile, phone: session.user.phone });
         }
       } else {
         appState.isLoggedIn = false;
@@ -23175,6 +23346,15 @@ window.calculateStashEarnings = calculateStashEarnings;
 window.toggleAutoGrowStash = toggleAutoGrowStash;
 window.speakSoundbox = speakSoundbox;
 window.testSoundboxVoice = testSoundboxVoice;
+window.switchAuthTab = switchAuthTab;
+window.validateRegName = validateRegName;
+window.validateRegPhone = validateRegPhone;
+window.validateRegEmail = validateRegEmail;
+window.handleCreateAccountSubmit = handleCreateAccountSubmit;
+window.openOnboardingStep = openOnboardingStep;
+window.submitOnboardPinStep = submitOnboardPinStep;
+window.submitOnboardingSetup = submitOnboardingSetup;
+window.handleLogout = handleLogout;
 window.switchMode = switchMode;
 window.syncMerchantDataAsync = syncMerchantDataAsync;
 window.isBusinessModeEligible = isBusinessModeEligible;
@@ -23349,16 +23529,269 @@ let pendingAuthUserId = null;
 let enteredUnlockPin = '';
 let unlockLockoutTimer = null;
 
-function openOnboardingModal({ userId, phone }) {
-  pendingAuthUserId = userId;
-  const nameInput = document.getElementById('onboardFullName');
-  const vpaInput = document.getElementById('onboardVpaHandle');
-  if (nameInput) nameInput.value = '';
-  if (vpaInput) vpaInput.value = '';
-  const errorBox = document.getElementById('onboardErrorNotice');
-  if (errorBox) errorBox.classList.add('hidden');
+// =============================================================================
+// FIRST-TIME REGISTRATION & MULTI-STEP ONBOARDING CONTROLLER
+// =============================================================================
+let currentAuthTab = 'create';
+let isRegistrationFlow = false;
+let pendingRegFullName = '';
+let pendingRegEmail = '';
+let currentOnboardStep = 2;
+
+function switchAuthTab(tab) {
+  currentAuthTab = tab;
+  const tabCreate = document.getElementById('tabAuthCreate');
+  const tabLogin = document.getElementById('tabAuthLogin');
+  const panelCreate = document.getElementById('authPanelCreate');
+  const panelLogin = document.getElementById('authPanelLogin');
+  const phoneErr = document.getElementById('authPhoneError');
+  const createErr = document.getElementById('authCreateGeneralError');
+
+  if (phoneErr) phoneErr.classList.add('hidden');
+  if (createErr) createErr.classList.add('hidden');
+
+  if (tab === 'create') {
+    if (tabCreate) {
+      tabCreate.className = 'flex-1 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-xs font-bold shadow-md transition';
+    }
+    if (tabLogin) {
+      tabLogin.className = 'flex-1 py-2 rounded-xl text-slate-400 text-xs font-bold hover:text-white transition';
+    }
+    if (panelCreate) panelCreate.classList.remove('hidden');
+    if (panelLogin) panelLogin.classList.add('hidden');
+  } else {
+    if (tabCreate) {
+      tabCreate.className = 'flex-1 py-2 rounded-xl text-slate-400 text-xs font-bold hover:text-white transition';
+    }
+    if (tabLogin) {
+      tabLogin.className = 'flex-1 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-xs font-bold shadow-md transition';
+    }
+    if (panelCreate) panelCreate.classList.add('hidden');
+    if (panelLogin) panelLogin.classList.remove('hidden');
+  }
+}
+
+function validateRegName() {
+  const input = document.getElementById('regFullName');
+  const err = document.getElementById('regNameError');
+  const val = (input?.value || '').trim();
+  if (!val || val.length < 2) {
+    if (err) { err.textContent = 'Please enter your full legal name (at least 2 letters)'; err.classList.remove('hidden'); }
+    return false;
+  }
+  if (!/^[a-zA-Z\s\.\-']+$/.test(val)) {
+    if (err) { err.textContent = 'Name should contain letters and spaces only'; err.classList.remove('hidden'); }
+    return false;
+  }
+  if (err) err.classList.add('hidden');
+  return true;
+}
+
+function validateRegPhone() {
+  const input = document.getElementById('regPhoneInput');
+  const err = document.getElementById('regPhoneError');
+  const val = (input?.value || '').replace(/\D/g, '');
+  if (!val || val.length !== 10) {
+    if (err) { err.textContent = 'Please enter a valid 10-digit Indian mobile number'; err.classList.remove('hidden'); }
+    return false;
+  }
+  if (!/^[6-9]/.test(val)) {
+    if (err) { err.textContent = 'Mobile number should begin with 6, 7, 8, or 9'; err.classList.remove('hidden'); }
+    return false;
+  }
+  if (err) err.classList.add('hidden');
+  return true;
+}
+
+function validateRegEmail() {
+  const input = document.getElementById('regEmailInput');
+  const err = document.getElementById('regEmailError');
+  const val = (input?.value || '').trim();
+  if (!val) {
+    if (err) err.classList.add('hidden');
+    return true; // Optional
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+    if (err) { err.textContent = 'Please enter a valid email address'; err.classList.remove('hidden'); }
+    return false;
+  }
+  if (err) err.classList.add('hidden');
+  return true;
+}
+
+async function handleCreateAccountSubmit() {
+  const nameValid = validateRegName();
+  const phoneValid = validateRegPhone();
+  const emailValid = validateRegEmail();
+  if (!nameValid || !phoneValid || !emailValid) return;
+
+  const fullName = document.getElementById('regFullName')?.value.trim();
+  const phone = (document.getElementById('regPhoneInput')?.value || '').replace(/\D/g, '');
+  const email = document.getElementById('regEmailInput')?.value.trim();
+  const generalErr = document.getElementById('authCreateGeneralError');
+  const btn = document.getElementById('btnCreateAccountSubmit');
+
+  if (generalErr) { generalErr.classList.add('hidden'); generalErr.textContent = ''; }
+
+  // Prevent duplicate account registration
+  if (window.UnexaSupabase && typeof window.UnexaSupabase.checkPhoneExists === 'function') {
+    try {
+      const checkRes = await window.UnexaSupabase.checkPhoneExists(phone);
+      if (checkRes.exists) {
+        if (generalErr) {
+          generalErr.innerHTML = `
+            <div class="font-bold text-amber-300 mb-1">⚠️ Account Already Exists</div>
+            <div class="text-[11px] text-slate-300 mb-2">An account with mobile number +91 ${phone} is already registered.</div>
+            <button type="button" onclick="switchAuthTab('login'); document.getElementById('authPhoneInput').value='${phone}';" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-[10px] font-bold">
+              Switch to Log In &rarr;
+            </button>
+          `;
+          generalErr.classList.remove('hidden');
+        }
+        return;
+      }
+    } catch (e) {
+      console.warn('[Unexa Auth] Phone check warning:', e.message);
+    }
+  }
+
+  // Request Supabase Phone OTP
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="inline-block animate-spin mr-2">🔄</span> Requesting Supabase OTP...';
+  }
+
+  try {
+    if (!window.UnexaSupabase || typeof window.UnexaSupabase.signInWithOtp !== 'function') {
+      throw new Error('Supabase client is not loaded. Please verify connection.');
+    }
+
+    const res = await window.UnexaSupabase.signInWithOtp(phone);
+    if (res.error) {
+      const errMsg = typeof res.error === 'string' ? res.error : (res.error.message || 'Failed to send OTP via Supabase Auth');
+      const errCode = res.error.code || (typeof res.error === 'string' ? res.error : '');
+      const isProviderDisabled = errCode === 'phone_provider_disabled' ||
+        errMsg.toLowerCase().includes('unsupported phone provider') ||
+        errMsg.toLowerCase().includes('phone provider');
+
+      if (generalErr) {
+        if (isProviderDisabled) {
+          generalErr.innerHTML = `
+            <div class="font-bold mb-1 flex items-center gap-1.5 text-amber-300">
+              <span>⚠️</span> Supabase Phone Provider Not Configured
+            </div>
+            <div class="text-[11px] text-slate-300 leading-relaxed mb-2">
+              Supabase returned: <span class="font-mono text-rose-300">${errMsg}</span>
+            </div>
+            <div class="text-[10px] bg-slate-900/80 p-2.5 rounded-xl border border-white/10 text-slate-300 space-y-1">
+              <p class="font-bold text-amber-400">To enable real SMS delivery:</p>
+              <ol class="list-decimal pl-4 space-y-1 text-slate-400">
+                <li>Log in to your <b>Supabase Dashboard</b>.</li>
+                <li>Navigate to <b>Authentication &gt; Providers &gt; Phone</b> and toggle ON.</li>
+                <li>Connect an SMS gateway (Twilio, MessageBird, Vonage).</li>
+              </ol>
+            </div>
+          `;
+        } else {
+          generalErr.innerHTML = `<div class="font-bold mb-0.5">⚠️ Supabase Auth Error</div><div class="text-[11px] text-rose-200">${errMsg}</div>`;
+        }
+        generalErr.classList.remove('hidden');
+      }
+      playBeep(260, 'sawtooth', 0.25);
+      showToast('⚠️ OTP delivery failed');
+      return;
+    }
+
+    // Success: Transition to OTP verification step
+    isRegistrationFlow = true;
+    pendingRegFullName = fullName;
+    pendingRegEmail = email;
+    currentAuthPhone = phone;
+
+    const stepPhone = document.getElementById('authStepPhone');
+    const stepOtp = document.getElementById('authStepOtp');
+    const targetPhoneDisp = document.getElementById('otpTargetPhoneDisplay');
+
+    if (targetPhoneDisp) targetPhoneDisp.textContent = `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`;
+    if (stepPhone) stepPhone.classList.add('hidden');
+    if (stepOtp) stepOtp.classList.remove('hidden');
+
+    for (let i = 1; i <= 6; i++) {
+      const b = document.getElementById(`otpBox${i}`);
+      if (b) { b.value = ''; b.classList.remove('border-rose-500', 'bg-rose-500/20'); }
+    }
+    const firstBox = document.getElementById('otpBox1');
+    if (firstBox) firstBox.focus();
+
+    startOtpCountdown();
+    playSuccessChime();
+    showToast(`OTP sent to +91 ${phone}`);
+  } catch (err) {
+    if (generalErr) {
+      generalErr.innerHTML = `<div class="font-bold mb-0.5">⚠️ Error</div><div class="text-[11px] text-rose-200">${err.message || 'Registration failed'}</div>`;
+      generalErr.classList.remove('hidden');
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Create Account &amp; Send OTP</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
+      if (window.lucide) window.lucide.createIcons();
+    }
+  }
+}
+
+function openOnboardingStep(stepNumber, data = {}) {
+  currentOnboardStep = stepNumber;
+  if (data.userId) pendingAuthUserId = data.userId;
+  if (data.phone) currentAuthPhone = data.phone;
+
+  const modal = document.getElementById('modalOnboardingSetup');
+  const step1 = document.getElementById('onboardStep1View');
+  const step2 = document.getElementById('onboardStep2View');
+  const step3 = document.getElementById('onboardStep3View');
+
+  const b1 = document.getElementById('onboardStepBadge1');
+  const b2 = document.getElementById('onboardStepBadge2');
+  const b3 = document.getElementById('onboardStepBadge3');
+
+  // Badge updates
+  if (stepNumber === 1) {
+    if (b1) b1.className = 'p-1.5 rounded-lg bg-indigo-600/30 border border-indigo-500/50 text-[10px] font-bold text-indigo-200 flex items-center justify-center gap-1';
+    if (b2) b2.className = 'p-1.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-semibold text-slate-400 flex items-center justify-center gap-1';
+    if (b3) b3.className = 'p-1.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-semibold text-slate-400 flex items-center justify-center gap-1';
+    if (step1) step1.classList.remove('hidden');
+    if (step2) step2.classList.add('hidden');
+    if (step3) step3.classList.add('hidden');
+  } else if (stepNumber === 2) {
+    if (b1) b1.className = 'p-1.5 rounded-lg bg-emerald-600/30 border border-emerald-500/50 text-[10px] font-bold text-emerald-300 flex items-center justify-center gap-1';
+    if (b2) b2.className = 'p-1.5 rounded-lg bg-indigo-600/30 border border-indigo-500/50 text-[10px] font-bold text-indigo-200 flex items-center justify-center gap-1';
+    if (b3) b3.className = 'p-1.5 rounded-lg bg-slate-900 border border-white/10 text-[10px] font-semibold text-slate-400 flex items-center justify-center gap-1';
+    if (step1) step1.classList.add('hidden');
+    if (step2) step2.classList.remove('hidden');
+    if (step3) step3.classList.add('hidden');
+  } else if (stepNumber === 3) {
+    if (b1) b1.className = 'p-1.5 rounded-lg bg-emerald-600/30 border border-emerald-500/50 text-[10px] font-bold text-emerald-300 flex items-center justify-center gap-1';
+    if (b2) b2.className = 'p-1.5 rounded-lg bg-emerald-600/30 border border-emerald-500/50 text-[10px] font-bold text-emerald-300 flex items-center justify-center gap-1';
+    if (b3) b3.className = 'p-1.5 rounded-lg bg-amber-600/30 border border-amber-500/50 text-[10px] font-bold text-amber-200 flex items-center justify-center gap-1';
+    if (step1) step1.classList.add('hidden');
+    if (step2) step2.classList.add('hidden');
+    if (step3) step3.classList.remove('hidden');
+  }
+
+  // Pre-fill profile fields if available
+  if (data.profile) {
+    const nameInput = document.getElementById('onboardFullName');
+    const vpaInput = document.getElementById('onboardVpaHandle');
+    if (nameInput && data.profile.full_name) nameInput.value = data.profile.full_name;
+    if (vpaInput && data.profile.vpa) vpaInput.value = data.profile.vpa;
+  }
+
   openModal('modalOnboardingSetup');
   if (window.lucide) window.lucide.createIcons();
+}
+
+function openOnboardingModal(data = {}) {
+  openOnboardingStep(2, data);
 }
 
 function handleOnboardingNameInput(val) {
@@ -23377,35 +23810,43 @@ function toggleOnboardBankSection(isSkipped) {
   }
 }
 
-async function submitOnboardingSetup() {
+async function submitOnboardProfileStep() {
   const name = document.getElementById('onboardFullName')?.value.trim();
   const vpa = document.getElementById('onboardVpaHandle')?.value.trim();
-  const pin = document.getElementById('onboardPin')?.value.trim();
-  const pinConfirm = document.getElementById('onboardPinConfirm')?.value.trim();
-  const skipBank = document.getElementById('onboardSkipBank')?.checked;
-  const bankName = document.getElementById('onboardBankSelect')?.value;
-  const last4 = document.getElementById('onboardAccLast4')?.value.trim();
-  const errorBox = document.getElementById('onboardErrorNotice');
-
   if (!name || name.length < 2) {
-    if (errorBox) { errorBox.textContent = '❌ Please enter your full legal name.'; errorBox.classList.remove('hidden'); }
+    showToast('❌ Please enter your full legal name');
     return;
   }
   if (!vpa || !vpa.includes('@')) {
-    if (errorBox) { errorBox.textContent = '❌ Please provide a valid UPI ID (e.g. name@upi).'; errorBox.classList.remove('hidden'); }
+    showToast('❌ Please provide a valid UPI ID (e.g. name@upi)');
     return;
   }
+  openOnboardingStep(2);
+}
+
+async function submitOnboardPinStep() {
+  const pin = document.getElementById('onboardPin')?.value.trim();
+  const pinConfirm = document.getElementById('onboardPinConfirm')?.value.trim();
+  const pinError = document.getElementById('onboardPinError');
+  const btn = document.getElementById('btnSubmitOnboardPin');
+
+  if (pinError) { pinError.classList.add('hidden'); pinError.textContent = ''; }
+
   if (!pin || !/^\d{4}$/.test(pin)) {
-    if (errorBox) { errorBox.textContent = '❌ PIN must be exactly 4 numeric digits.'; errorBox.classList.remove('hidden'); }
+    if (pinError) { pinError.textContent = '❌ PIN must be exactly 4 numeric digits.'; pinError.classList.remove('hidden'); }
+    playBeep(260, 'sawtooth', 0.2);
     return;
   }
   if (pin !== pinConfirm) {
-    if (errorBox) { errorBox.textContent = '❌ PINs do not match. Please re-enter.'; errorBox.classList.remove('hidden'); }
+    if (pinError) { pinError.textContent = '❌ PINs do not match. Please re-enter.'; pinError.classList.remove('hidden'); }
+    playBeep(260, 'sawtooth', 0.2);
     return;
   }
 
-  const btn = document.getElementById('btnCompleteOnboarding');
-  if (btn) btn.innerHTML = '<span class="inline-block animate-spin mr-2">🔄</span> Securing Ledger...';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="inline-block animate-spin mr-2">🔄</span> Securing PIN on Ledger...';
+  }
 
   try {
     if (window.UnexaSupabase && typeof window.UnexaSupabase.setupAppPin === 'function') {
@@ -23413,23 +23854,65 @@ async function submitOnboardingSetup() {
       if (pinRes.error) throw new Error(pinRes.error);
     }
 
-    if (window.UnexaSupabase && typeof window.UnexaSupabase.updateProfile === 'function' && pendingAuthUserId) {
-      await window.UnexaSupabase.updateProfile(pendingAuthUserId, {
-        full_name: name,
-        vpa: vpa,
-        is_onboarded: true
-      });
+    if (window.UnexaSupabase && typeof window.UnexaSupabase.updateOnboardingStep === 'function' && pendingAuthUserId) {
+      await window.UnexaSupabase.updateOnboardingStep(pendingAuthUserId, 'bank_linking_pending');
     }
 
-    appState.user.name = name;
-    appState.user.vpa = vpa;
-    appState.user.is_onboarded = true;
-    appState.isLoggedIn = true;
-    appState.isDemoMode = false;
+    playSuccessChime();
+    showToast('✓ Security PIN configured safely');
+    openOnboardingStep(3);
+  } catch (err) {
+    if (pinError) {
+      pinError.textContent = `❌ ${err.message || 'Failed to configure PIN'}`;
+      pinError.classList.remove('hidden');
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<span>Save PIN &amp; Proceed to Bank Linking</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
+      if (window.lucide) window.lucide.createIcons();
+    }
+  }
+}
 
+async function submitOnboardingSetup() {
+  const skipBank = document.getElementById('onboardSkipBank')?.checked;
+  const bankName = document.getElementById('onboardBankSelect')?.value || 'HDFC Bank';
+  const last4 = document.getElementById('onboardAccLast4')?.value.trim();
+  const errorBox = document.getElementById('onboardErrorNotice');
+  const btn = document.getElementById('btnCompleteOnboarding');
+
+  if (errorBox) { errorBox.classList.add('hidden'); errorBox.textContent = ''; }
+
+  if (!skipBank && (!last4 || last4.length !== 4 || !/^\d{4}$/.test(last4))) {
+    if (errorBox) {
+      errorBox.textContent = '❌ Please enter the last 4 digits of your account or check "Skip bank linking for now".';
+      errorBox.classList.remove('hidden');
+    }
+    playBeep(260, 'sawtooth', 0.2);
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="inline-block animate-spin mr-2">🔄</span> Completing Onboarding...';
+  }
+
+  try {
+    // 1. Link Bank Account in Supabase (if not skipped)
     if (!skipBank && last4) {
-      const masked = `XX${last4.slice(-4)}`;
+      const masked = `XX${last4}`;
       const bankId = bankName.toLowerCase().replace(/[^a-z]/g, '');
+
+      if (window.UnexaSupabase && typeof window.UnexaSupabase.addBankAccount === 'function') {
+        await window.UnexaSupabase.addBankAccount({
+          bankName,
+          accountMasked: masked,
+          ifsc: `${bankName.substring(0, 4).toUpperCase()}0001234`,
+          isPrimary: true
+        });
+      }
+
       const existing = (appState.bankAccounts || []).find(b => b.id === bankId);
       if (!existing) {
         appState.bankAccounts.push({
@@ -23437,26 +23920,41 @@ async function submitOnboardingSetup() {
           bankName: bankName,
           accountNumber: masked,
           balance: 25000,
-          isPrimary: appState.bankAccounts.length === 0
+          isPrimary: true
         });
       }
     }
 
+    // 2. Mark onboarding as complete in Supabase
+    if (window.UnexaSupabase && typeof window.UnexaSupabase.updateOnboardingStep === 'function' && pendingAuthUserId) {
+      await window.UnexaSupabase.updateOnboardingStep(pendingAuthUserId, 'onboarding_complete');
+    }
+
+    // 3. Finalize application state
+    appState.user.is_onboarded = true;
+    appState.user.onboarding_step = 'onboarding_complete';
+    appState.isLoggedIn = true;
+    appState.isDemoMode = false;
     saveState();
+
     closeModal('modalOnboardingSetup');
     updateAuthViewVisibility();
     renderProfileStats();
     playSuccessChime();
-    if (window.confetti) window.confetti({ particleCount: 80, spread: 70, origin: { y: 0.5 } });
-    showToast(`🎉 Welcome to Unexa, ${name}!`);
+
+    if (window.confetti) window.confetti({ particleCount: 90, spread: 75, origin: { y: 0.5 } });
+    showToast(`🎉 Welcome to Unexa, ${appState.user.name || 'Friend'}!`);
   } catch (err) {
     if (errorBox) {
       errorBox.textContent = `❌ ${err.message || 'Setup failed'}`;
       errorBox.classList.remove('hidden');
     }
   } finally {
-    if (btn) btn.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i><span>Complete Setup & Enter Unexa</span>';
-    if (window.lucide) window.lucide.createIcons();
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i><span>Complete Setup &amp; Enter Unexa</span>';
+      if (window.lucide) window.lucide.createIcons();
+    }
   }
 }
 
