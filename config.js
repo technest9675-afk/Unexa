@@ -5,6 +5,6 @@
  */
 window.UNEXA_CONFIG = {
   SUPABASE_URL: "https://rrjjnknukrirjlcqmtrd.supabase.co",
-  SUPABASE_ANON_KEY: "sb_publishable_97W4y3Dk8Xp0UqkL1Z1_nA_R2EEbh-i",
+  SUPABASE_ANON_KEY: "sb_publishable_Ul3oJjHPg6E0mUZmpXuysA_6jyuMkWh",
   IS_CONFIGURED: true
 };
