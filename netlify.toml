@@ -1,0 +1,9 @@
+[build]
+  # Install dependencies before building so `vite` is always available,
+  # even when the build runs in an environment without node_modules.
+  command = "npm ci --no-audit --no-fund && npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Puppeteer is only used by local test scripts; skip its browser download.
+  PUPPETEER_SKIP_DOWNLOAD = "true"
